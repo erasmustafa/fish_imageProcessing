@@ -1,280 +1,307 @@
-﻿"use client";
+"use client";
 
-import { ChangeEvent, DragEvent, useMemo, useState } from "react";
+import type { ElementType, ReactNode } from "react";
 import {
+  BarChart3,
   Bell,
-  Briefcase,
+  Box,
+  Calendar,
   CheckCircle2,
-  Clock3,
-  CloudUpload,
-  Mail,
-  RefreshCw,
+  ChevronDown,
+  Filter,
   Search,
-  Star,
+  Shield,
+  Target,
 } from "lucide-react";
 
-type AnalyzeResponse = {
-  species: string;
-  confidence: number;
-  edible: boolean;
-  ideal_size: string;
-  recommended_baits: string[];
-  recommended_gear: string[];
-  region_notes: string[];
-};
-
-const fallbackResult: AnalyzeResponse = {
-  species: "Largemouth Bass",
-  confidence: 0.98,
-  edible: true,
-  ideal_size: "12-30 in",
-  recommended_baits: ["Worms", "minnows", "crankbaits"],
-  recommended_gear: ["Freshwater"],
-  region_notes: ["Large mouth", "dark green stripe"],
-};
-
-const recentAnalyses = [
-  {
-    name: "Striped Bass",
-    weight: "4.1 lbs",
-    time: "Yesterday",
-    image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=320&q=80",
-  },
-  {
-    name: "Yellow Perch",
-    weight: "1.2 lbs",
-    time: "3 days ago",
-    image: "https://images.unsplash.com/photo-1510130387422-82bed34b37e9?auto=format&fit=crop&w=320&q=80",
-  },
+const riskyAssets = [
+  { asset: "api.aquascope.com", type: "API", score: 85, risk: "High" },
+  { asset: "crm.aquascope.com", type: "Web App", score: 72, risk: "High" },
+  { asset: "mail.aquascope.com", type: "Mail Server", score: 58, risk: "Medium" },
+  { asset: "dev.aquascope.com", type: "Server", score: 46, risk: "Medium" },
+  { asset: "blog.aquascope.com", type: "Web App", score: 28, risk: "Low" },
 ];
 
 export default function AnalyzeWorkspace() {
-  const [file, setFile] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [dragActive, setDragActive] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<AnalyzeResponse>(fallbackResult);
-  const [error, setError] = useState<string | null>(null);
-
-  const acceptedTypes = useMemo(
-    () => ["image/jpeg", "image/jpg", "image/png", "image/webp"],
-    []
-  );
-
-  function setSelectedFile(selected: File | null) {
-    setError(null);
-
-    if (!selected) {
-      setFile(null);
-      setPreviewUrl(null);
-      return;
-    }
-
-    if (!acceptedTypes.includes(selected.type)) {
-      setError("Please upload a JPG, PNG or WEBP image.");
-      setFile(null);
-      setPreviewUrl(null);
-      return;
-    }
-
-    setFile(selected);
-    setPreviewUrl(URL.createObjectURL(selected));
-  }
-
-  function onInputChange(event: ChangeEvent<HTMLInputElement>) {
-    setSelectedFile(event.target.files?.[0] ?? null);
-  }
-
-  function onDrop(event: DragEvent<HTMLDivElement>) {
-    event.preventDefault();
-    setDragActive(false);
-    setSelectedFile(event.dataTransfer.files?.[0] ?? null);
-  }
-
-  async function analyzeImage() {
-    if (!file) {
-      setResult(fallbackResult);
-      return;
-    }
-
-    try {
-      setLoading(true);
-      setError(null);
-
-      const formData = new FormData();
-      formData.append("image", file);
-
-      const response = await fetch("/api/analyze-fish", {
-        method: "POST",
-        body: formData,
-      });
-      const data = await response.json();
-
-      if (!response.ok) {
-        const message =
-          data?.details?.detail ||
-          data?.details?.error ||
-          data?.error ||
-          "Analysis failed.";
-        throw new Error(message);
-      }
-
-      setResult(data as AnalyzeResponse);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Unknown error.");
-    } finally {
-      setLoading(false);
-    }
-  }
-
   return (
-    <section className="analyse-page">
-      <header className="home-topbar analyse-topbar compact-topbar">
-        <label className="home-search">
-          <Search size={15} />
-          <input placeholder="Search ..." aria-label="Search" />
-        </label>
-        <div className="home-top-actions">
-          <Briefcase size={17} />
-          <RefreshCw size={17} />
-          <Mail size={17} />
-          <Bell size={17} />
-          <button type="button" aria-label="Notifications">
-            <Bell size={17} />
-            <span />
-          </button>
-          <img
-            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=72&q=80"
-            alt="Alicia"
-          />
-        </div>
-      </header>
+    <section className="min-h-full w-full overflow-auto bg-[#020817] p-5 text-white xl:p-6">
+      <div className="mx-auto flex w-full max-w-[1480px] flex-col">
+        <Topbar />
 
-      <div className="analyse-content">
-        <h1>Analyse</h1>
+        <div className="rounded-[24px] border border-sky-500/20 bg-[#06162b]/70 p-7 shadow-[0_0_40px_rgba(14,165,233,0.12)]">
+          <Header />
 
-        <div className="analyse-grid-new">
-          <div className="analyse-left-column">
-            <section
-              className={dragActive ? "analyse-upload-card analyse-upload-card-active" : "analyse-upload-card"}
-              onDragOver={(event) => {
-                event.preventDefault();
-                setDragActive(true);
-              }}
-              onDragLeave={() => setDragActive(false)}
-              onDrop={onDrop}
-            >
-              <div className="analyse-cloud-icon">
-                <CloudUpload size={48} />
-              </div>
-              <h2>Upload fish photo</h2>
-              <p>Snap a clear photo of the fish and upload to analyse</p>
-              <label>
-                <input
-                  type="file"
-                  accept="image/png,image/jpeg,image/jpg,image/webp"
-                  onChange={onInputChange}
-                />
-                <CloudUpload size={16} />
-                Upload Photo
-              </label>
-              <span>or drag and drop a file here</span>
-              {error ? <strong className="analyse-error-text">{error}</strong> : null}
-            </section>
-
-            <section className="recent-analyses-card">
-              <div className="analyse-panel-head">
-                <h2>Recent Analyses</h2>
-                <div className="panel-dots">
-                  <span />
-                  <span />
-                </div>
-              </div>
-              {recentAnalyses.map((item) => (
-                <article key={item.name}>
-                  <img src={item.image} alt={item.name} />
-                  <div>
-                    <strong>{item.name}</strong>
-                    <span>{item.weight}</span>
-                  </div>
-                  <p>
-                    <Clock3 size={13} />
-                    {item.time}
-                  </p>
-                </article>
-              ))}
-              <a href="/platform/messages">View History</a>
-            </section>
+          <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            <MetricCard title="Total Assets" value="1,248" change="▲ 12.5%" icon={Box} />
+            <MetricCard title="Risk Score" value="28" label="Medium Risk" change="▼ 8.3%" icon={Shield} />
+            <MetricCard title="Threats Detected" value="156" change="▲ 23.1%" icon={Target} />
+            <MetricCard title="Compliance" value="92%" change="▲ 4.7%" icon={CheckCircle2} />
           </div>
 
-          <section className="analysis-result-card-new">
-            <div className="analysis-complete">
-              <CheckCircle2 size={22} />
-              <p>
-                <strong>Analysis complete!</strong> We identified the fish
-              </p>
-            </div>
-            <h2>{result.species}</h2>
-            <div className="analysis-tags">
-              <span>Freshwater</span>
-              <span>Common</span>
-            </div>
-            <img
-              className="analysis-main-fish"
-              src={previewUrl ?? "/login-fish-scene.png"}
-              alt={result.species}
-            />
+          <div className="mt-5 grid gap-5 xl:grid-cols-[1.35fr_1fr]">
+            <RiskTrend />
+            <RiskDistribution />
+          </div>
 
-            <div className="analysis-info-grid">
-              <section>
-                <h3>Species Overview</h3>
-                <p>Scientific Name: Micropterus salmoides</p>
-                <p>Size: {result.ideal_size}</p>
-                <p>Weight: Up to 22 lb</p>
-
-                <div className="characteristics-block">
-                  <h3>Characteristics</h3>
-                  <p>• Notable Feature: {result.region_notes.join(", ")}</p>
-                  <p>• Preferred Bait: {result.recommended_baits.join(", ")}</p>
-                </div>
-              </section>
-
-              <section>
-                <h3>Locations</h3>
-                <img
-                  className="map-preview"
-                  src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=420&q=80"
-                  alt="Map preview"
-                />
-                <div className="map-actions">
-                  <button type="button">Zoom Out</button>
-                  <button type="button">View All</button>
-                </div>
-              </section>
-            </div>
-
-            <div className="analysis-summary-row">
-              <div>
-                <span>Fishing Log Summary</span>
-                <img src="https://images.unsplash.com/photo-1510130387422-82bed34b37e9?auto=format&fit=crop&w=160&q=80" alt="Fish" />
-              </div>
-              <strong>22 <small>catches</small></strong>
-              <strong>64 <small>lbs</small></strong>
-              <span>
-                {[0, 1, 2, 3, 4].map((star) => (
-                  <Star key={star} size={13} fill="currentColor" />
-                ))}
-              </span>
-              <p>Latest catch 34 ago</p>
-              <p>Biggest cath 8.2 lbs</p>
-            </div>
-
-            <button className="analyse-submit-hidden" type="button" onClick={analyzeImage} disabled={loading}>
-              {loading ? "Analysing..." : "Analyse selected photo"}
-            </button>
-          </section>
+          <div className="mt-5 grid gap-5 xl:grid-cols-[1fr_1fr]">
+            <RiskyAssets />
+            <ThreatMap />
+          </div>
         </div>
       </div>
     </section>
+  );
+}
+
+function Topbar() {
+  return (
+    <div className="mb-4 flex flex-wrap items-center justify-end gap-4">
+      <div className="flex h-11 w-full max-w-[320px] items-center gap-3 rounded-xl border border-sky-500/20 bg-[#06162b] px-4">
+        <Search size={18} className="text-slate-400" />
+        <span className="text-sm text-slate-400">Search anything...</span>
+        <kbd className="ml-auto rounded bg-white/5 px-2 py-1 text-xs text-slate-400">⌘ K</kbd>
+      </div>
+
+      <button
+        type="button"
+        className="relative flex h-11 w-11 items-center justify-center rounded-xl border border-sky-500/20 bg-[#06162b]"
+      >
+        <Bell size={19} className="text-sky-300" />
+        <span className="absolute -right-1 -top-1 grid h-5 w-5 place-items-center rounded-full bg-blue-500 text-xs">
+          3
+        </span>
+      </button>
+    </div>
+  );
+}
+
+function Header() {
+  return (
+    <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+      <div>
+        <h1 className="text-3xl font-semibold tracking-tight">Analyse</h1>
+        <p className="mt-2 text-sm text-slate-400">
+          Deep insights and intelligent analysis for your marine data.
+        </p>
+      </div>
+
+      <div className="flex flex-wrap gap-3">
+        <button
+          type="button"
+          className="flex h-11 items-center gap-3 rounded-xl border border-sky-500/25 bg-sky-500/5 px-4 text-sm text-slate-200"
+        >
+          <Calendar size={17} />
+          12 May 2024 - 18 May 2024
+          <ChevronDown size={16} />
+        </button>
+
+        <button
+          type="button"
+          className="flex h-11 items-center gap-3 rounded-xl border border-sky-500/25 bg-sky-500/5 px-4 text-sm text-slate-200"
+        >
+          <Filter size={17} />
+          Filters
+          <ChevronDown size={16} />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function MetricCard({
+  title,
+  value,
+  change,
+  label,
+  icon: Icon,
+}: {
+  title: string;
+  value: string;
+  change: string;
+  label?: string;
+  icon: ElementType;
+}) {
+  return (
+    <div className="rounded-2xl border border-sky-500/20 bg-gradient-to-br from-sky-500/10 to-transparent p-5">
+      <div className="flex items-start justify-between">
+        <div>
+          <p className="text-sm text-slate-300">{title}</p>
+          <div className="mt-4 flex items-end gap-3">
+            <h2 className="text-3xl font-bold">{value}</h2>
+            {label ? <span className="pb-1 text-sm font-medium text-yellow-400">{label}</span> : null}
+          </div>
+          <p className="mt-3 text-sm text-emerald-400">
+            {change} <span className="text-slate-400">vs last week</span>
+          </p>
+        </div>
+
+        <div className="grid h-14 w-14 place-items-center rounded-2xl border border-sky-500/30 bg-sky-500/10 text-sky-300 shadow-[0_0_20px_rgba(14,165,233,0.2)]">
+          <Icon size={26} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RiskTrend() {
+  return (
+    <Panel title="Risk Trend" action="Last 7 days">
+      <div className="relative mt-6 h-[230px]">
+        <div className="absolute inset-0 flex flex-col justify-between text-xs text-slate-500">
+          {[100, 75, 50, 25, 0].map((v) => (
+            <div key={v} className="flex items-center gap-4">
+              <span className="w-8">{v}</span>
+              <div className="h-px flex-1 border-t border-dashed border-white/10" />
+            </div>
+          ))}
+        </div>
+
+        <svg viewBox="0 0 720 220" className="absolute bottom-0 left-10 h-[200px] w-[calc(100%-40px)]">
+          <defs>
+            <linearGradient id="riskFill" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stopColor="#0ea5e9" stopOpacity="0.55" />
+              <stop offset="100%" stopColor="#0ea5e9" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+
+          <path
+            d="M0 130 C80 60 100 20 170 60 C230 100 230 120 310 120 C390 120 400 160 500 125 C590 90 590 170 720 150 L720 220 L0 220 Z"
+            fill="url(#riskFill)"
+          />
+          <path
+            d="M0 130 C80 60 100 20 170 60 C230 100 230 120 310 120 C390 120 400 160 500 125 C590 90 590 170 720 150"
+            fill="none"
+            stroke="#0ea5e9"
+            strokeWidth="4"
+          />
+          <circle cx="420" cy="145" r="8" fill="#0ea5e9" />
+        </svg>
+
+        <div className="absolute bottom-0 left-14 right-0 flex justify-between text-xs text-slate-400">
+          {["12 May", "13 May", "14 May", "15 May", "16 May", "17 May", "18 May"].map((d) => (
+            <span key={d}>{d}</span>
+          ))}
+        </div>
+      </div>
+    </Panel>
+  );
+}
+
+function RiskDistribution() {
+  return (
+    <Panel title="Risk Distribution">
+      <div className="flex h-[260px] flex-col items-center justify-center gap-10 lg:flex-row">
+        <div className="relative h-48 w-48 rounded-full bg-[conic-gradient(#10b981_0_34%,#f59e0b_34%_75%,#ef4444_75%_93%,#8b5cf6_93%_100%)] p-5 shadow-[0_0_30px_rgba(14,165,233,0.18)]">
+          <div className="grid h-full w-full place-items-center rounded-full bg-[#06162b]">
+            <div className="text-center">
+              <p className="text-3xl font-bold">1,248</p>
+              <p className="text-sm text-slate-400">Total</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-4 text-sm">
+          <Legend color="bg-emerald-400" label="Low Risk" value="34% (424)" />
+          <Legend color="bg-yellow-400" label="Medium Risk" value="41% (512)" />
+          <Legend color="bg-red-400" label="High Risk" value="18% (224)" />
+          <Legend color="bg-violet-500" label="Critical" value="7% (88)" />
+        </div>
+      </div>
+    </Panel>
+  );
+}
+
+function RiskyAssets() {
+  return (
+    <Panel title="Top Risky Assets" action="View all">
+      <div className="mt-5 overflow-hidden rounded-xl border border-white/10">
+        <table className="w-full text-left text-sm">
+          <thead className="bg-white/5 text-xs uppercase tracking-wider text-slate-400">
+            <tr>
+              <th className="px-4 py-3">Asset</th>
+              <th className="px-4 py-3">Type</th>
+              <th className="px-4 py-3">Risk Score</th>
+              <th className="px-4 py-3">Trend</th>
+            </tr>
+          </thead>
+          <tbody>
+            {riskyAssets.map((item) => (
+              <tr key={item.asset} className="border-t border-white/10">
+                <td className="px-4 py-4 font-medium">{item.asset}</td>
+                <td className="px-4 py-4 text-slate-400">{item.type}</td>
+                <td className="px-4 py-4">
+                  <span className={item.risk === "Low" ? "text-emerald-400" : item.risk === "Medium" ? "text-yellow-400" : "text-red-400"}>
+                    {item.score}
+                  </span>
+                </td>
+                <td className="px-4 py-4">
+                  <span className="rounded-full bg-white/5 px-3 py-1 text-xs">{item.risk}</span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </Panel>
+  );
+}
+
+function ThreatMap() {
+  return (
+    <Panel title="Threats Overview" action="All Regions">
+      <div className="mt-5 rounded-2xl border border-white/10 bg-[radial-gradient(circle_at_center,#0ea5e933,transparent_55%)] p-5">
+        <div className="grid h-[210px] place-items-center rounded-xl bg-[#031124] text-slate-500">
+          World Map / Heatmap Area
+        </div>
+
+        <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <ThreatStat label="Malware" value="62" color="text-red-400" />
+          <ThreatStat label="Phishing" value="45" color="text-yellow-400" />
+          <ThreatStat label="Vulnerabilities" value="31" color="text-orange-400" />
+          <ThreatStat label="Data Breach" value="18" color="text-violet-400" />
+        </div>
+      </div>
+    </Panel>
+  );
+}
+
+function Panel({ title, action, children }: { title: string; action?: string; children: ReactNode }) {
+  return (
+    <div className="rounded-2xl border border-sky-500/20 bg-[#06162b]/80 p-5">
+      <div className="flex items-center justify-between gap-3">
+        <h2 className="font-semibold">{title}</h2>
+        {action ? (
+          <button
+            type="button"
+            className="flex items-center gap-2 rounded-lg border border-sky-500/20 bg-white/5 px-3 py-2 text-xs text-slate-300"
+          >
+            {action}
+            <ChevronDown size={14} />
+          </button>
+        ) : null}
+      </div>
+      {children}
+    </div>
+  );
+}
+
+function Legend({ color, label, value }: { color: string; label: string; value: string }) {
+  return (
+    <div className="flex items-start gap-3">
+      <span className={`mt-1 h-3 w-3 rounded-full ${color}`} />
+      <div>
+        <p>{label}</p>
+        <p className="text-slate-400">{value}</p>
+      </div>
+    </div>
+  );
+}
+
+function ThreatStat({ label, value, color }: { label: string; value: string; color: string }) {
+  return (
+    <div className="rounded-xl border border-white/10 bg-white/5 p-3">
+      <p className={`text-xl font-bold ${color}`}>{value}</p>
+      <p className="text-xs text-slate-400">{label}</p>
+    </div>
   );
 }
