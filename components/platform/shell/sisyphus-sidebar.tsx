@@ -35,27 +35,27 @@ export default function SisyphusSidebar() {
   const pathname = usePathname();
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [portalReady, setPortalReady] = useState(false);
-  const [profileDarkTheme, setProfileDarkTheme] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
 
   useEffect(() => {
     setPortalReady(true);
-    const savedTheme = window.localStorage.getItem("aquascope-profile-theme");
-    const shouldUseDark = savedTheme === "dark";
-    setProfileDarkTheme(shouldUseDark);
-    document.body.classList.toggle("profile-dark-theme", shouldUseDark);
+    const savedState = window.localStorage.getItem("aquascope-sidebar-collapsed");
+    const shouldCollapse = savedState === "true";
+    setCollapsed(shouldCollapse);
+    document.body.classList.toggle("sidebar-collapsed", shouldCollapse);
   }, []);
 
-  function toggleProfileTheme() {
-    setProfileDarkTheme((current) => {
+  function toggleSidebar() {
+    setCollapsed((current) => {
       const next = !current;
-      document.body.classList.toggle("profile-dark-theme", next);
-      window.localStorage.setItem("aquascope-profile-theme", next ? "dark" : "light");
+      document.body.classList.toggle("sidebar-collapsed", next);
+      window.localStorage.setItem("aquascope-sidebar-collapsed", String(next));
       return next;
     });
   }
 
   return (
-    <aside className="sidebar sisyphus-sidebar aqua-sidebar">
+    <aside className={collapsed ? "sidebar sisyphus-sidebar aqua-sidebar aqua-sidebar--collapsed" : "sidebar sisyphus-sidebar aqua-sidebar"}>
       <div className="aqua-sidebar__panel">
         <div className="aqua-sidebar__header">
           <div className="aqua-sidebar__brand-wrap">
@@ -70,11 +70,11 @@ export default function SisyphusSidebar() {
           </div>
 
           <button
-            className={profileDarkTheme ? "aqua-sidebar__theme aqua-sidebar__theme--active" : "aqua-sidebar__theme"}
+            className={collapsed ? "aqua-sidebar__theme aqua-sidebar__theme--active" : "aqua-sidebar__theme"}
             type="button"
-            aria-label="Toggle user profile dark theme"
-            aria-pressed={profileDarkTheme}
-            onClick={toggleProfileTheme}
+            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+            aria-pressed={collapsed}
+            onClick={toggleSidebar}
           >
             <ChevronsLeft size={20} />
           </button>
