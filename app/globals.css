@@ -4595,7 +4595,7 @@ body:has(.landing-page) {
     radial-gradient(circle at 68% 18%, rgba(98, 180, 255, 0.24), transparent 28%),
     url("/landing-hero-background.png");
   background-size: cover;
-  background-position: center 18%;
+  background-position: center top;
 }
 
 .landing-hero-bg {
