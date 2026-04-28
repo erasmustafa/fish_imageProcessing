@@ -20,25 +20,21 @@ const featureCards = [
     icon: BrainCircuit,
     title: "AI Destekli Analiz",
     desc: "Gelişmiş makine öğrenmesi modeli ile yüksek doğrulukta tür tahmini.",
-    visual: "wave",
   },
   {
     icon: BarChart3,
     title: "Veri & Görselleştirme",
     desc: "Analiz sonuçlarını grafikler ve istatistiklerle zenginleştirin.",
-    visual: "chart",
   },
   {
     icon: MapPin,
     title: "Harita Üzerinde Keşif",
     desc: "Türlerin coğrafi dağılımını interaktif harita üzerinden inceleyin.",
-    visual: "map",
   },
   {
     icon: Users,
     title: "Topluluk ile Paylaş",
     desc: "Keşiflerinizi paylaşın, diğer kullanıcılarla etkileşime geçin.",
-    visual: "social",
   },
 ];
 
@@ -184,9 +180,6 @@ export default function LandingPage() {
                       </p>
 
                       <div className="landing-feature-footer">
-                        <div className="landing-feature-visual">
-                          <FeatureCardVisual kind={item.visual} />
-                        </div>
                         <div className="landing-feature-arrow">
                           <ArrowRight size={20} />
                         </div>
@@ -356,118 +349,6 @@ export default function LandingPage() {
         </div>
       </footer>
     </main>
-  );
-}
-
-function FeatureCardVisual({ kind }: { kind: "wave" | "chart" | "map" | "social" }) {
-  if (kind === "wave") {
-    return (
-      <svg viewBox="0 0 320 120" className="relative w-full opacity-95" aria-hidden>
-        <defs>
-          <linearGradient id="waveGlow" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="rgba(34,211,238,0)" />
-            <stop offset="50%" stopColor="#2563eb" />
-            <stop offset="100%" stopColor="rgba(96,165,250,0.16)" />
-          </linearGradient>
-        </defs>
-        <path
-          d="M0 78 C40 58, 72 98, 110 84 S182 48, 214 62 S278 98, 320 70"
-          fill="none"
-          stroke="url(#waveGlow)"
-          strokeWidth="3"
-          strokeLinecap="round"
-        />
-        {Array.from({ length: 80 }).map((_, i) => {
-          const x = (i % 20) * 16 + 4;
-          const y = 72 + Math.sin(i / 3) * 12 + Math.floor(i / 20) * 8;
-          return <circle key={i} cx={x} cy={y} r="1.5" fill="rgba(59,130,246,0.8)" />;
-        })}
-      </svg>
-    );
-  }
-
-  if (kind === "chart") {
-    return (
-      <svg viewBox="0 0 320 140" className="relative w-full opacity-95" aria-hidden>
-        <path d="M20 115 H300" stroke="rgba(59,130,246,0.18)" strokeWidth="2" />
-        {[60, 120, 180, 240, 300].map((x) => (
-          <line key={x} x1={x} y1="50" x2={x} y2="115" stroke="rgba(59,130,246,0.16)" strokeDasharray="4 6" />
-        ))}
-        <polyline
-          points="20,110 55,108 90,105 125,82 160,80 195,58 230,61 265,54 300,24"
-          fill="none"
-          stroke="#2563eb"
-          strokeWidth="4"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <polyline
-          points="20,114 55,113 90,111 125,90 160,87 195,74 230,76 265,70 300,30"
-          fill="none"
-          stroke="rgba(96,165,250,0.45)"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        {[125, 160, 195, 230, 265, 300].map((x, i) => {
-          const ys = [82, 80, 58, 61, 54, 24];
-          return <circle key={x} cx={x} cy={ys[i]} r="4.5" fill="#60a5fa" />;
-        })}
-      </svg>
-    );
-  }
-
-  if (kind === "map") {
-    return (
-      <svg viewBox="0 0 320 140" className="relative w-full opacity-95" aria-hidden>
-        {Array.from({ length: 28 }).map((_, yi) =>
-          Array.from({ length: 48 }).map((__, xi) => {
-            const active =
-              (xi > 2 && xi < 16 && yi > 4 && yi < 11) ||
-              (xi > 19 && xi < 28 && yi > 2 && yi < 10) ||
-              (xi > 30 && xi < 45 && yi > 3 && yi < 10);
-
-            if (!active) return null;
-            return (
-              <rect
-                key={`${xi}-${yi}`}
-                x={xi * 6.4}
-                y={yi * 4.1 + 18}
-                width="3"
-                height="2.1"
-                rx="1"
-                fill="rgba(37,99,235,0.68)"
-              />
-            );
-          }),
-        )}
-        {[56, 157, 246].map((x, i) => (
-          <g key={x}>
-            <circle cx={x} cy={[84, 92, 78][i]} r="6" fill="#60a5fa" />
-            <circle cx={x} cy={[84, 92, 78][i]} r="15" fill="rgba(96,165,250,0.18)" />
-          </g>
-        ))}
-      </svg>
-    );
-  }
-
-  return (
-    <svg viewBox="0 0 320 140" className="relative w-full opacity-95" aria-hidden>
-      <ellipse cx="195" cy="102" rx="78" ry="23" fill="none" stroke="rgba(37,99,235,0.5)" strokeWidth="2" />
-      <ellipse cx="195" cy="102" rx="54" ry="15" fill="none" stroke="rgba(59,130,246,0.35)" strokeWidth="2" />
-      <g fill="#60a5fa">
-        <circle cx="175" cy="80" r="14" />
-        <circle cx="204" cy="77" r="18" />
-        <circle cx="234" cy="82" r="13" />
-      </g>
-      <g fill="rgba(37,99,235,0.25)">
-        <circle cx="175" cy="80" r="22" />
-        <circle cx="204" cy="77" r="28" />
-        <circle cx="234" cy="82" r="21" />
-      </g>
-      <rect x="120" y="46" width="28" height="24" rx="7" fill="rgba(37,99,235,0.22)" stroke="rgba(96,165,250,0.55)" />
-      <rect x="270" y="24" width="28" height="24" rx="7" fill="rgba(37,99,235,0.22)" stroke="rgba(96,165,250,0.55)" />
-    </svg>
   );
 }
 
