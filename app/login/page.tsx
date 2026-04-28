@@ -53,7 +53,7 @@ export default function LoginPage() {
               </p>
             </div>
 
-            <img className="login-left-fish" src="/landing-hero-background.png" alt="Fish scene" />
+            <img className="login-left-fish" src="/login-fish-cutout.png" alt="Fish" />
 
             <div className="login-left-features">
               {featureList.map((feature) => {
