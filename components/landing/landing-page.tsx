@@ -154,18 +154,46 @@ export default function LandingPage() {
           </div>
         </div>
 
-        <div className="landing-feature-strip" id="features">
-          {featureCards.map((item) => {
-            const Icon = item.icon;
-            return (
-              <article key={item.title}>
-                <span><Icon size={18} /></span>
-                <h2>{item.title}</h2>
-                <p>{item.body}</p>
-              </article>
-            );
-          })}
-        </div>
+        <section className="relative w-full px-6 py-16" id="features">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid gap-6 md:grid-cols-4">
+              {featureCards.map((item) => {
+                const Icon = item.icon;
+
+                return (
+                  <div
+                    key={item.title}
+                    className="group relative rounded-2xl bg-gradient-to-b from-white/10 to-white/0 p-px transition hover:from-blue-400/40"
+                  >
+                    <div className="relative flex h-full flex-col justify-between rounded-2xl border border-white/5 bg-[#07182f]/80 p-6 backdrop-blur-xl">
+                      <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-500/10 text-2xl transition group-hover:scale-110">
+                        <Icon size={22} />
+                      </div>
+
+                      <h3 className="mb-2 text-lg font-semibold text-white">
+                        {item.title}
+                      </h3>
+
+                      <div className="mb-4 h-[2px] w-10 bg-blue-400 opacity-80 transition-all group-hover:w-16" />
+
+                      <p className="text-sm leading-relaxed text-slate-400">
+                        {item.body}
+                      </p>
+
+                      <div className="mt-6">
+                        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/5 transition group-hover:bg-blue-500">
+                          <ArrowRight size={16} />
+                        </div>
+                      </div>
+
+                      <div className="pointer-events-none absolute inset-0 rounded-2xl bg-blue-500/5 opacity-0 blur-xl transition group-hover:opacity-100" />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
       </section>
 
       <section className="landing-modules-section" id="modules">
