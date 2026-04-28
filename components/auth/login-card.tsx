@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { Apple, Eye, Linkedin, Lock, Mail, User } from "lucide-react";
+import { Apple, AppWindow, ArrowRight, Chrome, Eye, Lock, Mail } from "lucide-react";
 import { demoCredentials } from "../../lib/auth";
 
 export default function LoginCard() {
@@ -33,7 +33,7 @@ export default function LoginCard() {
 
       const data = await response.json().catch(() => null);
       if (!response.ok) {
-        throw new Error(String(data?.error ?? "Login failed."));
+        throw new Error(String(data?.error ?? "Giriş başarısız oldu."));
       }
 
       setShowLaunchOverlay(true);
@@ -52,14 +52,13 @@ export default function LoginCard() {
         <div className="auth-fields">
           <label className="auth-field">
             <span className="auth-label">
-              <span className="auth-label-dot" />
-              Mail
+              E-posta
             </span>
             <span className="auth-input-wrap">
-              <User size={16} />
+              <Mail size={16} />
               <input
                 className="auth-input"
-                placeholder="alicia@sisyphus.com"
+                placeholder="ornek@mail.com"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -70,8 +69,7 @@ export default function LoginCard() {
 
           <label className="auth-field">
             <span className="auth-label">
-              <Lock size={15} />
-              Password
+              Şifre
             </span>
             <span className="auth-input-wrap">
               <Lock size={16} />
@@ -89,36 +87,37 @@ export default function LoginCard() {
         </div>
 
         <a className="forgot-link" href="/platform">
-          Forgot password?
+          Şifremi Unuttum?
         </a>
 
         {error ? <div className="auth-error">{error}</div> : null}
 
         <button className="auth-submit" type="submit" disabled={loading || showLaunchOverlay}>
-          {loading || showLaunchOverlay ? "Opening..." : "Log In"}
+          <span>{loading || showLaunchOverlay ? "Açılıyor..." : "Giriş Yap"}</span>
+          <ArrowRight size={20} />
         </button>
-
-        <p className="signup-copy">
-          Don&apos;t have an account? <a href="/platform">Sign up</a>
-        </p>
 
         <div className="social-divider">
           <span />
-          <p>Or log in with</p>
+          <p>veya şununla devam et</p>
           <span />
         </div>
 
         <div className="social-login-row">
           <button type="button" aria-label="Google">
-            <Mail size={21} />
+            <Chrome size={20} />
           </button>
           <button type="button" aria-label="Apple">
             <Apple size={22} />
           </button>
-          <button type="button" aria-label="LinkedIn">
-            <Linkedin size={20} />
+          <button type="button" aria-label="Microsoft">
+            <AppWindow size={20} />
           </button>
         </div>
+
+        <p className="signup-copy">
+          Hesabınız yok mu? <a href="/platform">Kayıt Ol</a>
+        </p>
       </form>
 
       {showLaunchOverlay && portalReady ? createPortal(

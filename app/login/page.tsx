@@ -1,45 +1,114 @@
-﻿import { Fish, MessageSquare, TrendingUp } from "lucide-react";
+import { BarChart3, BrainCircuit, ChevronDown, Globe2, Share2 } from "lucide-react";
+import Link from "next/link";
 import LoginCard from "../../components/auth/login-card";
+
+const featureList = [
+  {
+    icon: BrainCircuit,
+    title: "AI Destekli Analiz",
+    body: "Gelişmiş yapay zeka ile yüksek doğrulukta balık türü tanıma.",
+  },
+  {
+    icon: BarChart3,
+    title: "Veri & Görselleştirme",
+    body: "Kapsamlı istatistikler ve görsellerle verilerinizi anlamlandırın.",
+  },
+  {
+    icon: Share2,
+    title: "Dünya ile Paylaş",
+    body: "Keşiflerinizi toplulukla paylaşın, birlikte öğrenelim.",
+  },
+];
 
 export default function LoginPage() {
   return (
     <main className="auth-stage">
-      <section className="login-shell">
-        <div className="login-panel">
-          <div className="login-brand">
-            <span className="login-logo" aria-hidden />
-            <span>Sisyphus</span>
+      <section className="login-frame">
+        <div className="login-left-panel">
+          <div className="login-left-surface">
+            <Link href="/" className="login-brandmark">
+              <span className="login-brandmark-icon" aria-hidden>
+                <svg width="42" height="26" viewBox="0 0 42 26" fill="none">
+                  <path
+                    d="M1.5 13c4.9-7 11-10.5 18.3-10.5 5.8 0 10.7 2.4 14.7 7.1L33.3 13l1.2 3.4c-4 4.7-8.9 7.1-14.7 7.1C12.5 23.5 6.4 20 1.5 13Z"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                  />
+                  <path d="M9.5 13h10m-5-5v10m9-8 4 1m-4 4 4-1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                </svg>
+              </span>
+              <span>AquaScope</span>
+            </Link>
+
+            <div className="login-left-copy">
+              <span>HOŞ GELDİNİZ</span>
+              <h1>
+                Okyanusu Keşfet,
+                <br />
+                Bilgiyle <em>Derinleş.</em>
+              </h1>
+              <p>
+                AquaScope ile balık türlerini keşfedin, analiz edin ve su altı dünyasının
+                sırlarını birlikte çözün.
+              </p>
+            </div>
+
+            <img className="login-left-fish" src="/landing-hero-background.png" alt="Fish scene" />
+
+            <div className="login-left-features">
+              {featureList.map((feature) => {
+                const Icon = feature.icon;
+                return (
+                  <article key={feature.title} className="login-left-feature">
+                    <span className="login-left-feature-icon">
+                      <Icon size={24} strokeWidth={1.8} />
+                    </span>
+                    <div>
+                      <strong>{feature.title}</strong>
+                      <p>{feature.body}</p>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+
+            <div className="login-left-social-proof">
+              <div className="login-left-avatars">
+                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=96&q=80" alt="User 1" />
+                <img src="https://images.unsplash.com/photo-1519345182560-3f2917c472ef?auto=format&fit=crop&w=96&q=80" alt="User 2" />
+                <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=96&q=80" alt="User 3" />
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=96&q=80" alt="User 4" />
+              </div>
+              <p>
+                <strong>+500 kullanıcı</strong>
+                AquaScope&apos;u keşfediyor
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="login-right-panel">
+          <div className="login-locale-pill">
+            <Globe2 size={16} />
+            <span>Türkçe</span>
+            <ChevronDown size={16} />
           </div>
 
-          <div className="login-heading">
-            <h1>Welcome Back!</h1>
-            <p>Log in to your account</p>
+          <div className="login-right-copy">
+            <h2>Giriş Yapın</h2>
+            <p>Hesabınıza giriş yaparak keşfetmeye devam edin.</p>
           </div>
 
           <LoginCard />
         </div>
-
-        <div className="login-visual">
-          <img src="/login-fish-scene.png" alt="Underwater fish scene" />
-          <div className="login-visual-copy">
-            <h2>Identify fish species and join the fishing community.</h2>
-            <div className="login-feature-row">
-              <span>
-                <Fish size={22} />
-              </span>
-              <p>Identify Fish</p>
-              <span>
-                <MessageSquare size={22} />
-              </span>
-              <p>Join Community</p>
-              <span>
-                <TrendingUp size={22} />
-              </span>
-              <p>Log Catches</p>
-            </div>
-          </div>
-        </div>
       </section>
+
+      <footer className="login-bottom-links">
+        <span>© 2024 AquaScope. Tüm hakları saklıdır.</span>
+        <a href="/">Gizlilik Politikası</a>
+        <a href="/">Kullanım Şartları</a>
+        <a href="/">İletişim</a>
+      </footer>
     </main>
   );
 }
