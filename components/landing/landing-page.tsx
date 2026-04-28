@@ -17,24 +17,24 @@ import {
 
 const featureCards = [
   {
-    icon: BrainCircuit,
+    icon: "🧠",
     title: "AI Destekli Analiz",
-    body: "Gelişmiş makine öğrenmesi modeli ile yüksek doğrulukta tür tahmini.",
+    desc: "Gelişmiş makine öğrenmesi modeli ile yüksek doğrulukta tür tahmini.",
   },
   {
-    icon: BarChart3,
+    icon: "📊",
     title: "Veri & Görselleştirme",
-    body: "Analiz sonuçlarını grafikler ve istatistiklerle zenginleştirilmiş olarak görüntüleyin.",
+    desc: "Analiz sonuçlarını grafikler ve istatistiklerle zenginleştirin.",
   },
   {
-    icon: MapPin,
+    icon: "📍",
     title: "Harita Üzerinde Keşif",
-    body: "Türlerin coğrafi dağılımını interaktif harita üzerinde inceleyin.",
+    desc: "Türlerin coğrafi dağılımını interaktif harita üzerinden inceleyin.",
   },
   {
-    icon: Users,
+    icon: "👥",
     title: "Topluluk ile Paylaş",
-    body: "Keşiflerinizi paylaşın, diğer kullanıcılarla etkileşime geçin.",
+    desc: "Keşiflerinizi paylaşın, diğer kullanıcılarla etkileşime geçin.",
   },
 ];
 
@@ -158,8 +158,6 @@ export default function LandingPage() {
           <div className="max-w-7xl mx-auto">
             <div className="grid gap-6 md:grid-cols-4">
               {featureCards.map((item) => {
-                const Icon = item.icon;
-
                 return (
                   <div
                     key={item.title}
@@ -167,7 +165,7 @@ export default function LandingPage() {
                   >
                     <div className="relative flex h-full flex-col justify-between rounded-2xl border border-white/5 bg-[#07182f]/80 p-6 backdrop-blur-xl">
                       <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-500/10 text-2xl transition group-hover:scale-110">
-                        <Icon size={22} />
+                        {item.icon}
                       </div>
 
                       <h3 className="mb-2 text-lg font-semibold text-white">
@@ -177,12 +175,12 @@ export default function LandingPage() {
                       <div className="mb-4 h-[2px] w-10 bg-blue-400 opacity-80 transition-all group-hover:w-16" />
 
                       <p className="text-sm leading-relaxed text-slate-400">
-                        {item.body}
+                        {item.desc}
                       </p>
 
                       <div className="mt-6">
                         <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/5 transition group-hover:bg-blue-500">
-                          <ArrowRight size={16} />
+                          →
                         </div>
                       </div>
 
