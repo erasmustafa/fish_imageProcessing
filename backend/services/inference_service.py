@@ -1,0 +1,132 @@
+from __future__ import annotations
+
+import json
+from pathlib import Path
+from typing import Any
+
+import numpy as np
+
+from backend.services.preprocessing import preprocess_image
+
+
+DEFAULT_FISH_INFO: dict[str, dict[str, Any]] = {
+    "Levrek": {
+        "edible": True,
+        "ideal_size": "30+ cm",
+        "recommended_baits": ["Silikon", "Canlı yem"],
+        "recommended_gear": ["Spin takım", "LRF uyumlu hafif setup"],
+        "region_notes": ["Ege kıyıları", "Akdeniz kıyıları", "Liman çevreleri"],
+    },
+    "Çupra": {
+        "edible": True,
+        "ideal_size": "20+ cm",
+        "recommended_baits": ["Karides", "Mamun"],
+        "recommended_gear": ["Surf casting", "Dip oltası"],
+        "region_notes": ["Ege", "Akdeniz", "Kıyı taşlık alanlar"],
+    },
+    "Lüfer": {
+        "edible": True,
+        "ideal_size": "18+ cm",
+        "recommended_baits": ["Zargana", "Sahte yem"],
+        "recommended_gear": ["Spin takım", "Tekne sırtısı"],
+        "region_notes": ["Marmara", "Boğaz hattı", "Karadeniz geçişleri"],
+    },
+}
+
+
+def load_class_names(class_names_path: str | Path) -> list[str]:
+    path = Path(class_names_path)
+    if not path.exists():
+        raise FileNotFoundError(f"class names file not found: {path}")
+
+    with path.open("r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    if not isinstance(data, list) or not all(isinstance(x, str) for x in data):
+        raise ValueError("class names file must contain a JSON list of strings")
+
+    if not data:
+        raise ValueError("class names file is empty")
+
+    return data
+
+
+def load_fish_info(fish_info_path: str | Path) -> dict[str, dict[str, Any]]:
+    path = Path(fish_info_path)
+    if not path.exists():
+        return DEFAULT_FISH_INFO
+
+    with path.open("r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    if not isinstance(data, dict):
+        raise ValueError("fish info file must contain a JSON object")
+
+    return data
+
+
+def predict_species(
+    image_bytes: bytes,
+    model: Any,
+    class_names: list[str],
+) -> tuple[str, float]:
+    """
+    Run model inference and return:
+        (predicted_species, confidence)
+    """
+    image_tensor = preprocess_image(image_bytes)
+
+    predictions = model.predict(image_tensor, verbose=0)
+    predictions = np.asarray(predictions)
+
+    if predictions.ndim != 2 or predictions.shape[0] != 1:
+        raise ValueError("model prediction output has unexpected shape")
+
+    if predictions.shape[1] != len(class_names):
+        raise ValueError("prediction class count does not match class_names length")
+
+    top_index = int(np.argmax(predictions[0]))
+    confidence = float(predictions[0][top_index])
+    species = class_names[top_index]
+
+    return species, confidence
+
+
+def enrich_species_result(
+    species: str,
+    confidence: float,
+    fish_info: dict[str, dict[str, Any]],
+) -> dict[str, Any]:
+    info = fish_info.get(species, {})
+
+    return {
+        "species": species,
+        "confidence": round(confidence, 4),
+        "edible": bool(info.get("edible", False)),
+        "ideal_size": str(info.get("ideal_size", "Bilinmiyor")),
+        "recommended_baits": list(info.get("recommended_baits", ["Bilgi yok"])),
+        "recommended_gear": list(info.get("recommended_gear", ["Bilgi yok"])),
+        "region_notes": list(info.get("region_notes", ["Bölge bilgisi yok"])),
+    }
+
+
+def run_inference(
+    image_bytes: bytes,
+    model: Any,
+    class_names: list[str],
+    fish_info: dict[str, dict[str, Any]] | None = None,
+) -> dict[str, Any]:
+    if fish_info is None:
+        fish_info = DEFAULT_FISH_INFO
+
+    species, confidence = predict_species(
+        image_bytes=image_bytes,
+        model=model,
+        class_names=class_names,
+    )
+
+    return enrich_species_result(
+        species=species,
+        confidence=confidence,
+        fish_info=fish_info,
+    )
