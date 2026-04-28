@@ -4562,8 +4562,15 @@ body.profile-dark-theme .profile-following img {
 }
 
 .landing-page {
+  min-height: 100vh;
   color: #f7fbff;
   background: #061328;
+  overflow-x: hidden;
+}
+
+body:has(.landing-page) {
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .landing-navbar,
