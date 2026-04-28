@@ -152,20 +152,6 @@ export default function LandingPage() {
               <p><strong>500+</strong> kullanıcı AquaScope'u keşfetmeye başladı.</p>
             </div>
           </div>
-
-          <div className="landing-hero-visual">
-            <div className="landing-hero-frame">
-              <img src="https://images.unsplash.com/photo-1534043464124-3be32fe000c9?auto=format&fit=crop&w=1200&q=80" alt="Levrek" />
-            </div>
-            <article className="landing-result-card">
-              <span>Tahmin Sonucu</span>
-              <strong>Levrek</strong>
-              <small>Dicentrarchus labrax</small>
-              <p>Güven Skoru</p>
-              <b>%95.4</b>
-              <i />
-            </article>
-          </div>
         </div>
 
         <div className="landing-feature-strip" id="features">
