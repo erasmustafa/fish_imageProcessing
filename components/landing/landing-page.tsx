@@ -158,39 +158,36 @@ export default function LandingPage() {
           </div>
         </div>
 
-        <section className="relative w-full px-6 py-10" id="features">
-          <div className="mx-auto max-w-7xl rounded-[2rem] border border-blue-400/20 bg-[#081a35]/50 p-5 shadow-[0_0_0_1px_rgba(255,255,255,0.04),0_20px_80px_rgba(2,8,23,0.45)] backdrop-blur-sm">
-            <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+        <section className="landing-feature-panel" id="features">
+          <div className="landing-feature-grid">
               {featureCards.map((item) => {
                 const Icon = item.icon;
 
                 return (
                   <div
                     key={item.title}
-                    className="group relative overflow-hidden rounded-[1.9rem] border border-white/8 bg-[linear-gradient(180deg,rgba(10,25,52,0.92),rgba(6,16,36,0.96))] p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_24px_48px_rgba(0,0,0,0.2)] transition duration-300 hover:border-blue-400/30 hover:shadow-[0_0_0_1px_rgba(59,130,246,0.22),0_30px_60px_rgba(8,18,40,0.36)]"
+                    className="landing-feature-card"
                   >
-                    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(96,165,250,0.18),transparent_42%)] opacity-70" />
-                    <div className="relative flex min-h-[360px] flex-col">
-                      <div className="mb-6 flex h-[76px] w-[76px] items-center justify-center rounded-[1.35rem] border border-blue-400/25 bg-[linear-gradient(180deg,rgba(23,53,110,0.75),rgba(11,28,62,0.95))] text-blue-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_0_24px_rgba(37,99,235,0.18)] transition duration-300 group-hover:scale-105 group-hover:text-blue-200">
+                    <div className="landing-feature-card-inner">
+                      <div className="landing-feature-icon">
                         <Icon size={30} strokeWidth={1.8} />
                       </div>
 
-                      <h3 className="max-w-[13ch] text-[1.1rem] font-semibold leading-[1.18] tracking-[-0.02em] text-white sm:text-[1.35rem]">
+                      <h3 className="landing-feature-title">
                         {item.title}
                       </h3>
 
-                      <div className="mb-5 mt-4 h-[4px] w-11 rounded-full bg-blue-400/95 transition-all duration-300 group-hover:w-16" />
+                      <div className="landing-feature-accent" />
 
-                      <p className="max-w-[24ch] text-[0.92rem] leading-[1.7] text-slate-300/88 sm:text-[0.98rem]">
+                      <p className="landing-feature-description">
                         {item.desc}
                       </p>
 
-                      <div className="relative mt-auto pt-8">
-                        <div className="absolute inset-x-0 bottom-0 h-28 bg-[radial-gradient(circle_at_bottom,rgba(37,99,235,0.12),transparent_72%)]" />
-                        <div className="h-[110px] overflow-hidden">
+                      <div className="landing-feature-footer">
+                        <div className="landing-feature-visual">
                           <FeatureCardVisual kind={item.visual} />
                         </div>
-                        <div className="relative mt-3 flex h-12 w-12 items-center justify-center rounded-full bg-blue-500/20 text-blue-200 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition duration-300 group-hover:bg-blue-500 group-hover:text-white">
+                        <div className="landing-feature-arrow">
                           <ArrowRight size={20} />
                         </div>
                       </div>
@@ -198,7 +195,6 @@ export default function LandingPage() {
                   </div>
                 );
               })}
-            </div>
           </div>
         </section>
       </section>
