@@ -4591,11 +4591,11 @@ body:has(.landing-page) {
   overflow: hidden;
   padding: 22px 0 24px;
   background:
-    linear-gradient(180deg, rgba(5, 15, 31, 0.4), rgba(5, 15, 31, 0.86)),
-    radial-gradient(circle at 80% 18%, rgba(33, 132, 255, 0.2), transparent 24%),
-    url("/login-fish-scene.png");
+    linear-gradient(180deg, rgba(4, 15, 34, 0.38), rgba(3, 12, 28, 0.88)),
+    radial-gradient(circle at 68% 18%, rgba(69, 153, 255, 0.18), transparent 26%),
+    url("/landing-hero-background.png");
   background-size: cover;
-  background-position: center;
+  background-position: center 18%;
 }
 
 .landing-hero-bg {
