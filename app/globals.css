@@ -752,9 +752,10 @@ body:has(.auth-stage) {
   width: 100vw;
   min-height: 100svh;
   min-height: 0;
-  display: grid;
-  align-content: center;
-  justify-items: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 12px 18px 10px;
   overflow: hidden;
   background:
@@ -773,8 +774,8 @@ body:has(.auth-stage) {
 .login-frame {
   display: grid;
   grid-template-columns: minmax(280px, 1fr) minmax(300px, 1.03fr);
-  width: min(780px, calc(100vw - 48px));
-  min-height: min(390px, calc(100svh - 40px));
+  width: min(741px, calc(100vw - 48px));
+  min-height: min(410px, calc(100svh - 40px));
   overflow: hidden;
   border: 1px solid rgba(67, 143, 255, 0.42);
   border-radius: 24px;
@@ -875,7 +876,7 @@ body:has(.auth-stage) {
 .login-left-fish {
   position: relative;
   z-index: 1;
-  width: min(310px, 86%);
+  width: min(280px, 82%);
   margin: 8px auto 6px;
   object-fit: contain;
   filter: drop-shadow(0 24px 40px rgba(0, 0, 0, 0.3));
@@ -1249,12 +1250,16 @@ body:has(.auth-stage) {
 }
 
 .login-bottom-links {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 28px;
   width: min(780px, calc(100vw - 48px));
-  margin-top: 8px;
+  margin-top: 0;
   padding: 10px 8px 0;
   border-top: 1px solid rgba(65, 95, 144, 0.22);
   color: rgba(220, 231, 247, 0.58);
@@ -1268,7 +1273,7 @@ body:has(.auth-stage) {
 @media (max-width: 1080px) {
   .login-frame {
     grid-template-columns: 1fr;
-    width: min(520px, calc(100vw - 28px));
+    width: min(494px, calc(100vw - 28px));
     min-height: auto;
   }
 
@@ -1294,7 +1299,7 @@ body:has(.auth-stage) {
   .login-bottom-links {
     flex-wrap: wrap;
     gap: 12px 20px;
-    width: min(520px, calc(100vw - 28px));
+    width: min(494px, calc(100vw - 28px));
   }
 }
 
@@ -1369,9 +1374,12 @@ body:has(.auth-stage) {
   }
 
   .login-bottom-links {
+    position: static;
+    transform: none;
     justify-content: flex-start;
     gap: 8px 14px;
     width: calc(100vw - 32px);
+    margin-top: 10px;
     padding-top: 12px;
     font-size: 10px;
   }
