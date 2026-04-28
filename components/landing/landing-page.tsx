@@ -17,24 +17,28 @@ import {
 
 const featureCards = [
   {
-    icon: "🧠",
+    icon: BrainCircuit,
     title: "AI Destekli Analiz",
     desc: "Gelişmiş makine öğrenmesi modeli ile yüksek doğrulukta tür tahmini.",
+    visual: "wave",
   },
   {
-    icon: "📊",
+    icon: BarChart3,
     title: "Veri & Görselleştirme",
     desc: "Analiz sonuçlarını grafikler ve istatistiklerle zenginleştirin.",
+    visual: "chart",
   },
   {
-    icon: "📍",
+    icon: MapPin,
     title: "Harita Üzerinde Keşif",
     desc: "Türlerin coğrafi dağılımını interaktif harita üzerinden inceleyin.",
+    visual: "map",
   },
   {
-    icon: "👥",
+    icon: Users,
     title: "Topluluk ile Paylaş",
     desc: "Keşiflerinizi paylaşın, diğer kullanıcılarla etkileşime geçin.",
+    visual: "social",
   },
 ];
 
@@ -154,37 +158,42 @@ export default function LandingPage() {
           </div>
         </div>
 
-        <section className="relative w-full px-6 py-16" id="features">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid gap-6 md:grid-cols-4">
+        <section className="relative w-full px-6 py-10" id="features">
+          <div className="mx-auto max-w-7xl rounded-[2rem] border border-blue-400/20 bg-[#081a35]/50 p-5 shadow-[0_0_0_1px_rgba(255,255,255,0.04),0_20px_80px_rgba(2,8,23,0.45)] backdrop-blur-sm">
+            <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
               {featureCards.map((item) => {
+                const Icon = item.icon;
+
                 return (
                   <div
                     key={item.title}
-                    className="group relative rounded-2xl bg-gradient-to-b from-white/10 to-white/0 p-px transition hover:from-blue-400/40"
+                    className="group relative overflow-hidden rounded-[1.9rem] border border-white/8 bg-[linear-gradient(180deg,rgba(10,25,52,0.92),rgba(6,16,36,0.96))] p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_24px_48px_rgba(0,0,0,0.2)] transition duration-300 hover:border-blue-400/30 hover:shadow-[0_0_0_1px_rgba(59,130,246,0.22),0_30px_60px_rgba(8,18,40,0.36)]"
                   >
-                    <div className="relative flex h-full flex-col justify-between rounded-2xl border border-white/5 bg-[#07182f]/80 p-6 backdrop-blur-xl">
-                      <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-500/10 text-2xl transition group-hover:scale-110">
-                        {item.icon}
+                    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(96,165,250,0.18),transparent_42%)] opacity-70" />
+                    <div className="relative flex min-h-[360px] flex-col">
+                      <div className="mb-6 flex h-[76px] w-[76px] items-center justify-center rounded-[1.35rem] border border-blue-400/25 bg-[linear-gradient(180deg,rgba(23,53,110,0.75),rgba(11,28,62,0.95))] text-blue-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_0_24px_rgba(37,99,235,0.18)] transition duration-300 group-hover:scale-105 group-hover:text-blue-200">
+                        <Icon size={30} strokeWidth={1.8} />
                       </div>
 
-                      <h3 className="mb-2 text-lg font-semibold text-white">
+                      <h3 className="max-w-[13ch] text-[1.1rem] font-semibold leading-[1.18] tracking-[-0.02em] text-white sm:text-[1.35rem]">
                         {item.title}
                       </h3>
 
-                      <div className="mb-4 h-[2px] w-10 bg-blue-400 opacity-80 transition-all group-hover:w-16" />
+                      <div className="mb-5 mt-4 h-[4px] w-11 rounded-full bg-blue-400/95 transition-all duration-300 group-hover:w-16" />
 
-                      <p className="text-sm leading-relaxed text-slate-400">
+                      <p className="max-w-[24ch] text-[0.92rem] leading-[1.7] text-slate-300/88 sm:text-[0.98rem]">
                         {item.desc}
                       </p>
 
-                      <div className="mt-6">
-                        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/5 transition group-hover:bg-blue-500">
-                          →
+                      <div className="relative mt-auto pt-8">
+                        <div className="absolute inset-x-0 bottom-0 h-28 bg-[radial-gradient(circle_at_bottom,rgba(37,99,235,0.12),transparent_72%)]" />
+                        <div className="h-[110px] overflow-hidden">
+                          <FeatureCardVisual kind={item.visual} />
+                        </div>
+                        <div className="relative mt-3 flex h-12 w-12 items-center justify-center rounded-full bg-blue-500/20 text-blue-200 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition duration-300 group-hover:bg-blue-500 group-hover:text-white">
+                          <ArrowRight size={20} />
                         </div>
                       </div>
-
-                      <div className="pointer-events-none absolute inset-0 rounded-2xl bg-blue-500/5 opacity-0 blur-xl transition group-hover:opacity-100" />
                     </div>
                   </div>
                 );
@@ -351,6 +360,118 @@ export default function LandingPage() {
         </div>
       </footer>
     </main>
+  );
+}
+
+function FeatureCardVisual({ kind }: { kind: "wave" | "chart" | "map" | "social" }) {
+  if (kind === "wave") {
+    return (
+      <svg viewBox="0 0 320 120" className="relative w-full opacity-95" aria-hidden>
+        <defs>
+          <linearGradient id="waveGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="rgba(34,211,238,0)" />
+            <stop offset="50%" stopColor="#2563eb" />
+            <stop offset="100%" stopColor="rgba(96,165,250,0.16)" />
+          </linearGradient>
+        </defs>
+        <path
+          d="M0 78 C40 58, 72 98, 110 84 S182 48, 214 62 S278 98, 320 70"
+          fill="none"
+          stroke="url(#waveGlow)"
+          strokeWidth="3"
+          strokeLinecap="round"
+        />
+        {Array.from({ length: 80 }).map((_, i) => {
+          const x = (i % 20) * 16 + 4;
+          const y = 72 + Math.sin(i / 3) * 12 + Math.floor(i / 20) * 8;
+          return <circle key={i} cx={x} cy={y} r="1.5" fill="rgba(59,130,246,0.8)" />;
+        })}
+      </svg>
+    );
+  }
+
+  if (kind === "chart") {
+    return (
+      <svg viewBox="0 0 320 140" className="relative w-full opacity-95" aria-hidden>
+        <path d="M20 115 H300" stroke="rgba(59,130,246,0.18)" strokeWidth="2" />
+        {[60, 120, 180, 240, 300].map((x) => (
+          <line key={x} x1={x} y1="50" x2={x} y2="115" stroke="rgba(59,130,246,0.16)" strokeDasharray="4 6" />
+        ))}
+        <polyline
+          points="20,110 55,108 90,105 125,82 160,80 195,58 230,61 265,54 300,24"
+          fill="none"
+          stroke="#2563eb"
+          strokeWidth="4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <polyline
+          points="20,114 55,113 90,111 125,90 160,87 195,74 230,76 265,70 300,30"
+          fill="none"
+          stroke="rgba(96,165,250,0.45)"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        {[125, 160, 195, 230, 265, 300].map((x, i) => {
+          const ys = [82, 80, 58, 61, 54, 24];
+          return <circle key={x} cx={x} cy={ys[i]} r="4.5" fill="#60a5fa" />;
+        })}
+      </svg>
+    );
+  }
+
+  if (kind === "map") {
+    return (
+      <svg viewBox="0 0 320 140" className="relative w-full opacity-95" aria-hidden>
+        {Array.from({ length: 28 }).map((_, yi) =>
+          Array.from({ length: 48 }).map((__, xi) => {
+            const active =
+              (xi > 2 && xi < 16 && yi > 4 && yi < 11) ||
+              (xi > 19 && xi < 28 && yi > 2 && yi < 10) ||
+              (xi > 30 && xi < 45 && yi > 3 && yi < 10);
+
+            if (!active) return null;
+            return (
+              <rect
+                key={`${xi}-${yi}`}
+                x={xi * 6.4}
+                y={yi * 4.1 + 18}
+                width="3"
+                height="2.1"
+                rx="1"
+                fill="rgba(37,99,235,0.68)"
+              />
+            );
+          }),
+        )}
+        {[56, 157, 246].map((x, i) => (
+          <g key={x}>
+            <circle cx={x} cy={[84, 92, 78][i]} r="6" fill="#60a5fa" />
+            <circle cx={x} cy={[84, 92, 78][i]} r="15" fill="rgba(96,165,250,0.18)" />
+          </g>
+        ))}
+      </svg>
+    );
+  }
+
+  return (
+    <svg viewBox="0 0 320 140" className="relative w-full opacity-95" aria-hidden>
+      <ellipse cx="195" cy="102" rx="78" ry="23" fill="none" stroke="rgba(37,99,235,0.5)" strokeWidth="2" />
+      <ellipse cx="195" cy="102" rx="54" ry="15" fill="none" stroke="rgba(59,130,246,0.35)" strokeWidth="2" />
+      <g fill="#60a5fa">
+        <circle cx="175" cy="80" r="14" />
+        <circle cx="204" cy="77" r="18" />
+        <circle cx="234" cy="82" r="13" />
+      </g>
+      <g fill="rgba(37,99,235,0.25)">
+        <circle cx="175" cy="80" r="22" />
+        <circle cx="204" cy="77" r="28" />
+        <circle cx="234" cy="82" r="21" />
+      </g>
+      <rect x="120" y="46" width="28" height="24" rx="7" fill="rgba(37,99,235,0.22)" stroke="rgba(96,165,250,0.55)" />
+      <rect x="270" y="24" width="28" height="24" rx="7" fill="rgba(37,99,235,0.22)" stroke="rgba(96,165,250,0.55)" />
+    </svg>
   );
 }
 
