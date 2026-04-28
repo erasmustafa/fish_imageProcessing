@@ -4849,7 +4849,7 @@ body:has(.landing-page) {
 }
 
 .landing-feature-title {
-  max-width: 11ch;
+  max-width: none;
   margin: 0;
   color: #ffffff;
   font-size: 20px;
@@ -4872,7 +4872,7 @@ body:has(.landing-page) {
 }
 
 .landing-feature-description {
-  max-width: 19ch;
+  max-width: none;
   margin: 0;
   color: rgba(217, 229, 248, 0.8);
   font-size: 14px;
