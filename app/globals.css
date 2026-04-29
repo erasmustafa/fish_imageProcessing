@@ -773,21 +773,25 @@ body:has(.auth-stage) {
 }
 
 .login-frame {
-  display: grid;
-  grid-template-columns: minmax(280px, 1fr) minmax(300px, 1.03fr);
   width: min(741px, calc(100vw - 48px));
   min-height: min(572px, calc(100dvh - 48px));
   position: relative;
   align-self: center;
   overflow: hidden;
   isolation: isolate;
-  border: 1px solid rgba(67, 143, 255, 0.18);
-  border-radius: 24px;
-  background: rgba(3, 13, 31, 0.3);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.06),
     0 24px 80px rgba(1, 8, 22, 0.42);
   backdrop-filter: blur(10px);
+}
+
+.login-frame-inner {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(300px, 1.03fr);
+  min-height: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: inherit;
 }
 
 .login-left-panel,
@@ -797,35 +801,32 @@ body:has(.auth-stage) {
   min-width: 0;
 }
 
-.shine-border {
-  position: absolute;
-  inset: 0;
-  z-index: 4;
-  border-radius: var(--shine-border-radius);
-  pointer-events: none;
+@property --gradient-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
 }
 
-.shine-border::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  padding: var(--shine-border-width);
-  border-radius: inherit;
-  background-image:
-    radial-gradient(circle at center, transparent 10%, var(--shine-color) 18%, transparent 34%),
-    linear-gradient(135deg, rgba(98, 165, 255, 0.22), rgba(160, 214, 255, 0.06), rgba(98, 165, 255, 0.16));
-  background-size: 300% 300%, 100% 100%;
-  background-position: 0% 50%, 50% 50%;
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  mask-composite: exclude;
-  opacity: 0.95;
-  animation: login-border-shine var(--shine-pulse-duration) linear infinite;
+.shining-border {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.gradient-border-auto {
+  animation: login-border-rotate var(--animation-duration) linear infinite;
+}
+
+.gradient-border-hover:hover {
+  animation: login-border-rotate var(--animation-duration) linear infinite;
+}
+
+.gradient-border-stop-hover {
+  animation: login-border-rotate var(--animation-duration) linear infinite;
+}
+
+.gradient-border-stop-hover:hover {
+  animation-play-state: paused;
 }
 
 .login-left-surface {
@@ -1295,21 +1296,12 @@ body:has(.auth-stage) {
   }
 }
 
-@keyframes login-border-shine {
+@keyframes login-border-rotate {
   0% {
-    background-position: 0% 50%, 50% 50%;
-  }
-  25% {
-    background-position: 50% 0%, 50% 50%;
-  }
-  50% {
-    background-position: 100% 50%, 50% 50%;
-  }
-  75% {
-    background-position: 50% 100%, 50% 50%;
+    --gradient-angle: 0deg;
   }
   100% {
-    background-position: 0% 50%, 50% 50%;
+    --gradient-angle: 360deg;
   }
 }
 
@@ -1336,9 +1328,12 @@ body:has(.auth-stage) {
 
 @media (max-width: 1080px) {
   .login-frame {
-    grid-template-columns: 1fr;
     width: min(494px, calc(100vw - 28px));
     min-height: min(822px, calc(100dvh - 72px));
+  }
+
+  .login-frame-inner {
+    grid-template-columns: 1fr;
   }
 
   .login-left-surface,

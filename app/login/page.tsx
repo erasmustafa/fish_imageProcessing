@@ -1,7 +1,7 @@
 import { BarChart3, BrainCircuit, ChevronDown, Globe2, Share2 } from "lucide-react";
 import Link from "next/link";
 import LoginCard from "../../components/auth/login-card";
-import { ShineBorder } from "../../components/ui/shine-border";
+import { ShiningBorder } from "../../components/ui/shine-border";
 
 const featureList = [
   {
@@ -24,8 +24,20 @@ const featureList = [
 export default function LoginPage() {
   return (
     <main className="auth-stage">
-      <section className="login-frame">
-        <ShineBorder borderWidth={1} borderRadius={24} duration={12} shineColor="#9ddcff" />
+      <ShiningBorder
+        className="login-frame"
+        animationMode="auto-rotate"
+        animationSpeed={7}
+        borderWidth={1}
+        borderRadius={24}
+        backgroundColor="rgba(3, 13, 31, 0.32)"
+        gradientColors={{
+          primary: "#0b1730",
+          secondary: "#38bdf8",
+          accent: "#d8f6ff",
+        }}
+      >
+        <section className="login-frame-inner">
         <div className="login-left-panel">
           <div className="login-left-surface">
             <Link href="/" className="login-brandmark">
@@ -96,7 +108,8 @@ export default function LoginPage() {
 
           <LoginCard />
         </div>
-      </section>
+        </section>
+      </ShiningBorder>
 
       <footer className="login-bottom-links">
         <span>© 2024 AquaScope. Tüm hakları saklıdır.</span>
