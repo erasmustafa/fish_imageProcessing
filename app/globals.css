@@ -800,10 +800,16 @@ body:has(.auth-stage) {
   border-radius: inherit;
   pointer-events: none;
   background:
-    radial-gradient(circle at 0% 50%, rgba(74, 175, 255, 0), rgba(74, 175, 255, 0), rgba(74, 175, 255, 0.92) 16%, rgba(74, 175, 255, 0.18) 28%, rgba(74, 175, 255, 0) 42%),
-    linear-gradient(135deg, rgba(62, 143, 255, 0.32), rgba(152, 202, 255, 0.08), rgba(62, 143, 255, 0.5));
-  background-size: 280% 280%, 100% 100%;
-  background-position: 0% 50%, 50% 50%;
+    conic-gradient(
+      from 0deg,
+      rgba(62, 143, 255, 0) 0deg,
+      rgba(62, 143, 255, 0) 306deg,
+      rgba(88, 184, 255, 0.28) 326deg,
+      rgba(176, 230, 255, 0.96) 340deg,
+      rgba(88, 184, 255, 0.5) 350deg,
+      rgba(62, 143, 255, 0) 360deg
+    ),
+    linear-gradient(135deg, rgba(62, 143, 255, 0.2), rgba(152, 202, 255, 0.06), rgba(62, 143, 255, 0.3));
   -webkit-mask:
     linear-gradient(#fff 0 0) content-box,
     linear-gradient(#fff 0 0);
@@ -812,7 +818,8 @@ body:has(.auth-stage) {
     linear-gradient(#fff 0 0) content-box,
     linear-gradient(#fff 0 0);
   mask-composite: exclude;
-  animation: login-border-shine 14s linear infinite;
+  transform-origin: center;
+  animation: login-border-shine 7s linear infinite;
 }
 
 .login-left-panel,
@@ -1282,10 +1289,10 @@ body:has(.auth-stage) {
 
 @keyframes login-border-shine {
   0% {
-    background-position: 0% 50%, 50% 50%;
+    transform: rotate(0deg);
   }
   100% {
-    background-position: 280% 50%, 50% 50%;
+    transform: rotate(360deg);
   }
 }
 
