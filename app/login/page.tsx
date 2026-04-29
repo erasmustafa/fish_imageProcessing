@@ -30,14 +30,7 @@ export default function LoginPage() {
           <div className="login-left-surface">
             <Link href="/" className="login-brandmark">
               <span className="login-brandmark-icon" aria-hidden>
-                <svg width="42" height="26" viewBox="0 0 42 26" fill="none">
-                  <path
-                    d="M1.5 13c4.9-7 11-10.5 18.3-10.5 5.8 0 10.7 2.4 14.7 7.1L33.3 13l1.2 3.4c-4 4.7-8.9 7.1-14.7 7.1C12.5 23.5 6.4 20 1.5 13Z"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                  />
-                  <path d="M9.5 13h10m-5-5v10m9-8 4 1m-4 4 4-1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                </svg>
+                <img src="/aquascope-logo.png" alt="" />
               </span>
               <span>AquaScope</span>
             </Link>

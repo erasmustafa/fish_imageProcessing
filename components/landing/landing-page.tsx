@@ -99,7 +99,9 @@ export default function LandingPage() {
         <div className="landing-hero-bg" />
         <header className="landing-navbar">
           <Link href="/" className="landing-brand">
-            <span className="landing-brand-badge"><FishGlyph /></span>
+            <span className="landing-brand-badge">
+              <img src="/aquascope-logo.png" alt="AquaScope logo" />
+            </span>
             <span>AquaScope</span>
           </Link>
 
@@ -297,7 +299,9 @@ export default function LandingPage() {
         <div className="landing-footer-top">
           <div className="landing-footer-brand">
             <Link href="/" className="landing-brand">
-              <span className="landing-brand-badge"><FishGlyph /></span>
+              <span className="landing-brand-badge">
+                <img src="/aquascope-logo.png" alt="AquaScope logo" />
+              </span>
               <span>AquaScope</span>
             </Link>
             <p>
@@ -354,7 +358,7 @@ export default function LandingPage() {
 
 function FishGlyph() {
   return (
-    <svg width="22" height="22" viewBox="0 0 32 32" fill="none" aria-hidden>
+    <svg width="18" height="18" viewBox="0 0 32 32" fill="none" aria-hidden>
       <path
         d="M4 16c3.6-5.1 8.1-7.6 13.5-7.6 4.7 0 8.6 1.9 11.7 5.7L28.2 16l1 1.9c-3.1 3.8-7 5.7-11.7 5.7C12.1 23.6 7.6 21.1 4 16Z"
         fill="currentColor"

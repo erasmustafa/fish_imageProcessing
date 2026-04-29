@@ -866,7 +866,16 @@ body:has(.auth-stage) {
 .login-brandmark-icon {
   display: grid;
   place-items: center;
-  color: #32a3ff;
+  width: 46px;
+  height: 30px;
+}
+
+.login-brandmark-icon img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 12px rgba(56, 221, 255, 0.28));
 }
 
 .login-left-copy,
@@ -4889,11 +4898,16 @@ body:has(.landing-page) {
 .landing-brand-badge {
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 999px;
-  color: #49a0ff;
-  background: rgba(73, 160, 255, 0.16);
+  width: 42px;
+  height: 28px;
+}
+
+.landing-brand-badge img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 14px rgba(62, 230, 255, 0.22));
 }
 
 .landing-nav-links {
