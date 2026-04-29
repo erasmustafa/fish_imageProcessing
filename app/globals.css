@@ -795,6 +795,7 @@ body:has(.auth-stage) {
   content: "";
   position: absolute;
   inset: 0;
+  z-index: 4;
   padding: var(--login-border-width);
   border-radius: inherit;
   pointer-events: none;
@@ -816,6 +817,8 @@ body:has(.auth-stage) {
 
 .login-left-panel,
 .login-right-panel {
+  position: relative;
+  z-index: 1;
   min-width: 0;
 }
 
