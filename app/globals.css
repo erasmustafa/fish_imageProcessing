@@ -7189,15 +7189,15 @@ body:has(.landing-page) {
 
 /* Aqua sidebar refresh */
 .sisyphus-sidebar.aqua-sidebar {
-  width: 260px;
-  min-width: 260px;
+  width: 244px;
+  min-width: 244px;
   height: 100dvh;
-  padding: 16px;
+  padding: 14px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   color: #f8fbff;
-  background: linear-gradient(180deg, #020617 0%, #07182f 54%, #020617 100%);
+  background: linear-gradient(180deg, #020617 0%, #07182f 60%, #020617 100%);
   border-right: 1px solid rgba(255, 255, 255, 0.05);
   box-shadow: none;
 }
@@ -7242,7 +7242,7 @@ body:has(.landing-page) {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  font-size: 21px;
+  font-size: 19px;
   font-weight: 700;
   letter-spacing: 0.08em;
   background: linear-gradient(90deg, #38bdf8 0%, #67e8f9 45%, #2563eb 100%);
@@ -7286,16 +7286,16 @@ body:has(.landing-page) {
 
 .aqua-sidebar__nav {
   display: grid;
-  gap: 8px;
+  gap: 6px;
   flex: 1;
 }
 
 .aqua-sidebar__link {
   display: flex;
   align-items: center;
-  gap: 12px;
-  min-height: 48px;
-  padding: 0 16px;
+  gap: 10px;
+  min-height: 42px;
+  padding: 0 12px;
   border-left: 2px solid transparent;
   border-radius: 12px;
   color: #94a3b8;
@@ -7315,7 +7315,7 @@ body:has(.landing-page) {
 }
 
 .aqua-sidebar__link span {
-  font-size: 14px;
+  font-size: 12px;
   line-height: 1;
 }
 
@@ -7342,8 +7342,8 @@ body:has(.landing-page) {
 
 .aqua-sidebar__footer {
   display: grid;
-  gap: 16px;
-  margin-top: 20px;
+  gap: 12px;
+  margin-top: 16px;
 }
 
 .aqua-sidebar__logout {
@@ -7352,7 +7352,7 @@ body:has(.landing-page) {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-height: 48px;
+  min-height: 42px;
   border: 0;
   border-radius: 12px;
   color: #e6eef8;
@@ -7370,7 +7370,7 @@ body:has(.landing-page) {
   grid-template-columns: 40px minmax(0, 1fr) 16px;
   align-items: center;
   gap: 12px;
-  padding: 12px;
+  padding: 10px;
   border-radius: 12px;
   text-decoration: none;
   color: #ffffff;
@@ -7422,14 +7422,14 @@ body:has(.landing-page) {
 }
 
 .aqua-sidebar__user-text strong {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   color: #ffffff;
 }
 
 .aqua-sidebar__user-text span {
   margin-top: 3px;
-  font-size: 12px;
+  font-size: 11px;
   color: #94a3b8;
 }
 
