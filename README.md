@@ -1,42 +1,158 @@
-# AquaScope
+# 🐟 AquaScope
 
-Next.js (frontend) + FastAPI/TensorFlow (AI backend) tabanlı balık görsel analiz projesi.
+AquaScope, balık türlerini analiz etmek, görselleştirmek ve kullanıcılar arasında bilgi paylaşımını sağlamak amacıyla geliştirilmiş modern bir web tabanlı platformdur.  
+Makine öğrenmesi destekli analiz altyapısı ile kullanıcıların yüklediği görseller üzerinden balık türü tahmini yapılır ve sonuçlar interaktif bir arayüzde sunulur.
 
-## Çalıştırma
+---
 
-### 1) AI Backend (FastAPI)
+## 🚀 Kısa Açıklama
 
-`aquascope/backend` klasöründe:
+AquaScope; balık tanıma (image classification), tür keşfi, coğrafi dağılım analizi ve sosyal etkileşim özelliklerini tek bir platformda birleştirir.  
+Frontend tarafında modern UI/UX yaklaşımıyla geliştirilmiş bir arayüz, backend tarafında ise hızlı ve ölçeklenebilir bir API altyapısı bulunmaktadır.
 
-```bash
-python -m venv .venv
-source .venv/Scripts/activate
-pip install -r requirements.txt
-uvicorn backend.app:app --reload --host 127.0.0.1 --port 8000
+---
+
+## ✨ Öne Çıkan Özellikler
+
+- 🧠 AI destekli balık türü analizi
+- 📊 Dashboard ile veri görselleştirme
+- 🌍 Harita tabanlı dağılım görüntüleme
+- 📚 Tür kütüphanesi
+- 💬 Sosyal alan
+- 👤 Kullanıcı profili
+- 🔐 Login sistemi
+- ⚡ FastAPI ile yüksek performans
+
+---
+
+## 🛠️ Kullanılan Teknolojiler
+
+| Katman   | Teknoloji |
+|----------|----------|
+| Frontend | Next.js, React, Tailwind CSS |
+| Backend  | FastAPI |
+| AI Model | TensorFlow / Keras |
+| Grafik   | Chart.js (opsiyonel) |
+| Harita   | Mapbox (opsiyonel) |
+
+---
+
+## 📁 Proje Yapısı
+
+```
+aquascope/
+├── frontend/
+├── backend/
+├── model/
+├── .env.local
+├── run-aquascope.bat
+└── README.md
 ```
 
-Sağlık kontrolü:
-- `GET http://127.0.0.1:8000/health`
+---
 
-Analiz endpoint’i:
-- `POST http://127.0.0.1:8000/api/v1/analyze-fish` (form-data: `image`)
-
-Not: Backend açılırken `backend/models/fish_model.h5` ve `backend/data/class_names.json` dosyalarını yükler.
-
-### 2) Frontend (Next.js)
-
-`aquascope/` klasöründe:
+## ⚙️ Kurulum
 
 ```bash
+git clone https://github.com/username/aquascope.git
+cd aquascope
+```
+
+```bash
+cd backend
+pip install -r requirements.txt
+```
+
+```bash
+cd ../frontend
 npm install
+```
+
+---
+
+## ▶️ Çalıştırma
+
+```bash
+run-aquascope.bat
+```
+
+veya
+
+```bash
+cd backend
+python -m uvicorn app:app --reload
+```
+
+```bash
+cd frontend
 npm run dev
 ```
 
-Uygulama:
-- `http://localhost:3000`
+---
 
-Frontend analizi, Next.js API üzerinden proxy ile yapar:
-- `POST /api/analyze-fish` → varsayılan olarak `http://127.0.0.1:8000/api/v1/analyze-fish`
+## 🔐 Environment Variables
 
-FastAPI adresini değiştirmek için:
-- `FASTAPI_URL` environment değişkeni (ör. `.env.local`)
+```
+NEXT_PUBLIC_API_URL=http://127.0.0.1:8000
+MODEL_PATH=./model/fish_model.h5
+```
+
+---
+
+## 🔄 Sistem Mantığı
+
+Görsel → Backend → Model → Tahmin → Frontend
+
+---
+
+## 🧩 Modüller
+
+Login, Dashboard, Analiz, Harita, Tür Kütüphanesi, Sosyal Alan, Profil
+
+---
+
+## 🔌 API
+
+- POST /predict
+- GET /species
+- GET/POST /user
+
+---
+
+## 🧠 AI Model
+
+- TensorFlow / Keras
+- Image classification
+- 224x224 preprocessing
+
+---
+
+## 👤 Kullanıcı Akışı
+
+Login → Dashboard → Analiz → Sonuç → Keşif
+
+---
+
+## 🔮 Gelecek
+
+- Auth geliştirme
+- Mobil destek
+- Cloud deploy
+
+---
+
+## 🤝 Katkı
+
+PR'lar kabul edilir.
+
+---
+
+## 📄 Lisans
+
+Henüz belirlenmedi.
+
+---
+
+## 🧾 Özet
+
+AquaScope, AI destekli balık analiz platformudur.
