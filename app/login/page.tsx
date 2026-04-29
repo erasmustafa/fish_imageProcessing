@@ -1,6 +1,7 @@
 import { BarChart3, BrainCircuit, ChevronDown, Globe2, Share2 } from "lucide-react";
 import Link from "next/link";
 import LoginCard from "../../components/auth/login-card";
+import { ShineBorder } from "../../components/ui/shine-border";
 
 const featureList = [
   {
@@ -24,6 +25,7 @@ export default function LoginPage() {
   return (
     <main className="auth-stage">
       <section className="login-frame">
+        <ShineBorder borderWidth={1} borderRadius={24} duration={12} shineColor="#9ddcff" />
         <div className="login-left-panel">
           <div className="login-left-surface">
             <Link href="/" className="login-brandmark">
