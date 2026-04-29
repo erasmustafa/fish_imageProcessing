@@ -857,17 +857,17 @@ body:has(.auth-stage) {
   z-index: 1;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 14px;
   color: #f7fbff;
-  font-size: 18px;
+  font-size: 22px;
   font-weight: 760;
 }
 
 .login-brandmark-icon {
   display: grid;
   place-items: center;
-  width: 46px;
-  height: 30px;
+  width: 92px;
+  height: 60px;
 }
 
 .login-brandmark-icon img {
@@ -4888,9 +4888,9 @@ body:has(.landing-page) {
 .landing-brand {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 14px;
   color: #ffffff;
-  font-size: 18px;
+  font-size: 22px;
   font-weight: 760;
   text-decoration: none;
 }
@@ -4898,8 +4898,8 @@ body:has(.landing-page) {
 .landing-brand-badge {
   display: grid;
   place-items: center;
-  width: 42px;
-  height: 28px;
+  width: 84px;
+  height: 56px;
 }
 
 .landing-brand-badge img {
