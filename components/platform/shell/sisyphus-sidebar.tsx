@@ -6,29 +6,22 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import {
   BarChart3,
-  ChevronDown,
-  FileText,
-  Flag,
-  Globe2,
+  Globe,
   Home,
   LogOut,
-  Plus,
+  Map,
   Settings,
   Shield,
-  ShieldAlert,
+  Users,
 } from "lucide-react";
 
-const primaryItems = [
-  { href: "/platform/dashboard", label: "Home", icon: Home },
-  { href: "/platform/social", label: "Reports", icon: FileText, dot: true },
-];
-
-const organisationItems = [
-  { href: "/platform/dashboard", label: "Overview", icon: BarChart3 },
-  { href: "/platform/analyze", label: "Analyse", icon: Shield, action: true },
-  { href: "/platform/map", label: "Harita", icon: Flag, action: true },
-  { href: "/platform/library", label: "Domains", icon: Globe2, action: true },
-  { href: "/platform/social", label: "Social Area", icon: ShieldAlert },
+const menuItems = [
+  { href: "/platform/dashboard", label: "Home", icon: Home, match: ["/platform", "/platform/dashboard"] },
+  { href: "/platform/profile", label: "Overview", icon: BarChart3 },
+  { href: "/platform/analyze", label: "Analyse", icon: Shield },
+  { href: "/platform/map", label: "Harita", icon: Map },
+  { href: "/platform/library", label: "Domains", icon: Globe },
+  { href: "/platform/social", label: "Social Area", icon: Users },
 ];
 
 export default function SisyphusSidebar() {
@@ -55,95 +48,68 @@ export default function SisyphusSidebar() {
   }
 
   return (
-    <aside className="sidebar sisyphus-sidebar">
-      <div className="sisyphus-head">
-        <Link href="/" className="sisyphus-brand">
-          <span className="sisyphus-logo" aria-hidden />
-          <span>Sisyphus</span>
-        </Link>
-        <button
-          className={profileDarkTheme ? "sisyphus-toggle sisyphus-toggle-active" : "sisyphus-toggle"}
-          type="button"
-          aria-label="Toggle user profile dark theme"
-          aria-pressed={profileDarkTheme}
-          onClick={toggleProfileTheme}
-        >
-          <span />
-        </button>
+    <aside className="sidebar sisyphus-sidebar aqua-sidebar">
+      <div className="aqua-sidebar__top">
+        <div className="aqua-sidebar__brand-row">
+          <Link href="/" className="aqua-sidebar__brand">
+            <span className="aqua-sidebar__logo" aria-hidden>
+              <img src="/aquascope-logo.svg" alt="" />
+            </span>
+            <span>AquaScope</span>
+          </Link>
+          <button
+            className={profileDarkTheme ? "aqua-sidebar__theme aqua-sidebar__theme--active" : "aqua-sidebar__theme"}
+            type="button"
+            aria-label="Toggle user profile dark theme"
+            aria-pressed={profileDarkTheme}
+            onClick={toggleProfileTheme}
+          >
+            <span />
+          </button>
+        </div>
       </div>
 
-      <nav className="sisyphus-nav sisyphus-primary-nav" aria-label="Primary navigation">
-        {primaryItems.map((item) => {
+      <nav className="aqua-sidebar__nav" aria-label="Sidebar navigation">
+        {menuItems.map((item) => {
           const Icon = item.icon;
-          const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
+          const active = item.match
+            ? item.match.some((match) => pathname === match || pathname.startsWith(`${match}/`))
+            : pathname === item.href || pathname.startsWith(`${item.href}/`);
 
           return (
             <Link
-              key={item.href}
+              key={item.label}
               href={item.href}
-              className={active ? "sisyphus-link sisyphus-link-active" : "sisyphus-link"}
+              className={active ? "aqua-sidebar__link aqua-sidebar__link--active" : "aqua-sidebar__link"}
             >
-              <Icon size={15} />
+              <Icon size={18} />
               <span>{item.label}</span>
-              {item.dot ? <span className="sisyphus-dot" /> : null}
             </Link>
           );
         })}
       </nav>
 
-      <section className="sisyphus-section">
-        <button className="sisyphus-section-title" type="button">
-          <span>Organisation</span>
-          <ChevronDown size={12} />
+      <div className="aqua-sidebar__footer">
+        <button className="aqua-sidebar__logout" type="button" onClick={() => setShowLogoutModal(true)}>
+          <LogOut size={16} />
+          <span>Log out</span>
         </button>
 
-        <nav className="sisyphus-nav" aria-label="Organisation navigation">
-          {organisationItems.map((item) => {
-            const Icon = item.icon;
-            const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
-
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={active ? "sisyphus-link sisyphus-link-active" : "sisyphus-link"}
-              >
-                <Icon size={15} />
-                <span>{item.label}</span>
-                {item.action ? <Plus className="sisyphus-plus" size={13} /> : null}
-              </Link>
-            );
-          })}
-        </nav>
-      </section>
-
-      <button className="sisyphus-collapsed-section" type="button">
-        <span>Vendors</span>
-        <ChevronDown size={12} />
-      </button>
-
-      <button className="sisyphus-collapsed-section" type="button">
-        <span>Managed Service</span>
-        <ChevronDown size={12} />
-      </button>
-
-      <button className="sisyphus-logout" type="button" onClick={() => setShowLogoutModal(true)}>
-        <LogOut size={15} />
-        <span>Log out</span>
-      </button>
-
-      <Link href="/platform/profile" className="sisyphus-user">
-        <img
-          src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=96&q=80"
-          alt="Alicia Vikander"
-        />
-        <span className="sisyphus-user-status" aria-hidden />
-        <div className="sisyphus-user-text">
-          <strong>Alicia Vikander</strong>
-          <span>alicia@sisyphus.com</span>
-        </div>
-        <Settings size={14} />
-      </Link>
+        <Link href="/platform/profile" className="aqua-sidebar__user">
+          <div className="aqua-sidebar__avatar-wrap">
+            <img
+              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=96&q=80"
+              alt="Alicia Vikander"
+            />
+            <span className="aqua-sidebar__status" aria-hidden />
+          </div>
+          <div className="aqua-sidebar__user-text">
+            <strong>Alicia</strong>
+            <span>user@mail.com</span>
+          </div>
+          <Settings size={16} />
+        </Link>
+      </div>
 
       {showLogoutModal && portalReady ? createPortal(
         <div className="logout-modal-layer" role="dialog" aria-modal="true" aria-labelledby="logout-modal-title">

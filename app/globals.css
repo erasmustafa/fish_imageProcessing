@@ -7186,3 +7186,307 @@ body:has(.landing-page) {
     bottom: 20px;
   }
 }
+
+/* Aqua sidebar refresh */
+.sisyphus-sidebar.aqua-sidebar {
+  width: 260px;
+  min-width: 260px;
+  height: 100dvh;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #f8fbff;
+  background: linear-gradient(180deg, #020617 0%, #07182f 54%, #020617 100%);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: none;
+}
+
+.aqua-sidebar__top {
+  margin-bottom: 18px;
+}
+
+.aqua-sidebar__brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 10px;
+}
+
+.aqua-sidebar__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  text-decoration: none;
+}
+
+.aqua-sidebar__logo {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(34, 211, 238, 0.1);
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.3);
+}
+
+.aqua-sidebar__logo img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.aqua-sidebar__brand span:last-child {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  background: linear-gradient(90deg, #38bdf8 0%, #67e8f9 45%, #2563eb 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.aqua-sidebar__theme {
+  position: relative;
+  width: 42px;
+  height: 24px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.08);
+  transition: background 180ms ease, box-shadow 180ms ease;
+}
+
+.aqua-sidebar__theme span {
+  position: absolute;
+  top: 3px;
+  left: 4px;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(2, 6, 23, 0.35);
+  transition: transform 180ms ease, background 180ms ease;
+}
+
+.aqua-sidebar__theme--active {
+  background: rgba(34, 211, 238, 0.2);
+  box-shadow: 0 0 15px rgba(34, 211, 238, 0.18);
+}
+
+.aqua-sidebar__theme--active span {
+  transform: translateX(16px);
+  background: #67e8f9;
+}
+
+.aqua-sidebar__nav {
+  display: grid;
+  gap: 8px;
+  flex: 1;
+}
+
+.aqua-sidebar__link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 0 16px;
+  border-left: 2px solid transparent;
+  border-radius: 12px;
+  color: #94a3b8;
+  text-decoration: none;
+  transition:
+    background 220ms ease,
+    color 220ms ease,
+    box-shadow 220ms ease,
+    transform 220ms ease,
+    border-color 220ms ease;
+}
+
+.aqua-sidebar__link svg {
+  flex: 0 0 auto;
+  color: currentColor;
+  transition: color 220ms ease, filter 220ms ease;
+}
+
+.aqua-sidebar__link span {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.aqua-sidebar__link:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.aqua-sidebar__link:hover svg {
+  color: #67e8f9;
+}
+
+.aqua-sidebar__link--active {
+  color: #ffffff;
+  border-left-color: #67e8f9;
+  background: linear-gradient(90deg, rgba(34, 211, 238, 0.2), transparent 82%);
+  box-shadow: 0 0 15px rgba(34, 211, 238, 0.25);
+}
+
+.aqua-sidebar__link--active svg {
+  color: #67e8f9;
+  filter: drop-shadow(0 0 6px rgba(34, 211, 238, 0.8));
+}
+
+.aqua-sidebar__footer {
+  display: grid;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.aqua-sidebar__logout {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  border: 0;
+  border-radius: 12px;
+  color: #e6eef8;
+  background: rgba(255, 255, 255, 0.05);
+  transition: background 220ms ease, color 220ms ease, box-shadow 220ms ease;
+}
+
+.aqua-sidebar__logout:hover {
+  background: rgba(6, 182, 212, 0.2);
+  box-shadow: 0 0 18px rgba(34, 211, 238, 0.16);
+}
+
+.aqua-sidebar__user {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) 16px;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  transition: background 220ms ease, transform 220ms ease, box-shadow 220ms ease;
+}
+
+.aqua-sidebar__user:hover {
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 14px 30px rgba(2, 6, 23, 0.32);
+  transform: translateY(-1px);
+}
+
+.aqua-sidebar__avatar-wrap {
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+
+.aqua-sidebar__avatar-wrap img {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  object-fit: cover;
+}
+
+.aqua-sidebar__status {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #4ade80;
+  border: 1px solid #020617;
+}
+
+.aqua-sidebar__user-text {
+  min-width: 0;
+}
+
+.aqua-sidebar__user-text strong,
+.aqua-sidebar__user-text span {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.aqua-sidebar__user-text strong {
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.aqua-sidebar__user-text span {
+  margin-top: 3px;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.aqua-sidebar__user svg {
+  color: #94a3b8;
+  transition: color 220ms ease;
+}
+
+.aqua-sidebar__user:hover svg {
+  color: #67e8f9;
+}
+
+@media (max-width: 960px) {
+  .sisyphus-sidebar.aqua-sidebar {
+    width: 84px;
+    min-width: 84px;
+    padding: 12px 10px;
+  }
+
+  .aqua-sidebar__brand-row {
+    justify-content: center;
+    padding: 8px 0;
+  }
+
+  .aqua-sidebar__brand span:last-child,
+  .aqua-sidebar__theme,
+  .aqua-sidebar__link span,
+  .aqua-sidebar__logout span,
+  .aqua-sidebar__user-text,
+  .aqua-sidebar__user > svg {
+    display: none;
+  }
+
+  .aqua-sidebar__nav {
+    gap: 10px;
+  }
+
+  .aqua-sidebar__link {
+    justify-content: center;
+    padding: 0;
+    border-left-width: 0;
+    border-radius: 12px;
+  }
+
+  .aqua-sidebar__link--active {
+    background: rgba(34, 211, 238, 0.16);
+    box-shadow: 0 0 15px rgba(34, 211, 238, 0.18);
+  }
+
+  .aqua-sidebar__logout {
+    justify-content: center;
+    padding: 0;
+  }
+
+  .aqua-sidebar__user {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    padding: 10px 0;
+  }
+}
