@@ -30,7 +30,7 @@ export default function LoginPage() {
           <div className="login-left-surface">
             <Link href="/" className="login-brandmark">
               <span className="login-brandmark-icon" aria-hidden>
-                <img src="/aquascope-logo.png" alt="" />
+                <img src="/aquascope-logo.svg" alt="" />
               </span>
               <span>AquaScope</span>
             </Link>

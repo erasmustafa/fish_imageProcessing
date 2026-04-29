@@ -100,7 +100,7 @@ export default function LandingPage() {
         <header className="landing-navbar">
           <Link href="/" className="landing-brand">
             <span className="landing-brand-badge">
-              <img src="/aquascope-logo.png" alt="AquaScope logo" />
+              <img src="/aquascope-logo.svg" alt="AquaScope logo" />
             </span>
             <span>AquaScope</span>
           </Link>
@@ -300,7 +300,7 @@ export default function LandingPage() {
           <div className="landing-footer-brand">
             <Link href="/" className="landing-brand">
               <span className="landing-brand-badge">
-                <img src="/aquascope-logo.png" alt="AquaScope logo" />
+                <img src="/aquascope-logo.svg" alt="AquaScope logo" />
               </span>
               <span>AquaScope</span>
             </Link>
