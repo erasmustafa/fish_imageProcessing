@@ -5,30 +5,36 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import {
-  Home,
-  FileText,
-  BarChart3,
-  Shield,
-  Flag,
-  Globe2,
-  Users,
-  LogOut,
-  Settings,
   ChevronDown,
   ChevronsLeft,
+  FileText,
+  Flag,
+  Globe2,
+  Home,
+  LogOut,
+  Settings,
+  Shield,
+  Users,
 } from "lucide-react";
 
-const menuTop = [
+const primaryItems = [
   { href: "/platform/dashboard", label: "Home", icon: Home, matches: ["/platform", "/platform/dashboard"] },
-  { href: "/platform/social", label: "Reports", icon: FileText, dot: true },
+  { href: "/platform/social", label: "Reports", icon: FileText },
 ];
 
-const organisationMenu = [
-  { href: "/platform/profile", label: "Overview", icon: BarChart3 },
-  { href: "/platform/analyze", label: "Analyse", icon: Shield, plus: true },
-  { href: "/platform/map", label: "Harita", icon: Flag, plus: true },
-  { href: "/platform/library", label: "Domains", icon: Globe2, plus: true },
-  { href: "/platform/social", label: "Social Area", icon: Users, plus: true },
+const analyseItems = [
+  { href: "/platform/library", label: "Species Library" },
+  { href: "/platform/map", label: "Map" },
+  { href: "/platform/profile", label: "Risk Profile" },
+  { href: "/platform/social", label: "Remediation" },
+];
+
+const lowerItems = [
+  { href: "/platform/library", label: "Domains", icon: Globe2 },
+  { href: "/platform/social", label: "Vulnerabilities", icon: Users },
+  { href: "/platform/profile", label: "Identity breaches", icon: Shield },
+  { href: "/platform/analyze", label: "Data leaks", icon: Flag },
+  { href: "/platform/profile", label: "Security profile", icon: Shield },
 ];
 
 export default function SisyphusSidebar() {
@@ -53,6 +59,13 @@ export default function SisyphusSidebar() {
       return next;
     });
   }
+
+  const analyseActive =
+    pathname === "/platform/analyze" ||
+    pathname === "/platform/library" ||
+    pathname === "/platform/map" ||
+    pathname === "/platform/profile" ||
+    pathname === "/platform/social";
 
   return (
     <aside className={collapsed ? "sidebar sisyphus-sidebar aqua-sidebar aqua-sidebar--collapsed" : "sidebar sisyphus-sidebar aqua-sidebar"}>
@@ -81,21 +94,47 @@ export default function SisyphusSidebar() {
         </div>
 
         <nav className="aqua-sidebar__menu aqua-sidebar__menu--top" aria-label="Primary navigation">
-          {menuTop.map((item) => {
+          {primaryItems.map((item) => {
             const active = item.matches
               ? item.matches.some((match) => pathname === match || pathname.startsWith(`${match}/`))
               : pathname === item.href || pathname.startsWith(`${item.href}/`);
-            return <SidebarItem key={item.label} {...item} active={active} />;
+            return <SidebarItem key={item.label} href={item.href} label={item.label} icon={item.icon} active={active} />;
           })}
         </nav>
 
         <div className="aqua-sidebar__section">
           <SectionTitle title="ORGANISATION" />
 
-          <div className="aqua-sidebar__menu aqua-sidebar__menu--org">
-            {organisationMenu.map((item) => {
+          <Link
+            href="/platform/analyze"
+            className={analyseActive ? "aqua-sidebar__item aqua-sidebar__item--active aqua-sidebar__item--branch" : "aqua-sidebar__item aqua-sidebar__item--branch"}
+          >
+            <Shield
+              size={22}
+              className={analyseActive ? "aqua-sidebar__item-icon aqua-sidebar__item-icon--active" : "aqua-sidebar__item-icon"}
+            />
+            <span className="aqua-sidebar__item-label">Analyse</span>
+            <span className="aqua-sidebar__item-chevron">
+              <ChevronDown size={16} />
+            </span>
+          </Link>
+
+          <div className="aqua-sidebar__subtree">
+            {analyseItems.map((item) => {
               const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
-              return <SidebarItem key={item.label} {...item} active={active} />;
+              return (
+                <Link key={item.label} href={item.href} className={active ? "aqua-sidebar__subitem aqua-sidebar__subitem--active" : "aqua-sidebar__subitem"}>
+                  <span className="aqua-sidebar__subitem-dot" />
+                  <span>{item.label}</span>
+                </Link>
+              );
+            })}
+          </div>
+
+          <div className="aqua-sidebar__menu aqua-sidebar__menu--org">
+            {lowerItems.map((item) => {
+              const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
+              return <SidebarItem key={item.label} href={item.href} label={item.label} icon={item.icon} active={active} compact />;
             })}
           </div>
         </div>
@@ -139,14 +178,14 @@ export default function SisyphusSidebar() {
                 <span className="logout-modal-icon" aria-hidden>
                   <LogOut size={22} />
                 </span>
-                <h2 id="logout-modal-title">Çıkış yapmak istediğinize emin misiniz?</h2>
-                <p>Oturumunuz kapatılacak ve giriş ekranına yönlendirileceksiniz.</p>
+                <h2 id="logout-modal-title">Cikis yapmak istediginize emin misiniz?</h2>
+                <p>Oturumunuz kapatilacak ve giris ekranina yonlendirileceksiniz.</p>
                 <div className="logout-modal-actions">
                   <button className="logout-stay-button" type="button" onClick={() => setShowLogoutModal(false)}>
                     Sayfada Kal
                   </button>
                   <Link className="logout-confirm-button" href="/">
-                    Çıkış
+                    Cikis
                   </Link>
                 </div>
               </div>
@@ -163,22 +202,17 @@ type SidebarItemProps = {
   label: string;
   icon: React.ElementType;
   active?: boolean;
-  dot?: boolean;
-  plus?: boolean;
+  compact?: boolean;
 };
 
-function SidebarItem({ href, label, icon: Icon, active, dot, plus }: SidebarItemProps) {
+function SidebarItem({ href, label, icon: Icon, active, compact }: SidebarItemProps) {
   return (
     <Link href={href} className={active ? "aqua-sidebar__item aqua-sidebar__item--active" : "aqua-sidebar__item"}>
       <Icon
-        size={22}
+        size={compact ? 20 : 22}
         className={active ? "aqua-sidebar__item-icon aqua-sidebar__item-icon--active" : "aqua-sidebar__item-icon"}
       />
-
       <span className="aqua-sidebar__item-label">{label}</span>
-
-      {dot ? <span className="aqua-sidebar__item-dot" /> : null}
-      {plus ? <span className="aqua-sidebar__item-plus">+</span> : null}
     </Link>
   );
 }

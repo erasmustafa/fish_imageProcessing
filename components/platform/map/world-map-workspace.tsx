@@ -1,9 +1,18 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import type * as Leaflet from "leaflet";
-import { CalendarDays, ChevronDown, Fish, MapPin, Waves } from "lucide-react";
+import {
+  CalendarDays,
+  ChevronDown,
+  Download,
+  Filter,
+  Minus,
+  Plus,
+  Search,
+} from "lucide-react";
+import PlatformUtilityBar from "../shell/platform-utility-bar";
 
 type FishHeatmapPoint = {
   id: string;
@@ -29,9 +38,21 @@ declare global {
   }
 }
 
-const speciesOptions = ["All Species", "Levrek", "Bass", "Clownfish", "Trout", "Salmon"];
-const waterTypeOptions = ["All Waters", "Saltwater", "Freshwater"];
+const speciesOptions = ["All Species", "Largemouth Bass", "Perch", "Bluefin Tuna", "Salmon", "Rainbow Trout"];
+const waterTypeOptions = ["All Water Types", "Saltwater", "Freshwater"];
 const dateOptions = ["Last 30 Days", "Last 7 Days", "Today"];
+const modeLabels: Record<MapMode, string> = {
+  heatmap: "Heatmap",
+  points: "Points",
+  cluster: "Cluster",
+};
+
+const countryMeta: Record<string, { code: string; species?: string }> = {
+  "United States": { code: "US", species: "Largemouth Bass" },
+  Norway: { code: "NO", species: "Perch" },
+  Japan: { code: "JP", species: "Bluefin Tuna" },
+  Turkey: { code: "TR", species: "Sea Bass" },
+};
 
 export default function WorldMapWorkspace() {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
@@ -45,12 +66,12 @@ export default function WorldMapWorkspace() {
   const [species, setSpecies] = useState(speciesOptions[0]);
   const [waterType, setWaterType] = useState(waterTypeOptions[0]);
   const [dateRange, setDateRange] = useState(dateOptions[0]);
-  const [mapStatus, setMapStatus] = useState("Harita yukleniyor...");
+  const [mapStatus, setMapStatus] = useState("Map is loading...");
 
   const filteredPoints = useMemo(() => {
     return points.filter((point) => {
       const speciesMatch = species === "All Species" || point.species === species;
-      const waterMatch = waterType === "All Waters" || point.waterType === waterType.toLowerCase();
+      const waterMatch = waterType === "All Water Types" || point.waterType === waterType.toLowerCase();
       return speciesMatch && waterMatch;
     });
   }, [points, species, waterType]);
@@ -62,7 +83,7 @@ export default function WorldMapWorkspace() {
       current.count += point.count;
       totals.set(point.country, current);
     }
-    return Array.from(totals.values()).sort((a, b) => b.count - a.count).slice(0, 5);
+    return Array.from(totals.values()).sort((a, b) => b.count - a.count).slice(0, 4);
   }, [filteredPoints]);
 
   const mostSeenSpecies = useMemo(() => {
@@ -72,8 +93,20 @@ export default function WorldMapWorkspace() {
       current.count += point.count;
       totals.set(point.species, current);
     }
-    return Array.from(totals.values()).sort((a, b) => b.count - a.count).slice(0, 5);
+    return Array.from(totals.values()).sort((a, b) => b.count - a.count).slice(0, 4);
   }, [filteredPoints]);
+
+  const recentHotspots = useMemo(() => {
+    return filteredPoints
+      .slice()
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 4)
+      .map((point) => ({ label: point.location, count: point.count, country: point.country }));
+  }, [filteredPoints]);
+
+  const totalAnalysed = filteredPoints.reduce((sum, point) => sum + point.count, 0);
+  const mostActiveRegion = topRegions[0];
+  const topSpecies = mostSeenSpecies[0];
 
   useEffect(() => {
     fetch("/api/fish-heatmap", { cache: "no-store" })
@@ -83,7 +116,7 @@ export default function WorldMapWorkspace() {
         setPoints(nextPoints);
         setSelectedPoint(nextPoints[0] ?? null);
       })
-      .catch(() => setMapStatus("Harita verisi alinamadi."));
+      .catch(() => setMapStatus("Map data could not be loaded."));
   }, []);
 
   useEffect(() => {
@@ -100,28 +133,27 @@ export default function WorldMapWorkspace() {
         if (cancelled || !mapContainerRef.current) return;
 
         const map = L.map(mapContainerRef.current, {
-          center: [28, 18],
+          center: [24, 12],
           zoom: 2,
           minZoom: 2,
           maxZoom: 8,
           zoomControl: false,
           preferCanvas: true,
           worldCopyJump: true,
+          attributionControl: false,
         });
 
-        L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-          attribution: "&copy; OpenStreetMap &copy; CARTO",
+        L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
           maxZoom: 19,
           subdomains: "abcd",
         }).addTo(map);
 
-        L.control.zoom({ position: "bottomright" }).addTo(map);
         mapRef.current = map;
         setLeafletApi(window.L as unknown as HeatLayerFactory);
         setMapStatus("");
         window.setTimeout(() => map.invalidateSize(), 60);
       } catch {
-        setMapStatus("Leaflet haritasi yuklenemedi.");
+        setMapStatus("Leaflet map failed to load.");
       }
     }
 
@@ -155,65 +187,143 @@ export default function WorldMapWorkspace() {
     }
   }, [filteredPoints, leafletApi, mapMode]);
 
+  function zoomMap(direction: "in" | "out") {
+    if (!mapRef.current) return;
+    mapRef.current[direction === "in" ? "zoomIn" : "zoomOut"]();
+  }
+
   return (
-    <section className="fish-map-page">
-      <div className="fish-map-content">
-        <div className="fish-map-head">
+    <section className="dark-map-page">
+      <PlatformUtilityBar />
+
+      <div className="dark-map-shell">
+        <header className="dark-page-head">
           <div>
             <h1>Global Fish Distribution</h1>
-            <p>Analizler ve topluluk kayitlarindan gelen balik gorulme yogunlugu.</p>
+            <p>Explore where fish species have been sighted around the world.</p>
           </div>
-          <div className="fish-map-mode">
-            {(["heatmap", "points", "cluster"] as MapMode[]).map((mode) => (
-              <button key={mode} className={mapMode === mode ? "fish-map-mode-active" : ""} type="button" onClick={() => setMapMode(mode)}>
-                {mode}
-              </button>
-            ))}
-          </div>
+        </header>
+
+        <div className="dark-map-filters">
+          <DarkFilterSelect label="Species" value={species} options={speciesOptions} onChange={setSpecies} />
+          <DarkFilterSelect
+            label="Date Range"
+            icon={<CalendarDays size={18} />}
+            value={dateRange}
+            options={dateOptions}
+            onChange={setDateRange}
+          />
+          <DarkFilterSelect label="Water Type" value={waterType} options={waterTypeOptions} onChange={setWaterType} />
+          <DarkFilterSelect
+            label="Layer"
+            value={modeLabels[mapMode]}
+            options={Object.values(modeLabels)}
+            onChange={(value) => {
+              const next = (Object.entries(modeLabels).find(([, label]) => label === value)?.[0] ?? "heatmap") as MapMode;
+              setMapMode(next);
+            }}
+          />
+          <button type="button" className="dark-filter-button">
+            <Filter size={18} />
+            Filters
+          </button>
         </div>
 
-        <div className="fish-filter-bar">
-          <FilterSelect label="Species" icon={<Fish size={23} />} value={species} options={speciesOptions} onChange={setSpecies} />
-          <FilterSelect label="Date" icon={<CalendarDays size={23} />} value={dateRange} options={dateOptions} onChange={setDateRange} />
-          <FilterSelect label="Water Type" icon={<Waves size={24} />} value={waterType} options={waterTypeOptions} onChange={setWaterType} />
-        </div>
+        <div className="dark-map-layout">
+          <div className="dark-map-main">
+            <section className="dark-map-canvas-card">
+              <div ref={mapContainerRef} className="dark-map-canvas" />
 
-        <div className="fish-map-grid">
-          <section className="fish-map-card fish-map-card-active">
-            <div ref={mapContainerRef} className="leaflet-container-shell" />
-            {mapStatus ? (
-              <div className="mapbox-status">
-                <Fish size={28} />
-                <strong>{mapStatus}</strong>
-                <span>OpenStreetMap tabanli ucretsiz harita bu alanda calisir.</span>
+              <div className="dark-map-toolbar dark-map-toolbar--left">
+                <button type="button" onClick={() => zoomMap("in")} aria-label="Zoom in">
+                  <Plus size={18} />
+                </button>
+                <button type="button" onClick={() => zoomMap("out")} aria-label="Zoom out">
+                  <Minus size={18} />
+                </button>
               </div>
-            ) : null}
-          </section>
 
-          <aside className="fish-analytics-panel">
-            <section>
-              <h2>Selected Point</h2>
+              <div className="dark-map-toolbar dark-map-toolbar--right">
+                <button type="button" aria-label="Search map">
+                  <Search size={18} />
+                </button>
+                <button type="button" aria-label="Download report">
+                  <Download size={18} />
+                </button>
+              </div>
+
               {selectedPoint ? (
-                <div className="selected-fish-point">
-                  <MapPin size={18} />
-                  <strong>{selectedPoint.species}</strong>
-                  <span>{selectedPoint.location}</span>
-                  <p>{selectedPoint.count} analiz - {selectedPoint.waterType}</p>
+                <div className="dark-map-callout">
+                  <strong>{selectedPoint.country}</strong>
+                  <span>{selectedPoint.count} analyzed</span>
+                  <small>Common Species: {selectedPoint.species}</small>
                 </div>
-              ) : (
-                <p className="empty-panel-copy">Haritada bir noktaya tikla.</p>
-              )}
+              ) : null}
+
+              <div className="dark-map-legend">
+                <div className="dark-map-legend-title">
+                  <strong>Observation Density</strong>
+                  <span>i</span>
+                </div>
+                <div className="dark-map-gradient" />
+                <div className="dark-map-legend-scale">
+                  <span>Low</span>
+                  <span>Medium</span>
+                  <span>High</span>
+                </div>
+              </div>
+
+              {mapStatus ? (
+                <div className="dark-map-status">
+                  <strong>{mapStatus}</strong>
+                </div>
+              ) : null}
             </section>
 
-            <section>
-              <h2>Top Regions</h2>
-              {topRegions.map((region) => <MetricRow key={region.country} label={region.country} value={region.count} />)}
-            </section>
+            <div className="dark-map-stats">
+              <StatCard
+                title="Most Active Region"
+                value={mostActiveRegion ? mostActiveRegion.country : "United States"}
+                subtitle={`${mostActiveRegion ? mostActiveRegion.count : 437} analyzed`}
+                flagCode={countryMeta[mostActiveRegion?.country ?? "United States"]?.code ?? "US"}
+              />
+              <StatCard title="Total Analyzed Fish Photos" value={totalAnalysed.toLocaleString()} subtitle="Total analyzed" />
+              <StatCard title="Most Seen Species" value={String(topSpecies?.count ?? 249)} subtitle={topSpecies?.species ?? "Largemouth Bass"} />
+              <StatCard title="Water Type" value={waterType} subtitle="Included" />
+            </div>
+          </div>
 
-            <section>
-              <h2>Most Seen Species</h2>
-              {mostSeenSpecies.map((item) => <MetricRow key={item.species} label={item.species} value={item.count} />)}
-            </section>
+          <aside className="dark-map-side">
+            <SidePanel
+              title="Top Regions"
+              items={topRegions.map((item) => ({
+                label: item.country,
+                value: item.count,
+                prefix: countryMeta[item.country]?.code ?? item.country.slice(0, 2).toUpperCase(),
+              }))}
+            />
+
+            <SidePanel
+              title="Most Seen Species"
+              items={mostSeenSpecies.map((item) => ({
+                label: item.species,
+                value: item.count,
+                prefix: "Fish",
+              }))}
+            />
+
+            <SidePanel
+              title="Recent Hotspots"
+              items={recentHotspots.map((item) => ({
+                label: item.label,
+                value: item.count,
+                prefix: countryMeta[item.country]?.code ?? item.country.slice(0, 2).toUpperCase(),
+              }))}
+            />
+
+            <a className="dark-map-report-link" href="/platform/analyze">
+              View Full Report
+            </a>
           </aside>
         </div>
       </div>
@@ -221,7 +331,7 @@ export default function WorldMapWorkspace() {
   );
 }
 
-function FilterSelect({
+function DarkFilterSelect({
   label,
   icon,
   value,
@@ -229,29 +339,78 @@ function FilterSelect({
   onChange,
 }: {
   label: string;
-  icon: ReactNode;
+  icon?: ReactNode;
   value: string;
   options: string[];
   onChange: (value: string) => void;
 }) {
   return (
-    <label className="fish-filter-select">
-      <span className="fish-filter-icon">{icon}</span>
-      <span className="fish-filter-label">{label}</span>
+    <label className="dark-filter-select">
+      <span className="dark-filter-label">
+        {icon}
+        {label}
+      </span>
       <select value={value} onChange={(event) => onChange(event.target.value)}>
-        {options.map((option) => <option key={option}>{option}</option>)}
+        {options.map((option) => (
+          <option key={option}>{option}</option>
+        ))}
       </select>
-      <ChevronDown className="fish-filter-chevron" size={24} />
+      <ChevronDown size={18} />
     </label>
   );
 }
 
-function MetricRow({ label, value }: { label: string; value: number }) {
-  const width = Math.min(100, Math.max(12, value));
+function SidePanel({
+  title,
+  items,
+}: {
+  title: string;
+  items: Array<{ label: string; value: number; prefix: string }>;
+}) {
   return (
-    <article className="metric-row">
-      <div><span>{label}</span><strong>{value}</strong></div>
-      <div><span style={{ width: `${width}%` }} /></div>
+    <section className="dark-side-panel">
+      <div className="dark-side-panel-head">
+        <h2>{title}</h2>
+        <a href="/platform/analyze">View all</a>
+      </div>
+      <div className="dark-side-panel-list">
+        {items.map((item) => (
+          <article key={item.label}>
+            <div className="dark-side-panel-entry">
+              <span className="dark-side-panel-flag">{item.prefix}</span>
+              <strong>{item.label}</strong>
+            </div>
+            <small>{item.value}</small>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function StatCard({
+  title,
+  value,
+  subtitle,
+  flagCode,
+}: {
+  title: string;
+  value: string;
+  subtitle: string;
+  flagCode?: string;
+}) {
+  return (
+    <article className="dark-map-stat-card">
+      <div className="dark-map-stat-head">
+        <h3>{title}</h3>
+        <span>i</span>
+      </div>
+      <div className="dark-map-stat-value">
+        {flagCode ? <b className="dark-map-flag-pill">{flagCode}</b> : null}
+        <strong>{value}</strong>
+      </div>
+      <p>{subtitle}</p>
+      <div className="dark-map-stat-wave" />
     </article>
   );
 }
@@ -283,12 +442,13 @@ function renderLeafletLayer({
         radius: 34,
         blur: 25,
         maxZoom: 8,
-        minOpacity: 0.18,
+        minOpacity: 0.2,
         gradient: {
-          0.2: "rgba(86, 190, 219, 0.25)",
-          0.45: "rgba(59, 130, 246, 0.42)",
-          0.72: "rgba(37, 99, 235, 0.68)",
-          1.0: "rgba(19, 64, 154, 0.9)",
+          0.18: "rgba(37, 197, 255, 0.2)",
+          0.45: "rgba(54, 224, 211, 0.55)",
+          0.68: "rgba(255, 213, 86, 0.82)",
+          0.82: "rgba(255, 125, 87, 0.92)",
+          1.0: "rgba(255, 67, 124, 1)",
         },
       }
     ).addTo(map);
@@ -296,22 +456,23 @@ function renderLeafletLayer({
   }
 
   if (mode === "points") {
-    activeLayerRef.current = L.layerGroup(
-      points.map((point) => createPointMarker(L, point, setSelectedPoint))
-    ).addTo(map);
+    activeLayerRef.current = L.layerGroup(points.map((point) => createPointMarker(L, point, setSelectedPoint))).addTo(map);
     return;
   }
 
   activeLayerRef.current = L.layerGroup(
     groupPointsByCountry(points).map((group) => {
       const marker = L.circleMarker([group.lat, group.lng], {
-        radius: Math.min(30, 12 + group.count / 3),
-        color: "#ffffff",
+        radius: Math.min(26, 10 + group.count / 4),
+        color: "#e8fbff",
         weight: 2,
-        fillColor: "#3b82f6",
-        fillOpacity: 0.86,
+        fillColor: "#12b8ff",
+        fillOpacity: 0.84,
       });
-      marker.bindTooltip(`<strong>${group.country}</strong><br/>${group.count} analiz`, { sticky: true, direction: "top" });
+      marker.bindTooltip(`<strong>${group.country}</strong><br/>${group.count} analyzed`, {
+        sticky: true,
+        direction: "top",
+      });
       marker.on("click", () => setSelectedPoint(group.representative));
       return marker;
     })
@@ -320,19 +481,34 @@ function renderLeafletLayer({
 
 function createPointMarker(L: HeatLayerFactory, point: FishHeatmapPoint, setSelectedPoint: (point: FishHeatmapPoint) => void) {
   const marker = L.circleMarker([point.lat, point.lng], {
-    radius: Math.min(15, 6 + point.count / 8),
+    radius: Math.min(14, 6 + point.count / 10),
     color: "#ffffff",
     weight: 2,
-    fillColor: "#2563eb",
+    fillColor: "#14c8ff",
     fillOpacity: 0.88,
   });
-  marker.bindTooltip(`<strong>${point.species}</strong><br/>Analiz: ${point.count}<br/>Konum: ${point.location}`, { sticky: true, direction: "top" });
+  marker.bindTooltip(`<strong>${point.species}</strong><br/>Analyzed: ${point.count}<br/>Location: ${point.location}`, {
+    sticky: true,
+    direction: "top",
+  });
   marker.on("click", () => setSelectedPoint(point));
   return marker;
 }
 
 function groupPointsByCountry(points: FishHeatmapPoint[]) {
-  const groups = new Map<string, { country: string; lat: number; lng: number; count: number; representative: FishHeatmapPoint; totalLat: number; totalLng: number; size: number }>();
+  const groups = new Map<
+    string,
+    {
+      country: string;
+      lat: number;
+      lng: number;
+      count: number;
+      representative: FishHeatmapPoint;
+      totalLat: number;
+      totalLng: number;
+      size: number;
+    }
+  >();
 
   for (const point of points) {
     const current = groups.get(point.country) ?? {
