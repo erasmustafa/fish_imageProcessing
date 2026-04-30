@@ -2897,6 +2897,13 @@ body.sidebar-collapsed .app-shell {
   grid-template-columns: 104px minmax(0, 1fr);
 }
 
+body.sidebar-collapsed .sidebar.aqua-sidebar {
+  width: 104px;
+  min-width: 104px;
+  max-width: 104px;
+  padding: 12px;
+}
+
 .sidebar {
   position: relative;
   top: 0;
@@ -2972,6 +2979,13 @@ body.sidebar-collapsed .app-shell {
 
   body.sidebar-collapsed .app-shell {
     grid-template-columns: 96px minmax(0, 1fr);
+  }
+
+  body.sidebar-collapsed .sidebar.aqua-sidebar {
+    width: 96px;
+    min-width: 96px;
+    max-width: 96px;
+    padding: 10px;
   }
 
   .sidebar {
@@ -8047,6 +8061,7 @@ body:has(.landing-page) {
 }
 
 .aqua-sidebar--collapsed .aqua-sidebar__panel {
+  width: 100%;
   align-items: center;
   padding: 20px 10px;
 }
@@ -8422,5 +8437,12 @@ body:has(.landing-page) {
 
   .aqua-sidebar--collapsed {
     width: 84px;
+  }
+
+  body.sidebar-collapsed .sidebar.aqua-sidebar {
+    width: 84px;
+    min-width: 84px;
+    max-width: 84px;
+    padding: 8px;
   }
 }
