@@ -3512,8 +3512,8 @@ body.sidebar-collapsed .sidebar.aqua-sidebar {
   }
 }
 
-/* Hard override: keep Sisyphus sidebar in requested light palette */
-.app-shell > .sisyphus-sidebar {
+/* Legacy light sidebar override, disabled for Aqua sidebar */
+.app-shell > .sisyphus-sidebar:not(.aqua-sidebar) {
   background: linear-gradient(
     135deg,
     #f8fafc 0%,
@@ -3522,34 +3522,34 @@ body.sidebar-collapsed .sidebar.aqua-sidebar {
   color: #1f2937 !important;
 }
 
-.app-shell > .sisyphus-sidebar::before {
+.app-shell > .sisyphus-sidebar:not(.aqua-sidebar)::before {
   display: none !important;
 }
 
-.sisyphus-sidebar .sisyphus-window-dots {
+.sisyphus-sidebar:not(.aqua-sidebar) .sisyphus-window-dots {
   background: transparent !important;
 }
 
-.sisyphus-sidebar .sisyphus-window-dots span {
+.sisyphus-sidebar:not(.aqua-sidebar) .sisyphus-window-dots span {
   background: #b6c3d1 !important;
 }
 
-.sisyphus-sidebar .sisyphus-brand,
-.sisyphus-sidebar .sisyphus-user-text strong,
-.sisyphus-sidebar .sisyphus-link,
-.sisyphus-sidebar .sisyphus-collapsed-section,
-.sisyphus-sidebar .sisyphus-section-title {
+.sisyphus-sidebar:not(.aqua-sidebar) .sisyphus-brand,
+.sisyphus-sidebar:not(.aqua-sidebar) .sisyphus-user-text strong,
+.sisyphus-sidebar:not(.aqua-sidebar) .sisyphus-link,
+.sisyphus-sidebar:not(.aqua-sidebar) .sisyphus-collapsed-section,
+.sisyphus-sidebar:not(.aqua-sidebar) .sisyphus-section-title {
   color: #24324b !important;
 }
 
-.sisyphus-sidebar .sisyphus-link svg,
-.sisyphus-sidebar .sisyphus-collapsed-section svg,
-.sisyphus-sidebar .sisyphus-section-title svg,
-.sisyphus-sidebar .sisyphus-user svg {
+.sisyphus-sidebar:not(.aqua-sidebar) .sisyphus-link svg,
+.sisyphus-sidebar:not(.aqua-sidebar) .sisyphus-collapsed-section svg,
+.sisyphus-sidebar:not(.aqua-sidebar) .sisyphus-section-title svg,
+.sisyphus-sidebar:not(.aqua-sidebar) .sisyphus-user svg {
   color: #7a8aa0 !important;
 }
 
-.sisyphus-sidebar .sisyphus-link-active {
+.sisyphus-sidebar:not(.aqua-sidebar) .sisyphus-link-active {
   color: #1f2d45 !important;
   background:
     linear-gradient(90deg, rgba(85, 189, 220, 0.22), rgba(255, 255, 255, 0.66)),
@@ -3560,11 +3560,11 @@ body.sidebar-collapsed .sidebar.aqua-sidebar {
     inset 2px 0 0 #43add0 !important;
 }
 
-.sisyphus-sidebar .sisyphus-link-active svg {
+.sisyphus-sidebar:not(.aqua-sidebar) .sisyphus-link-active svg {
   color: #43add0 !important;
 }
 
-.sisyphus-sidebar .sisyphus-section {
+.sisyphus-sidebar:not(.aqua-sidebar) .sisyphus-section {
   border-color: rgba(111, 151, 170, 0.16) !important;
 }
 
