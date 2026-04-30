@@ -2914,8 +2914,13 @@ body.sidebar-collapsed .sidebar.aqua-sidebar {
   padding: 26px 24px 18px;
   border-radius: 0;
   border: 0;
-  border-right: 1px solid rgba(216, 227, 242, 0.18);
+  border-right: 0;
   box-shadow: none;
+  transition:
+    width 280ms ease,
+    min-width 280ms ease,
+    max-width 280ms ease,
+    padding 280ms ease;
 }
 
 .platform-main {
@@ -7972,11 +7977,16 @@ body:has(.landing-page) {
   display: flex;
   height: 100%;
   flex-direction: column;
-  border: 1px solid rgba(14, 165, 233, 0.2);
+  border: 0;
   border-radius: 28px;
   background: linear-gradient(180deg, #06162b 0%, #031124 58%, #020817 100%);
   padding: 24px 20px;
   box-shadow: 0 0 35px rgba(14, 165, 233, 0.15);
+  transition:
+    padding 280ms ease,
+    border-radius 280ms ease,
+    box-shadow 280ms ease,
+    background 280ms ease;
 }
 
 .aqua-sidebar__header {
@@ -7985,6 +7995,7 @@ body:has(.landing-page) {
   justify-content: space-between;
   gap: 16px;
   margin-bottom: 30px;
+  transition: gap 280ms ease, margin-bottom 280ms ease, transform 280ms ease;
 }
 
 .aqua-sidebar__brand-wrap {
@@ -7992,6 +8003,7 @@ body:has(.landing-page) {
   align-items: center;
   gap: 16px;
   min-width: 0;
+  transition: gap 280ms ease, transform 280ms ease;
 }
 
 .aqua-sidebar__brand {
@@ -8020,6 +8032,7 @@ body:has(.landing-page) {
 
 .aqua-sidebar__brand-copy {
   min-width: 0;
+  transition: opacity 180ms ease, transform 280ms ease;
 }
 
 .aqua-sidebar__brand-copy h1 {
@@ -8047,7 +8060,12 @@ body:has(.landing-page) {
   border-radius: 18px;
   background: rgba(56, 189, 248, 0.1);
   color: #7dd3fc;
-  transition: background 180ms ease, box-shadow 180ms ease, color 180ms ease;
+  transition:
+    background 180ms ease,
+    box-shadow 180ms ease,
+    color 180ms ease,
+    transform 280ms ease,
+    border-radius 280ms ease;
 }
 
 .aqua-sidebar__theme--active {
@@ -8093,6 +8111,7 @@ body:has(.landing-page) {
 
 .aqua-sidebar--collapsed .aqua-sidebar__theme {
   transform: rotate(180deg);
+  border-radius: 16px;
 }
 
 .aqua-sidebar--collapsed .aqua-sidebar__menu,
@@ -8142,6 +8161,7 @@ body:has(.landing-page) {
 .aqua-sidebar__menu {
   display: grid;
   gap: 12px;
+  transition: gap 280ms ease, padding 280ms ease;
 }
 
 .aqua-sidebar__menu--top {
@@ -8151,6 +8171,7 @@ body:has(.landing-page) {
 
 .aqua-sidebar__section {
   margin-top: 28px;
+  transition: margin-top 280ms ease;
 }
 
 .aqua-sidebar__section-title {
@@ -8192,7 +8213,11 @@ body:has(.landing-page) {
     background 220ms ease,
     color 220ms ease,
     box-shadow 220ms ease,
-    transform 220ms ease;
+    transform 220ms ease,
+    padding 280ms ease,
+    min-height 280ms ease,
+    gap 280ms ease,
+    border-radius 280ms ease;
 }
 
 .aqua-sidebar__item:hover {
@@ -8225,6 +8250,7 @@ body:has(.landing-page) {
 .aqua-sidebar__item-label {
   font-size: 18px;
   font-weight: 500;
+  transition: opacity 160ms ease, transform 280ms ease;
 }
 
 .aqua-sidebar__item-dot {
@@ -8253,6 +8279,7 @@ body:has(.landing-page) {
   display: grid;
   gap: 28px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
+  transition: margin-top 280ms ease, padding-top 280ms ease, gap 280ms ease, opacity 180ms ease;
 }
 
 .aqua-sidebar__spacer {
@@ -8275,7 +8302,15 @@ body:has(.landing-page) {
   border-radius: 12px;
   color: #f8fafc;
   background: rgba(56, 189, 248, 0.05);
-  transition: background 220ms ease, color 220ms ease, box-shadow 220ms ease, transform 220ms ease;
+  transition:
+    background 220ms ease,
+    color 220ms ease,
+    box-shadow 220ms ease,
+    transform 220ms ease,
+    min-height 280ms ease,
+    gap 280ms ease,
+    padding 280ms ease,
+    border-radius 280ms ease;
 }
 
 .aqua-sidebar__logout:hover {
@@ -8303,7 +8338,7 @@ body:has(.landing-page) {
   text-decoration: none;
   color: #ffffff;
   background: transparent;
-  transition: transform 220ms ease;
+  transition: transform 220ms ease, gap 280ms ease, grid-template-columns 280ms ease;
 }
 
 .aqua-sidebar__user:hover {
