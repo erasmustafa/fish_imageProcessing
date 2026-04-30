@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import type * as Leaflet from "leaflet";
-import { Bell, Briefcase, CalendarDays, ChevronDown, Fish, Mail, MapPin, RefreshCw, Search, Waves } from "lucide-react";
+import { CalendarDays, ChevronDown, Fish, MapPin, Waves } from "lucide-react";
 
 type FishHeatmapPoint = {
   id: string;
@@ -157,24 +157,6 @@ export default function WorldMapWorkspace() {
 
   return (
     <section className="fish-map-page">
-      <header className="home-topbar compact-topbar">
-        <label className="home-search">
-          <Search size={15} />
-          <input placeholder="Search ..." aria-label="Search" />
-        </label>
-        <div className="home-top-actions">
-          <Briefcase size={17} />
-          <RefreshCw size={17} />
-          <Mail size={17} />
-          <Bell size={17} />
-          <button type="button" aria-label="Notifications">
-            <Bell size={17} />
-            <span />
-          </button>
-          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=72&q=80" alt="Alicia" />
-        </div>
-      </header>
-
       <div className="fish-map-content">
         <div className="fish-map-head">
           <div>

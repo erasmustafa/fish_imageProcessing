@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, Briefcase, ChevronDown, ChevronRight, Fish, Mail, RefreshCw, Search, SlidersHorizontal, Waves } from "lucide-react";
+import { ChevronDown, ChevronRight, Fish, Search, SlidersHorizontal, Waves } from "lucide-react";
 
 const speciesCards = [
   {
@@ -59,24 +59,6 @@ const popularTags = ["Freshwater", "Saltwater", "Bass", "Trout", "Perch", "Tropi
 export default function SpeciesLibraryWorkspace() {
   return (
     <section className="species-library-page">
-      <header className="home-topbar compact-topbar">
-        <label className="home-search">
-          <Search size={15} />
-          <input placeholder="Search..." aria-label="Search" />
-        </label>
-        <div className="home-top-actions">
-          <Briefcase size={17} />
-          <RefreshCw size={17} />
-          <Mail size={17} />
-          <Bell size={17} />
-          <button type="button" aria-label="Notifications">
-            <Bell size={17} />
-            <span />
-          </button>
-          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=72&q=80" alt="Alicia" />
-        </div>
-      </header>
-
       <div className="species-library-content">
         <div className="species-library-main">
           <div className="species-library-title">

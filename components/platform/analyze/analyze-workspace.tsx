@@ -1,12 +1,10 @@
 import type { ElementType, ReactNode } from "react";
 import {
-  Bell,
   Box,
   Calendar,
   CheckCircle2,
   ChevronDown,
   Filter,
-  Search,
   Shield,
   Target,
 } from "lucide-react";
@@ -43,19 +41,6 @@ const threatStats = [
 export default function AnalyzeWorkspace() {
   return (
     <section className="analyze-dashboard-page">
-      <div className="analyze-dashboard-topbar">
-        <div className="analyze-dashboard-search">
-          <Search size={18} />
-          <span>Search anything...</span>
-          <kbd>Ctrl K</kbd>
-        </div>
-
-        <button className="analyze-dashboard-alert" type="button" aria-label="Notifications">
-          <Bell size={18} />
-          <span>3</span>
-        </button>
-      </div>
-
       <div className="analyze-dashboard-shell">
         <header className="analyze-dashboard-header">
           <div>

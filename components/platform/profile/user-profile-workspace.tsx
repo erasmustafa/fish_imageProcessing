@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, Briefcase, Check, ChevronRight, Heart, Mail, MessageCircle, MoreHorizontal, RefreshCw, Search, Share2 } from "lucide-react";
+import { Check, ChevronRight, Heart, MessageCircle, MoreHorizontal, Share2 } from "lucide-react";
 
 const badges = [
   ["Lunker Hunter", "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=96&q=80"],
@@ -18,24 +18,6 @@ const followers = [
 export default function UserProfileWorkspace() {
   return (
     <section className="user-profile-page">
-      <header className="home-topbar compact-topbar">
-        <label className="home-search">
-          <Search size={15} />
-          <input placeholder="Search..." aria-label="Search" />
-        </label>
-        <div className="home-top-actions">
-          <Briefcase size={17} />
-          <RefreshCw size={17} />
-          <Mail size={17} />
-          <Bell size={17} />
-          <button type="button" aria-label="Notifications">
-            <Bell size={17} />
-            <span />
-          </button>
-          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=72&q=80" alt="Alicia" />
-        </div>
-      </header>
-
       <div className="user-profile-content">
         <main className="user-profile-main">
           <section className="profile-hero">

@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, Briefcase, Calendar, ChevronRight, Heart, Image, Mail, MessageCircle, MoreHorizontal, RefreshCw, Search, Share2 } from "lucide-react";
+import { Calendar, ChevronRight, Heart, Image, MessageCircle, MoreHorizontal, Share2 } from "lucide-react";
 
 const feedPosts = [
   {
@@ -53,24 +53,6 @@ const topics = [
 export default function SocialAreaWorkspace() {
   return (
     <section className="social-area-page">
-      <header className="home-topbar compact-topbar">
-        <label className="home-search">
-          <Search size={15} />
-          <input placeholder="Search..." aria-label="Search" />
-        </label>
-        <div className="home-top-actions">
-          <Briefcase size={17} />
-          <RefreshCw size={17} />
-          <Mail size={17} />
-          <Bell size={17} />
-          <button type="button" aria-label="Notifications">
-            <Bell size={17} />
-            <span />
-          </button>
-          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=72&q=80" alt="Alicia" />
-        </div>
-      </header>
-
       <div className="social-area-content">
         <main className="social-feed-panel">
           <header className="social-area-title">
