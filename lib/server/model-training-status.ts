@@ -92,7 +92,7 @@ export function getModelTrainingStatus(): ModelTrainingStatus {
     trainingEpoch: toNumber(latestTrainingRow?.epoch),
     yoloTop1: parseMetricFromText(yoloSummary, "metrics/accuracy_top1"),
     yoloTop5: parseMetricFromText(yoloSummary, "metrics/accuracy_top5"),
-    speciesRows: speciesRows.slice(0, 14),
+    speciesRows,
     newSpeciesStatuses: buildNewSpeciesStatuses(seedSpecies),
     sourceFiles: [
       path.relative(projectRoot, path.join(turkeyModelRoot, "training_log.csv")),
