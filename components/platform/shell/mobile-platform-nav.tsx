@@ -3,6 +3,7 @@ import Link from "next/link";
 const items = [
   ["Panel", "/platform/dashboard"],
   ["Analiz", "/platform/analyze"],
+  ["Model", "/platform/model-status"],
   ["Kütüphane", "/platform/library"],
   ["Harita", "/platform/map"],
   ["Topluluk", "/platform/social"],
@@ -14,6 +15,7 @@ const items = [
 const exactItems = [
   ["Panolar", "/platform/dashboard"],
   ["Analiz Et", "/platform/analyze"],
+  ["Model", "/platform/model-status"],
   ["Tür Kütüphanesi", "/platform/library"],
   ["Geçmiş", "/platform/messages"],
   ["Raporlar", "/platform/social"],

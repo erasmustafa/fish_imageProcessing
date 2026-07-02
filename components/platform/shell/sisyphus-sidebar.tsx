@@ -9,6 +9,7 @@ import { useCurrentUser } from "../../../hooks/use-current-user";
 import { defaultProfileAvatarUrl } from "../../../lib/constants";
 import {
   BarChart3,
+  BrainCircuit,
   ChevronDown,
   ChevronsLeft,
   Fish,
@@ -31,6 +32,7 @@ type SidebarNavItem = {
 const primaryItems: SidebarNavItem[] = [
   { href: "/platform/dashboard", label: "Dashboard", icon: LayoutDashboard, rootMatch: "/platform", hidden: true },
   { href: "/platform/analyze", label: "Analiz", icon: BarChart3 },
+  { href: "/platform/model-status", label: "Model Durumu", icon: BrainCircuit },
   { href: "/platform/map", label: "Harita", icon: MapPin },
   { href: "/platform/library", label: "Tür Kütüphanesi", icon: Fish },
   { href: "/platform/social", label: "Sosyal Alan", icon: Users },

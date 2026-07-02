@@ -774,7 +774,7 @@ export default function UserProfileWorkspace() {
                 <img src={activePost.avatar ?? activePost.authorProfile?.avatarUrl ?? avatarSrc} alt={activePost.author} />
                 <div>
                   <h2 id="profile-post-modal-title">{activePost.author}</h2>
-                  <span>{formatProfilePostTime(activePost.createdAt)} � Public</span>
+                  <span>{formatProfilePostTime(activePost.createdAt)} · Public</span>
                 </div>
               </header>
               <p>{activePost.body}</p>
@@ -983,7 +983,7 @@ function ProfileImagePickerModal({
       ?.drawImage(video, offsetX, offsetY, size, size, 0, 0, canvas.width, canvas.height);
 
     setPreview(canvas.toDataURL("image/jpeg", 0.9));
-    setFileName("Kamera fotografı");
+    setFileName("Kamera fotoğrafı");
   };
 
   const resetPreview = () => {

@@ -80,7 +80,6 @@ const preferences: Array<{
     title: "Bolge yogunlugu uyarilarini goster",
     description: "Secilen bolgelerde yogunluk degisimlerinde bildirim alin.",
     icon: Bell,
-  Check,
   },
   {
     key: "emailNotifications",
@@ -101,7 +100,6 @@ const socialToggles: Array<{
     title: "Yorumlara izin ver",
     description: "Paylasimlarinizda yorum aksiyonu aktif kalsin.",
     icon: MessageCircle,
-  Power,
   },
   {
     key: "socialAllowMentions",
@@ -135,16 +133,16 @@ const syncLabels: Record<string, string> = {
   manual: "Manuel",
 };
 
-function SegmentedControl<K extends SettingsKey>({
+function SegmentedControl<V extends string>({
   label,
   value,
   options,
   onChange,
 }: {
   label: string;
-  value: PlatformSettings[K];
-  options: Array<{ label: string; value: PlatformSettings[K] }>;
-  onChange: (value: PlatformSettings[K]) => void;
+  value: V;
+  options: Array<{ label: string; value: V }>;
+  onChange: (value: V) => void;
 }) {
   return (
     <article className="settings-social-option">
