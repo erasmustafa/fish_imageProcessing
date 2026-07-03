@@ -13,7 +13,6 @@ import {
   Image as ImageIcon,
   Layers3,
   PlusCircle,
-  RefreshCw,
   ShieldCheck,
   Sparkles,
   Target,
