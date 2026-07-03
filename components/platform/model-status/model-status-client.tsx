@@ -56,8 +56,8 @@ export default function ModelStatusClient({ status }: { status: ModelTrainingSta
       <header className="model-status-hero">
         <div>
           <span className="model-status-kicker"><Sparkles size={16} /> Model Durumu</span>
-          <h1>Bal?k t?r? analiz modeli</h1>
-          <p>Aktif s?n?fland?r?c?, e?itim metrikleri, t?r ba??na g?rsel da??l?m? ve yeni t?r ekleme durumunu tek panelden takip edin.</p>
+          <h1>Balık türü analiz modeli</h1>
+          <p>Aktif sınıflandırıcı, eğitim metrikleri, tür başına görsel dağılımı ve yeni tür ekleme durumunu tek panelden takip edin.</p>
         </div>
         <aside>
           <small>Aktif model</small>
@@ -66,9 +66,9 @@ export default function ModelStatusClient({ status }: { status: ModelTrainingSta
         </aside>
       </header>
 
-      <section className="model-status-metrics" aria-label="Model e?itim ?zeti">
-        <MetricCard icon={Fish} label="E?itilen T?r" value={numberFormatter.format(status.trainedSpeciesCount)} detail="class_names.json" />
-        <MetricCard icon={ImageIcon} label="E?itim G?rseli" value={numberFormatter.format(status.totalTrainingImages)} detail={numberFormatter.format(status.averageImagesPerSpecies) + " / t?r ort."} />
+      <section className="model-status-metrics" aria-label="Model eğitim özeti">
+        <MetricCard icon={Fish} label="Eğitilen Tür" value={numberFormatter.format(status.trainedSpeciesCount)} detail="class_names.json" />
+        <MetricCard icon={ImageIcon} label="Eğitim Görseli" value={numberFormatter.format(status.totalTrainingImages)} detail={numberFormatter.format(status.averageImagesPerSpecies) + " / tür ort."} />
         <MetricCard icon={Target} label="Val Accuracy" value={accuracyPercent} detail={"Top-5 " + top5Percent} />
         <MetricCard icon={BarChart3} label="Validation Loss" value={validationLoss} detail={status.trainingEpoch === null ? "Son epoch" : "Epoch " + status.trainingEpoch} />
       </section>
@@ -76,7 +76,7 @@ export default function ModelStatusClient({ status }: { status: ModelTrainingSta
       <div className="model-status-grid">
         <main className="model-status-main">
           <section className="model-status-panel model-status-panel--performance">
-            <PanelTitle icon={Activity} title="E?itim Performans?" action={formatDate(status.lastTrainingDate)} />
+            <PanelTitle icon={Activity} title="Eğitim Performansı" action={formatDate(status.lastTrainingDate)} />
             <div className="model-performance-layout">
               <div className="model-score-ring" style={{ "--score": scoreValue + "%" } as CSSProperties}>
                 <strong>{accuracyPercent}</strong>
@@ -92,9 +92,9 @@ export default function ModelStatusClient({ status }: { status: ModelTrainingSta
           </section>
 
           <section className="model-status-panel">
-            <PanelTitle icon={Layers3} title="T?r Ba??na G?rsel Say?s?" action="Ger?ek e?itim klas?rleri" />
+            <PanelTitle icon={Layers3} title="Tür Başına Görsel Sayısı" action="Gerçek eğitim klasörleri" />
             <div className="model-control-bar" aria-label="Model listesi kontrolleri">
-              <div className="model-filter-buttons" aria-label="Duruma g?re filtrele">
+              <div className="model-filter-buttons" aria-label="Duruma göre filtrele">
                 {filterOptions.map((option) => (
                   <button key={option.value} type="button" className={filter === option.value ? "is-active" : ""} onClick={() => setFilter(option.value)}>
                     {option.label}
@@ -102,10 +102,10 @@ export default function ModelStatusClient({ status }: { status: ModelTrainingSta
                 ))}
               </div>
               <label className="model-select-wrap">
-                <span>S?rala</span>
+                <span>Sırala</span>
                 <select value={sortMode} onChange={(event) => setSortMode(event.target.value as SortMode)}>
-                  <option value="images">G?rsel say?s?</option>
-                  <option value="name">T?r ad?</option>
+                  <option value="images">Görsel sayısı</option>
+                  <option value="name">Tür adı</option>
                   <option value="status">Durum</option>
                 </select>
                 <ChevronDown size={16} aria-hidden />
@@ -114,9 +114,9 @@ export default function ModelStatusClient({ status }: { status: ModelTrainingSta
                 <span aria-hidden /> Kompakt
               </button>
             </div>
-            <div className={compactRows ? "model-species-table model-species-table--compact" : "model-species-table"} role="table" aria-label="T?r ba??na e?itim g?rsel say?s?">
+            <div className={compactRows ? "model-species-table model-species-table--compact" : "model-species-table"} role="table" aria-label="Tür başına eğitim görsel sayısı">
               <div className="model-species-row model-species-row--head" role="row">
-                <span>T?r</span>
+                <span>Tür</span>
                 <span>Train</span>
                 <span>Val</span>
                 <span>Toplam</span>
@@ -140,12 +140,12 @@ export default function ModelStatusClient({ status }: { status: ModelTrainingSta
 
         <aside className="model-status-side">
           <section className="model-status-panel model-selected-species">
-            <PanelTitle icon={CheckCircle2} title="Se?ili T?r" action={selectedRow ? numberFormatter.format(selectedRow.totalImages) + " g?rsel" : "-"} />
-            {selectedRow ? <SelectedSpecies row={selectedRow} /> : <p className="model-status-note">Filtreye uygun t?r bulunamad?.</p>}
+            <PanelTitle icon={CheckCircle2} title="Seçili Tür" action={selectedRow ? numberFormatter.format(selectedRow.totalImages) + " görsel" : "-"} />
+            {selectedRow ? <SelectedSpecies row={selectedRow} /> : <p className="model-status-note">Filtreye uygun tür bulunamadı.</p>}
           </section>
 
           <section className="model-status-panel">
-            <PanelTitle icon={PlusCircle} title="Yeni T?r Ekleme" action={readyCount + " haz?r"} />
+            <PanelTitle icon={PlusCircle} title="Yeni Tür Ekleme" action={readyCount + " hazır"} />
             <div className="model-status-stack">
               {status.newSpeciesStatuses.map((item) => (
                 <button className={"model-new-species model-new-species--" + item.tone} type="button" key={item.label} onClick={() => setFilter(item.tone === "warning" ? "needs_more_sources" : item.tone)}>
@@ -154,16 +154,16 @@ export default function ModelStatusClient({ status }: { status: ModelTrainingSta
                 </button>
               ))}
             </div>
-            <p className="model-status-note">{warningCount > 0 ? warningCount + " t?r i?in ek lisansl? g?rsel kayna?? gerekli." : "Yeni t?r adaylar? e?itim i?in yeterli g?rsel e?i?ine yak?n."}</p>
+            <p className="model-status-note">{warningCount > 0 ? warningCount + " tür için ek lisanslı görsel kaynağı gerekli." : "Yeni tür adayları eğitim için yeterli görsel eşiğine yakın."}</p>
           </section>
 
           <section className="model-status-panel">
-            <PanelTitle icon={ShieldCheck} title="S?rd?r?lebilirlik" action="Canl?" />
+            <PanelTitle icon={ShieldCheck} title="Sürdürülebilirlik" action="Canlı" />
             <div className="model-timeline">
-              <TimelineItem icon={Database} title="Veri seti" detail={numberFormatter.format(status.totalTrainingImages) + " g?rsel indekslendi"} />
-              <TimelineItem icon={TrendingUp} title="Son e?itim" detail={formatDate(status.lastTrainingDate)} />
+              <TimelineItem icon={Database} title="Veri seti" detail={numberFormatter.format(status.totalTrainingImages) + " görsel indekslendi"} />
+              <TimelineItem icon={TrendingUp} title="Son eğitim" detail={formatDate(status.lastTrainingDate)} />
               <TimelineItem icon={GitBranch} title="Model versiyonu" detail={status.activeModelVersion} />
-              <TimelineItem icon={Clock3} title="Sonraki ad?m" detail="Yeni haz?r t?rlerle yeniden e?itim planlanabilir" />
+              <TimelineItem icon={Clock3} title="Sonraki adım" detail="Yeni hazır türlerle yeniden eğitim planlanabilir" />
             </div>
           </section>
 
@@ -178,10 +178,10 @@ export default function ModelStatusClient({ status }: { status: ModelTrainingSta
 }
 
 const filterOptions: Array<{ label: string; value: FilterMode }> = [
-  { label: "T?m?", value: "all" },
-  { label: "Haz?r", value: "ready" },
+  { label: "Tümü", value: "all" },
+  { label: "Hazır", value: "ready" },
   { label: "Eksik", value: "needs_more_sources" },
-  { label: "E?itildi", value: "trained" },
+  { label: "Eğitildi", value: "trained" },
   { label: "Beklemede", value: "pending" },
 ];
 
@@ -218,9 +218,9 @@ function PerformanceRow({ label, value, ratio }: { label: string; value: string;
 
 function StatusPill({ status }: { status: SpeciesTrainingRow["status"] }) {
   const labels = {
-    ready: "Haz?r",
-    needs_more_sources: "Eksik G?rsel",
-    trained: "E?itildi",
+    ready: "Hazır",
+    needs_more_sources: "Eksik Görsel",
+    trained: "Eğitildi",
     pending: "Beklemede",
   };
   return <b className={"model-status-pill model-status-pill--" + status}>{labels[status]}</b>;
@@ -232,8 +232,8 @@ function SelectedSpecies({ row }: { row: SpeciesTrainingRow }) {
     <div className="model-selected-card">
       <strong>{row.displayName}</strong>
       <span>{row.className}</span>
-      <PerformanceRow label="Train oran?" value={toPercent(trainRatio)} ratio={trainRatio} />
-      <PerformanceRow label="Validation oran?" value={toPercent(row.totalImages ? row.valImages / row.totalImages : 0)} ratio={row.totalImages ? row.valImages / row.totalImages : 0} />
+      <PerformanceRow label="Train oranı" value={toPercent(trainRatio)} ratio={trainRatio} />
+      <PerformanceRow label="Validation oranı" value={toPercent(row.totalImages ? row.valImages / row.totalImages : 0)} ratio={row.totalImages ? row.valImages / row.totalImages : 0} />
       <StatusPill status={row.status} />
     </div>
   );
