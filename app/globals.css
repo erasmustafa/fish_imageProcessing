@@ -41006,3 +41006,61 @@ textarea,
     max-height: none;
   }
 }
+
+
+/* Keep the training performance card proportional to its content. */
+.model-status-grid {
+  align-items: start;
+}
+
+.model-status-main {
+  align-content: start;
+  align-items: start;
+}
+
+.model-status-main > .model-status-panel {
+  width: 100%;
+}
+
+.model-status-panel--performance {
+  align-self: start;
+  min-height: 0;
+  padding: 12px 14px 14px;
+}
+
+.model-status-panel--performance .model-performance-layout {
+  grid-template-columns: 128px minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+}
+
+.model-status-panel--performance .model-score-ring {
+  width: 128px;
+}
+
+.model-status-panel--performance .model-score-ring strong {
+  font-size: 24px;
+}
+
+.model-status-panel--performance .model-score-ring span {
+  max-width: 82px;
+}
+
+.model-status-panel--performance .model-performance-list {
+  gap: 7px;
+}
+
+.model-status-panel--performance .model-performance-row {
+  padding: 7px 9px;
+}
+
+@media (max-width: 900px) {
+  .model-status-panel--performance .model-performance-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .model-status-panel--performance .model-score-ring {
+    width: 118px;
+    margin: 0 auto;
+  }
+}
