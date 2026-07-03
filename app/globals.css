@@ -40199,3 +40199,178 @@ textarea,
     animation: none;
   }
 }
+
+/* Analyze insight cards responsive stabilization. */
+.fish-analyze-page,
+.fish-analyze-layout,
+.fish-analyze-main,
+.fish-insights-board,
+.fish-insight-mid-grid,
+.fish-insight-card {
+  max-width: 100%;
+  min-width: 0;
+}
+
+.fish-insights-board {
+  grid-template-rows: auto auto auto;
+  overflow: visible;
+}
+
+.fish-metric-summary-card {
+  padding: clamp(12px, 1vw, 18px);
+}
+
+.fish-metric-summary-grid {
+  grid-template-columns: repeat(auto-fit, minmax(136px, 1fr));
+  gap: 10px;
+}
+
+.fish-metric-summary-item,
+.fish-metric-summary-item:first-child,
+.fish-metric-summary-item:last-child {
+  min-height: 76px;
+  padding: 10px 12px;
+  border: 1px solid rgba(86, 137, 190, 0.16);
+  border-radius: 10px;
+  background: rgba(5, 18, 36, 0.38);
+}
+
+.fish-metric-summary-item:nth-child(3n),
+.fish-metric-summary-item:nth-child(even) {
+  border-right: 1px solid rgba(86, 137, 190, 0.16);
+}
+
+.fish-metric-summary-item span,
+.fish-metric-summary-item strong,
+.fish-metric-summary-item small {
+  min-width: 0;
+}
+
+.fish-metric-summary-item strong {
+  overflow-wrap: anywhere;
+}
+
+.fish-insight-mid-grid {
+  grid-template-columns: minmax(250px, 0.9fr) minmax(280px, 1.1fr);
+  align-items: stretch;
+}
+
+.fish-size-distribution-card,
+.fish-observation-card {
+  display: flex;
+  flex-direction: column;
+  min-height: clamp(220px, 26vh, 320px);
+}
+
+.fish-size-chart,
+.fish-observation-chart {
+  flex: 1 1 auto;
+  min-height: 150px;
+}
+
+.fish-size-chart {
+  height: auto;
+  margin-inline: clamp(4px, 0.8vw, 12px);
+  gap: clamp(6px, 1vw, 13px);
+}
+
+.fish-size-labels {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.fish-size-labels span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fish-observation-head {
+  min-width: 0;
+  gap: 10px;
+}
+
+.fish-observation-head h2 {
+  min-width: 0;
+}
+
+.fish-observation-head button {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+@media (max-width: 1500px) {
+  .fish-metric-summary-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+
+  .fish-insight-mid-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1180px) {
+  .fish-insight-mid-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .fish-size-distribution-card,
+  .fish-observation-card {
+    min-height: 260px;
+  }
+}
+
+@media (max-width: 760px) {
+  .fish-insights-board {
+    gap: 10px;
+  }
+
+  .fish-metric-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .fish-metric-summary-item,
+  .fish-metric-summary-item:first-child,
+  .fish-metric-summary-item:last-child {
+    min-height: 68px;
+  }
+
+  .fish-size-distribution-card,
+  .fish-observation-card {
+    min-height: 240px;
+    padding: 12px;
+  }
+
+  .fish-size-chart,
+  .fish-observation-chart {
+    min-height: 145px;
+  }
+
+  .fish-size-labels {
+    gap: 4px;
+    font-size: 10px;
+  }
+
+  .fish-observation-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 430px) {
+  .fish-metric-summary-item {
+    grid-template-columns: 20px minmax(0, 1fr);
+  }
+
+  .fish-size-chart {
+    gap: 4px;
+    margin-inline: 0;
+  }
+
+  .fish-size-column em {
+    left: 50%;
+    max-width: 92px;
+    transform: translateX(-50%);
+    white-space: normal;
+  }
+}
