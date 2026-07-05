@@ -2,8 +2,9 @@
 
 import type { CSSProperties, ChangeEvent, UIEvent } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useInView } from "framer-motion";
+import { motion, useInView, type Variants } from "framer-motion";
 import {
+  Bookmark,
   Camera,
   Check,
   ChevronUp,
@@ -39,6 +40,19 @@ import { AvatarProfilePhoto } from "@/components/base/avatar/avatar";
 
 const avatar = defaultProfileAvatarUrl;
 const profileNumberFormatter = new Intl.NumberFormat("tr-TR");
+const profilePreviewCardVariants: Variants = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
+  hover: { scale: 1.03, transition: { duration: 0.3 } },
+};
+const profilePreviewContentVariants: Variants = {
+  initial: {},
+  animate: { transition: { staggerChildren: 0.1, delayChildren: 0.2 } },
+};
+const profilePreviewItemVariants: Variants = {
+  initial: { opacity: 0, y: 10 },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.3 } },
+};
 type ProfileSocialSummary = {
   stats: {
     followers: number;
@@ -820,34 +834,60 @@ export default function UserProfileWorkspace() {
             </header>
             {activeSocialModal === "following" || activeSocialModal === "followers" ? (
               selectedMetricProfile ? (
-                <div className="profile-social-profile-card">
+                <motion.div
+                  className="profile-social-profile-card"
+                  variants={profilePreviewCardVariants}
+                  initial="initial"
+                  animate="animate"
+                  whileHover="hover"
+                >
                   <div className="profile-social-profile-cover" aria-hidden="true" />
+                  <button
+                    type="button"
+                    className="profile-social-bookmark"
+                    aria-label="Profili kaydet"
+                    onClick={() => undefined}
+                  >
+                    <Bookmark size={17} />
+                  </button>
                   <div className="profile-social-profile-avatar">
                     <img src={selectedMetricProfile.avatarUrl ?? avatar} alt={selectedMetricProfile.name} />
                     <span aria-label="Çevrimiçi" />
                   </div>
-                  <strong>{selectedMetricProfile.name}</strong>
-                  <span>{selectedMetricProfile.level ?? "AquaScope üyesi"}</span>
-                  <p>{selectedMetricProfile.region ?? selectedMetricProfile.handle}</p>
-                  <div className="profile-social-profile-stats">
-                    <article>
-                      <small>Profil</small>
-                      <b>{selectedMetricProfile.handle}</b>
-                    </article>
-                    <article>
-                      <small>Seviye</small>
-                      <b>{selectedMetricProfile.level ?? "Yeni üye"}</b>
-                    </article>
-                    <article>
-                      <small>Bölge</small>
-                      <b>{selectedMetricProfile.region ?? "Belirtilmedi"}</b>
-                    </article>
-                  </div>
-                  <div className="profile-social-profile-actions">
-                    <button type="button" className="is-primary" onClick={() => { window.location.href = `/platform/social?profile=${encodeURIComponent(selectedMetricProfile.id)}`; }}>Profili Aç</button>
-                    <button type="button" onClick={() => setSelectedMetricProfile(null)}>Listeye Dön</button>
-                  </div>
-                </div>
+                  <motion.div className="profile-social-profile-content" variants={profilePreviewContentVariants} initial="initial" animate="animate">
+                    <motion.div className="profile-social-profile-heading" variants={profilePreviewItemVariants}>
+                      <div>
+                        <strong>{selectedMetricProfile.name}</strong>
+                        <span>{selectedMetricProfile.level ?? "AquaScope üyesi"}</span>
+                      </div>
+                      <div className="profile-social-tools" aria-label="Profil araçları">
+                        <span><Fish size={14} /></span>
+                        <span><Camera size={14} /></span>
+                        <span><MapPin size={14} /></span>
+                        <small>Araçlar</small>
+                      </div>
+                    </motion.div>
+                    <motion.div className="profile-social-profile-stats" variants={profilePreviewItemVariants}>
+                      <article>
+                        <span><Star size={14} /></span>
+                        <b>4.8</b>
+                        <small>puan</small>
+                      </article>
+                      <article>
+                        <b>{selectedMetricProfile.region ?? "AquaScope"}</b>
+                        <small>bölge</small>
+                      </article>
+                      <article>
+                        <b>{selectedMetricProfile.handle}</b>
+                        <small>profil</small>
+                      </article>
+                    </motion.div>
+                    <motion.div className="profile-social-profile-actions" variants={profilePreviewItemVariants}>
+                      <button type="button" className="is-primary" onClick={() => { window.location.href = `/platform/social?profile=${encodeURIComponent(selectedMetricProfile.id)}`; }}>Profili Aç</button>
+                      <button type="button" onClick={() => setSelectedMetricProfile(null)}>Listeye Dön</button>
+                    </motion.div>
+                  </motion.div>
+                </motion.div>
               ) : (
                 <div className="profile-social-modal-list">
                   {followingList.length ? followingList.map((person) => (

@@ -42266,32 +42266,26 @@ textarea,
 }
 
 .profile-social-profile-card {
-  display: grid;
-  justify-items: center;
   position: relative;
+  display: block;
   overflow: hidden;
   width: min(390px, calc(100vw - 56px));
   margin: 16px auto 18px;
-  padding: 0 22px 24px;
   border: 1px solid rgba(91, 174, 230, 0.28);
   border-radius: 24px;
-  background:
-    linear-gradient(180deg, rgba(9, 32, 58, 0.96), rgba(4, 15, 31, 0.98)),
-    radial-gradient(circle at 50% 0%, rgba(69, 230, 255, 0.16), transparent 58%);
+  background: linear-gradient(180deg, rgba(8, 28, 52, 0.98), rgba(3, 13, 27, 0.99));
   box-shadow: 0 24px 64px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  text-align: center;
+  transform-origin: center;
 }
 
 .profile-social-profile-cover {
-  width: calc(100% + 44px);
-  height: 158px;
-  margin: 0 -22px;
+  width: 100%;
+  height: 132px;
   border-bottom: 1px solid rgba(117, 188, 230, 0.18);
   background:
-    radial-gradient(circle at 72% 0%, rgba(121, 221, 255, 0.34), transparent 38%),
-    linear-gradient(135deg, rgba(8, 99, 151, 0.92), rgba(39, 198, 230, 0.38) 52%, rgba(6, 23, 45, 0.9)),
+    radial-gradient(circle at 78% 5%, rgba(121, 221, 255, 0.34), transparent 34%),
+    linear-gradient(135deg, rgba(8, 99, 151, 0.92), rgba(39, 198, 230, 0.38) 54%, rgba(6, 23, 45, 0.92)),
     url("https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=900&q=78") center / cover;
-  opacity: 0.95;
 }
 
 .profile-social-profile-cover::after {
@@ -42299,20 +42293,45 @@ textarea,
   display: block;
   width: 100%;
   height: 100%;
-  background: linear-gradient(180deg, transparent 25%, rgba(4, 15, 31, 0.72));
+  background: linear-gradient(180deg, rgba(3, 13, 27, 0.02), rgba(3, 13, 27, 0.7));
+}
+
+.profile-social-bookmark {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(223, 245, 255, 0.2);
+  border-radius: 12px;
+  color: rgba(239, 248, 255, 0.86);
+  background: rgba(5, 17, 32, 0.48);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+}
+
+.profile-social-bookmark:hover {
+  transform: translateY(-1px);
+  border-color: rgba(69, 230, 255, 0.46);
+  background: rgba(21, 129, 251, 0.18);
 }
 
 .profile-social-profile-avatar {
-  position: relative;
+  position: absolute;
+  top: 132px;
+  left: 50%;
   display: grid;
   place-items: center;
-  width: 104px;
-  height: 104px;
-  margin-top: -58px;
-  border: 4px solid rgba(223, 245, 255, 0.86);
+  width: 88px;
+  height: 88px;
+  border: 4px solid rgba(223, 245, 255, 0.9);
   border-radius: 999px;
-  background: rgba(6, 20, 37, 0.92);
+  background: rgba(6, 20, 37, 0.94);
   box-shadow: 0 16px 38px rgba(0, 0, 0, 0.42);
+  transform: translate(-50%, -50%);
 }
 
 .profile-social-profile-avatar img {
@@ -42324,8 +42343,8 @@ textarea,
 
 .profile-social-profile-avatar span {
   position: absolute;
-  right: 4px;
-  bottom: 10px;
+  right: 2px;
+  bottom: 9px;
   width: 15px;
   height: 15px;
   border: 3px solid rgba(6, 20, 37, 0.96);
@@ -42333,28 +42352,83 @@ textarea,
   background: #3ee67b;
 }
 
-.profile-social-profile-card > strong {
-  margin-top: 14px;
-  color: #ffffff;
-  font-size: 1.32rem;
-  line-height: 1.1;
-  font-weight: 760;
+.profile-social-profile-content {
+  display: grid;
+  gap: 0;
+  padding: 52px 22px 24px;
 }
 
-.profile-social-profile-card > span,
-.profile-social-profile-card > p {
-  margin: 5px 0 0;
-  color: rgba(213, 228, 244, 0.74);
-  font-size: 0.9rem;
-  line-height: 1.25;
+.profile-social-profile-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  min-width: 0;
+}
+
+.profile-social-profile-heading > div:first-child {
+  min-width: 0;
+  text-align: left;
+}
+
+.profile-social-profile-heading strong {
+  display: block;
+  overflow: hidden;
+  color: #ffffff;
+  font-size: 1.24rem;
+  line-height: 1.12;
+  font-weight: 760;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-social-profile-heading > div:first-child > span {
+  display: block;
+  margin-top: 5px;
+  color: rgba(213, 228, 244, 0.72);
+  font-size: 0.88rem;
+}
+
+.profile-social-tools {
+  display: grid;
+  justify-items: end;
+  gap: 5px;
+  flex: 0 0 auto;
+}
+
+.profile-social-tools > span {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  margin-left: -6px;
+  border: 1px solid rgba(69, 230, 255, 0.28);
+  border-radius: 999px;
+  color: #46e7ff;
+  background: rgba(12, 58, 94, 0.62);
+}
+
+.profile-social-tools > span + span {
+  margin-top: -29px;
+  transform: translateX(-22px);
+}
+
+.profile-social-tools > span + span + span {
+  transform: translateX(-44px);
+}
+
+.profile-social-tools small {
+  margin-top: -3px;
+  color: rgba(178, 203, 226, 0.74);
+  font-size: 0.7rem;
 }
 
 .profile-social-profile-stats {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-around;
   width: 100%;
-  margin-top: 22px;
+  margin: 22px 0;
   overflow: hidden;
   border: 1px solid rgba(105, 165, 215, 0.16);
   border-radius: 14px;
@@ -42362,36 +42436,50 @@ textarea,
 }
 
 .profile-social-profile-stats article {
-  display: grid;
-  gap: 6px;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   min-width: 0;
-  padding: 13px 10px;
+  padding: 13px 8px;
+  text-align: center;
 }
 
 .profile-social-profile-stats article:not(:last-child) {
   border-right: 1px solid rgba(105, 165, 215, 0.14);
 }
 
-.profile-social-profile-stats small {
-  color: rgba(178, 203, 226, 0.78);
-  font-size: 0.74rem;
+.profile-social-profile-stats article > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: rgba(178, 203, 226, 0.82);
 }
 
 .profile-social-profile-stats b {
+  display: block;
   overflow: hidden;
+  max-width: 100%;
   color: #f6fbff;
-  font-size: 0.93rem;
+  font-size: 0.95rem;
   line-height: 1.14;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
+.profile-social-profile-stats small {
+  margin-top: 4px;
+  color: rgba(178, 203, 226, 0.74);
+  font-size: 0.72rem;
+  text-transform: capitalize;
+}
+
 .profile-social-profile-actions {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+  grid-template-columns: 1fr;
+  gap: 10px;
   width: 100%;
-  margin-top: 22px;
 }
 
 .profile-social-profile-actions button {
@@ -42426,15 +42514,19 @@ textarea,
 @media (max-width: 520px) {
   .profile-social-profile-card {
     width: min(100%, calc(100vw - 34px));
+  }
+
+  .profile-social-profile-content {
     padding-inline: 16px;
   }
 
-  .profile-social-profile-cover {
-    width: calc(100% + 32px);
-    margin-inline: -16px;
+  .profile-social-profile-heading {
+    display: grid;
+    justify-items: center;
+    text-align: center;
   }
 
-  .profile-social-profile-actions {
-    grid-template-columns: 1fr;
+  .profile-social-profile-heading > div:first-child {
+    text-align: center;
   }
 }
