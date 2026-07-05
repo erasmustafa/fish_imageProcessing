@@ -41934,3 +41934,21 @@ textarea,
     height: auto;
   }
 }
+
+
+/* Shorten lower model status cards from the bottom edge. */
+.model-species-panel,
+.model-status-panel--sources {
+  align-self: start;
+  height: 90%;
+  max-height: 90%;
+}
+
+@media (max-width: 980px) {
+  .model-species-panel,
+  .model-status-panel--sources {
+    align-self: stretch;
+    height: auto;
+    max-height: none;
+  }
+}
