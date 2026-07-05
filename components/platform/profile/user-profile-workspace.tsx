@@ -809,7 +809,7 @@ export default function UserProfileWorkspace() {
                 <X size={18} />
               </button>
             </header>
-            {activeSocialModal === "following" ? (
+            {activeSocialModal === "following" || activeSocialModal === "followers" ? (
               <div className="profile-social-modal-list">
                 {followingList.length ? followingList.map((person) => (
                   <article key={person.id}>
