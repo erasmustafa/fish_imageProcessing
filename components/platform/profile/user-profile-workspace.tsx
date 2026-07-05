@@ -38,6 +38,7 @@ import AnimatedTabBar from "../../ui/animated-tab-bar";
 import { AvatarProfilePhoto } from "@/components/base/avatar/avatar";
 
 const avatar = defaultProfileAvatarUrl;
+const profileNumberFormatter = new Intl.NumberFormat("tr-TR");
 type ProfileSocialSummary = {
   stats: {
     followers: number;
@@ -267,6 +268,7 @@ const tabs = [
 ] as const;
 
 type ProfileTab = (typeof tabs)[number]["id"];
+type ProfileSocialModal = "followers" | "following" | null;
 
 export default function UserProfileWorkspace() {
   const { user, updateUser } = useCurrentUser();
@@ -291,6 +293,7 @@ export default function UserProfileWorkspace() {
   const [activePost, setActivePost] = useState<ProfileFeedPost | null>(null);
   const [postComments, setPostComments] = useState<Record<string, ProfilePostComment[]>>({});
   const [commentDraft, setCommentDraft] = useState("");
+  const [activeSocialModal, setActiveSocialModal] = useState<ProfileSocialModal>(null);
 
   useEffect(() => {
     if (!user) return;
@@ -384,6 +387,8 @@ export default function UserProfileWorkspace() {
   const xpValue = profileSummary?.stats.xp ?? 0;
   const xpTarget = profileSummary?.stats.xpTarget ?? 1800;
   const followingList = profileSummary?.following ?? [];
+  const socialModalTitle = activeSocialModal === "followers" ? "Takipçiler" : "Takip Edilenler";
+  const socialModalCount = activeSocialModal === "followers" ? followerCount : followingCount;
 
   const profileAboutItems = useMemo(
     () => [
@@ -556,16 +561,16 @@ export default function UserProfileWorkspace() {
               </div>
             </div>
             <div className="profile-stats-row profile-stats-row--reference">
-              <article>
+              <button type="button" className="profile-stat-button" onClick={() => setActiveSocialModal("followers")} aria-label="Takipçiler bilgisini aç">
                 <span><UsersRound size={24} /></span>
                 <strong>{followerCount}</strong>
                 <small>Followers</small>
-              </article>
-              <article>
+              </button>
+              <button type="button" className="profile-stat-button" onClick={() => setActiveSocialModal("following")} aria-label="Takip edilenler bilgisini aç">
                 <span><UserRound size={24} /></span>
                 <strong>{followingCount}</strong>
                 <small>Following</small>
-              </article>
+              </button>
               <article>
                 <span><Fish size={25} /></span>
                 <strong>{user?.catches ?? 178}</strong>
@@ -759,6 +764,49 @@ export default function UserProfileWorkspace() {
           </section>
         </aside>
       </div>
+
+      {activeSocialModal ? (
+        <div className="profile-modal-layer profile-social-modal-layer" role="dialog" aria-modal="true" aria-labelledby="profile-social-modal-title" onClick={() => setActiveSocialModal(null)}>
+          <section className="profile-social-modal" onClick={(event) => event.stopPropagation()}>
+            <header>
+              <div>
+                <h2 id="profile-social-modal-title">{socialModalTitle}</h2>
+                <p>{profileNumberFormatter.format(socialModalCount)} sosyal bağlantı</p>
+              </div>
+              <button type="button" aria-label="Sosyal bilgi modalını kapat" onClick={() => setActiveSocialModal(null)}>
+                <X size={18} />
+              </button>
+            </header>
+            {activeSocialModal === "following" ? (
+              <div className="profile-social-modal-list">
+                {followingList.length ? followingList.map((person) => (
+                  <article key={person.id}>
+                    <img src={person.avatarUrl ?? avatar} alt={person.name} />
+                    <div>
+                      <strong>{person.name}</strong>
+                      <span>{person.handle}</span>
+                      <small>{person.level ?? person.region ?? "AquaScope üyesi"}</small>
+                    </div>
+                    <button type="button" onClick={() => { window.location.href = "/platform/social"; }}>Profili Gör</button>
+                  </article>
+                )) : (
+                  <div className="profile-social-empty">
+                    <UserRound size={24} />
+                    <strong>Takip edilen kişi yok</strong>
+                    <p>Sosyal alanda yeni kullanıcıları keşfederek takip listenizi oluşturabilirsiniz.</p>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="profile-social-summary-card">
+                <span><UsersRound size={28} /></span>
+                <strong>{profileNumberFormatter.format(followerCount)}</strong>
+                <p>Bu profili takip eden toplam kullanıcı sayısı. Kişi bazlı takipçi listesi API tarafından döndürüldüğünde bu modal otomatik olarak liste görünümüne genişletilebilir.</p>
+              </div>
+            )}
+          </section>
+        </div>
+      ) : null}
 
       {activePost ? (
         <div className="profile-modal-layer profile-post-modal-layer" role="dialog" aria-modal="true" aria-labelledby="profile-post-modal-title" onClick={() => setActivePost(null)}>
