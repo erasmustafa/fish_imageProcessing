@@ -42244,3 +42244,76 @@ textarea,
     grid-column: 1 / -1;
   }
 }
+
+
+/* Transparent profile metrics and metric profile preview. */
+.user-profile-content--reference .profile-hero:not(.profile-hero--collapsed) .profile-stats-row.profile-stats-row--reference {
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+.user-profile-content--reference .profile-stats-row.profile-stats-row--reference article,
+.user-profile-content--reference .profile-stats-row.profile-stats-row--reference .profile-stat-button {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.user-profile-content--reference .profile-stats-row.profile-stats-row--reference .profile-stat-button:hover,
+.user-profile-content--reference .profile-stats-row.profile-stats-row--reference .profile-stat-button:focus-visible {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.profile-social-profile-card {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: 22px;
+  text-align: center;
+}
+
+.profile-social-profile-card > img {
+  width: 96px;
+  height: 96px;
+  border-radius: 999px;
+  border: 2px solid rgba(69, 230, 255, 0.48);
+  object-fit: cover;
+}
+
+.profile-social-profile-card > strong {
+  color: #ffffff;
+  font-size: 1.12rem;
+}
+
+.profile-social-profile-card > span,
+.profile-social-profile-card > p {
+  margin: 0;
+  color: #8ea7c8;
+  font-size: 0.86rem;
+}
+
+.profile-social-profile-card > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.profile-social-profile-card button {
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid rgba(69, 230, 255, 0.3);
+  border-radius: 10px;
+  color: #5bd6ff;
+  background: rgba(21, 129, 251, 0.12);
+  cursor: pointer;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.profile-social-profile-card button:hover {
+  transform: translateY(-1px);
+  border-color: rgba(69, 230, 255, 0.5);
+  background: rgba(21, 129, 251, 0.2);
+}

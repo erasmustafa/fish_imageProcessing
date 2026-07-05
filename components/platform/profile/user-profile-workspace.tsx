@@ -61,6 +61,8 @@ type ProfileSocialSummary = {
   recentPhotos: string[];
 };
 
+type ProfileConnection = ProfileSocialSummary["following"][number];
+
 type ProfilePostComment = {
   id: string;
   body: string;
@@ -294,6 +296,13 @@ export default function UserProfileWorkspace() {
   const [postComments, setPostComments] = useState<Record<string, ProfilePostComment[]>>({});
   const [commentDraft, setCommentDraft] = useState("");
   const [activeSocialModal, setActiveSocialModal] = useState<ProfileMetricModal>(null);
+  const [selectedMetricProfile, setSelectedMetricProfile] = useState<ProfileConnection | null>(null);
+
+  useEffect(() => {
+    if (!activeSocialModal) {
+      setSelectedMetricProfile(null);
+    }
+  }, [activeSocialModal]);
 
   useEffect(() => {
     if (!user) return;
@@ -810,25 +819,38 @@ export default function UserProfileWorkspace() {
               </button>
             </header>
             {activeSocialModal === "following" || activeSocialModal === "followers" ? (
-              <div className="profile-social-modal-list">
-                {followingList.length ? followingList.map((person) => (
-                  <article key={person.id}>
-                    <img src={person.avatarUrl ?? avatar} alt={person.name} />
-                    <div>
-                      <strong>{person.name}</strong>
-                      <span>{person.handle}</span>
-                      <small>{person.level ?? person.region ?? "AquaScope üyesi"}</small>
-                    </div>
-                    <button type="button" onClick={() => { window.location.href = "/platform/social"; }}>Profili Gör</button>
-                  </article>
-                )) : (
-                  <div className="profile-social-empty">
-                    <UserRound size={24} />
-                    <strong>Takip edilen kişi yok</strong>
-                    <p>Sosyal alanda yeni kullanıcıları keşfederek takip listenizi oluşturabilirsiniz.</p>
+              selectedMetricProfile ? (
+                <div className="profile-social-profile-card">
+                  <img src={selectedMetricProfile.avatarUrl ?? avatar} alt={selectedMetricProfile.name} />
+                  <strong>{selectedMetricProfile.name}</strong>
+                  <span>{selectedMetricProfile.handle}</span>
+                  <p>{selectedMetricProfile.region ?? selectedMetricProfile.level ?? "AquaScope üyesi"}</p>
+                  <div>
+                    <button type="button" onClick={() => setSelectedMetricProfile(null)}>Listeye Dön</button>
+                    <button type="button" onClick={() => { window.location.href = `/platform/social?profile=${encodeURIComponent(selectedMetricProfile.id)}`; }}>Sosyal Profili Aç</button>
                   </div>
-                )}
-              </div>
+                </div>
+              ) : (
+                <div className="profile-social-modal-list">
+                  {followingList.length ? followingList.map((person) => (
+                    <article key={person.id}>
+                      <img src={person.avatarUrl ?? avatar} alt={person.name} />
+                      <div>
+                        <strong>{person.name}</strong>
+                        <span>{person.handle}</span>
+                        <small>{person.level ?? person.region ?? "AquaScope üyesi"}</small>
+                      </div>
+                      <button type="button" onClick={() => setSelectedMetricProfile(person)}>Profili Gör</button>
+                    </article>
+                  )) : (
+                    <div className="profile-social-empty">
+                      <UserRound size={24} />
+                      <strong>Takip edilen kişi yok</strong>
+                      <p>Sosyal alanda yeni kullanıcıları keşfederek takip listenizi oluşturabilirsiniz.</p>
+                    </div>
+                  )}
+                </div>
+              )
             ) : activeSocialModal === "posts" ? (
               <div className="profile-social-modal-list profile-social-post-list">
                 {profilePosts.length ? profilePosts.map((post) => (
