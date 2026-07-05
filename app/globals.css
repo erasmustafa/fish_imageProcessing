@@ -41518,3 +41518,386 @@ textarea,
     justify-content: start;
   }
 }
+
+
+/* Model status fixed viewport layout and hidden internal species scroll. */
+.model-status-page {
+  height: calc(100dvh - 20px);
+  max-height: calc(100dvh - 20px);
+  min-height: 0;
+  overflow: hidden;
+}
+
+.model-status-metrics {
+  flex: 0 0 auto;
+  margin-top: 0;
+}
+
+.model-status-grid {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  align-items: stretch;
+}
+
+.model-status-main,
+.model-status-side {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.model-status-main {
+  display: grid;
+  grid-template-rows: var(--model-status-top-row, 166px) minmax(0, 1fr);
+}
+
+.model-status-topline {
+  min-height: 0;
+  height: var(--model-status-top-row, 166px);
+  grid-template-columns: minmax(0, 0.6fr) minmax(240px, 0.4fr);
+}
+
+.model-status-topline > .model-status-panel {
+  min-height: 0;
+  height: 100%;
+}
+
+.model-status-panel--performance,
+.model-selected-species--inline {
+  overflow: hidden;
+}
+
+.model-selected-species--inline {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  padding: 10px 12px;
+}
+
+.model-selected-species--inline .model-panel-title {
+  margin-bottom: 6px;
+}
+
+.model-selected-species--inline .model-selected-card {
+  height: auto;
+  min-height: 0;
+  align-content: center;
+  justify-content: stretch;
+  gap: 6px;
+  overflow: hidden;
+}
+
+.model-selected-species--inline .model-selected-card > strong {
+  font-size: 15px;
+  line-height: 1.05;
+  text-align: left;
+}
+
+.model-selected-species--inline .model-selected-card > span {
+  font-size: 10px;
+}
+
+.model-selected-species--inline .model-performance-row {
+  gap: 4px;
+}
+
+.model-selected-species--inline .model-performance-row div {
+  gap: 8px;
+}
+
+.model-selected-species--inline .model-performance-row span,
+.model-selected-species--inline .model-performance-row strong {
+  font-size: 9px;
+  line-height: 1.1;
+}
+
+.model-selected-species--inline .model-performance-row em {
+  height: 5px;
+}
+
+.model-selected-species--inline .model-status-pill {
+  padding: 4px 8px;
+  font-size: 9px;
+}
+
+.model-species-panel {
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  min-height: 0;
+  overflow: hidden;
+}
+
+.model-species-panel .model-species-table {
+  height: 100%;
+  max-height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.model-species-panel .model-species-table::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  display: none !important;
+}
+
+.model-status-side {
+  grid-template-rows: var(--model-status-top-row, 166px) minmax(0, 1fr);
+}
+
+.model-status-side > .model-status-panel:first-child {
+  height: var(--model-status-top-row, 166px);
+  overflow: hidden;
+}
+
+.model-status-panel--sources {
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.model-status-panel--sources::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  display: none !important;
+}
+
+@media (max-width: 1280px) {
+  .model-status-page {
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .model-status-grid,
+  .model-status-main,
+  .model-status-side {
+    overflow: visible;
+  }
+
+  .model-status-main,
+  .model-status-side {
+    grid-template-rows: none;
+  }
+
+  .model-status-topline,
+  .model-status-topline > .model-status-panel,
+  .model-status-side > .model-status-panel:first-child {
+    height: auto;
+  }
+
+  .model-species-panel .model-species-table {
+    max-height: min(58dvh, 520px);
+  }
+}
+
+@media (max-width: 980px) {
+  .model-status-topline {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* Restore internal species scrolling on tablet and compact desktop widths. */
+@media (max-width: 1280px) {
+  .model-status-page {
+    height: calc(100dvh - 20px);
+    max-height: calc(100dvh - 20px);
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .model-status-grid,
+  .model-status-main,
+  .model-status-side {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .model-status-main {
+    display: grid;
+    grid-template-rows: var(--model-status-top-row, 166px) minmax(0, 1fr);
+  }
+
+  .model-status-side {
+    display: grid;
+    grid-template-rows: var(--model-status-top-row, 166px) minmax(0, 1fr);
+  }
+
+  .model-status-topline,
+  .model-status-topline > .model-status-panel,
+  .model-status-side > .model-status-panel:first-child {
+    height: var(--model-status-top-row, 166px);
+    min-height: 0;
+  }
+
+  .model-species-panel {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .model-species-panel .model-species-table {
+    height: 100%;
+    max-height: 100%;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .model-species-panel .model-species-table::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+    display: none !important;
+  }
+}
+
+@media (max-width: 980px) {
+  .model-status-main {
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .model-status-topline,
+  .model-status-topline > .model-status-panel,
+  .model-status-side > .model-status-panel:first-child {
+    height: auto;
+  }
+
+  .model-status-side {
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .model-species-panel .model-species-table {
+    max-height: 100%;
+  }
+}
+
+
+/* Definitive model status shell-height scroll containment. */
+.platform-main:has(.model-status-page) {
+  height: 100svh;
+  max-height: 100svh;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.model-status-page {
+  height: 100%;
+  max-height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  box-sizing: border-box;
+}
+
+.model-status-grid {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  display: grid;
+}
+
+.model-status-main {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: var(--model-status-top-row, 166px) minmax(0, 1fr);
+}
+
+.model-status-topline {
+  height: var(--model-status-top-row, 166px);
+  min-height: 0;
+  overflow: hidden;
+}
+
+.model-species-panel {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+}
+
+.model-species-panel .model-panel-title,
+.model-species-panel .model-control-bar {
+  min-height: 0;
+  flex: 0 0 auto;
+}
+
+.model-species-panel .model-species-table {
+  min-height: 0 !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow-y: scroll !important;
+  overflow-x: hidden !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+  align-self: stretch;
+}
+
+.model-species-panel .model-species-table::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  display: none !important;
+}
+
+.model-status-side {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: var(--model-status-top-row, 166px) minmax(0, 1fr);
+}
+
+.model-status-panel--sources {
+  min-height: 0;
+  overflow-y: scroll !important;
+  overflow-x: hidden !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.model-status-panel--sources::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  display: none !important;
+}
+
+@media (max-width: 980px) {
+  .model-status-main,
+  .model-status-side {
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .model-status-topline {
+    height: auto;
+  }
+}
+
+
+/* Slightly shorten the lower model status panels while preserving internal scroll. */
+.model-species-panel,
+.model-status-panel--sources {
+  align-self: start;
+  height: 90%;
+  max-height: 90%;
+}
+
+.model-species-panel .model-species-table,
+.model-status-panel--sources {
+  min-height: 0;
+}
+
+@media (max-width: 980px) {
+  .model-species-panel,
+  .model-status-panel--sources {
+    height: auto;
+    max-height: none;
+  }
+}

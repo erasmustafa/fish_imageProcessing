@@ -11,7 +11,6 @@ import {
   Image as ImageIcon,
   Layers3,
   PlusCircle,
-  Sparkles,
   Target,
 } from "lucide-react";
 import type { ModelTrainingStatus, SpeciesTrainingRow } from "../../../lib/server/model-training-status";
@@ -74,19 +73,6 @@ export default function ModelStatusClient({ status }: { status: ModelTrainingSta
 
   return (
     <section className="model-status-page">
-      <header className="model-status-hero">
-        <div>
-          <span className="model-status-kicker"><Sparkles size={16} /> Model Durumu</span>
-          <h1>Balık türü analiz modeli</h1>
-          <p>Aktif sınıflandırıcı, eğitim metrikleri, tür başına görsel dağılımı ve yeni tür ekleme durumunu tek panelden takip edin.</p>
-        </div>
-        <aside>
-          <small>Aktif model</small>
-          <strong>{status.activeModelVersion}</strong>
-          <span>{status.activeModelPath}</span>
-        </aside>
-      </header>
-
       <section className="model-status-metrics" aria-label="Model eğitim özeti">
         <MetricCard icon={Fish} label="Eğitilen Tür" value={numberFormatter.format(status.trainedSpeciesCount)} detail="class_names.json" />
         <MetricCard icon={ImageIcon} label="Eğitim Görseli" value={numberFormatter.format(status.totalTrainingImages)} detail={numberFormatter.format(status.averageImagesPerSpecies) + " / tür ort."} />
