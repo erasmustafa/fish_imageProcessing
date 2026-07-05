@@ -41064,3 +41064,227 @@ textarea,
     margin: 0 auto;
   }
 }
+
+
+/* Model status performance and side panel viewport fit. */
+.model-status-panel--performance {
+  width: clamp(520px, 60%, 680px);
+  max-width: 100%;
+  justify-self: start;
+  padding: 10px 12px 12px;
+}
+
+.model-status-panel--performance .model-panel-title {
+  margin-bottom: 7px;
+}
+
+.model-status-panel--performance .model-performance-layout {
+  grid-template-columns: 104px minmax(0, 1fr);
+  gap: 12px;
+}
+
+.model-status-panel--performance .model-score-ring {
+  width: 104px;
+}
+
+.model-status-panel--performance .model-score-ring::before {
+  inset: 8px;
+}
+
+.model-status-panel--performance .model-score-ring strong {
+  font-size: 21px;
+  line-height: 1;
+}
+
+.model-status-panel--performance .model-score-ring span {
+  max-width: 72px;
+  font-size: 8px;
+  line-height: 1.15;
+}
+
+.model-status-panel--performance .model-performance-list {
+  gap: 6px;
+}
+
+.model-status-panel--performance .model-performance-row {
+  min-width: 0;
+  gap: 4px;
+  padding: 6px 8px;
+  border-radius: 8px;
+}
+
+.model-status-panel--performance .model-performance-row div {
+  gap: 8px;
+}
+
+.model-status-panel--performance .model-performance-row span,
+.model-status-panel--performance .model-performance-row strong {
+  font-size: 9px;
+  line-height: 1.1;
+}
+
+.model-status-panel--performance .model-performance-row em {
+  height: 4px;
+}
+
+.model-status-side {
+  grid-auto-rows: minmax(0, auto);
+  max-width: 100%;
+}
+
+.model-status-side .model-status-panel {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.model-status-side .model-panel-title {
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.model-status-side .model-panel-title h2,
+.model-status-side .model-panel-title span,
+.model-status-side .model-status-note,
+.model-status-side code,
+.model-selected-card,
+.model-timeline small {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 1280px) {
+  .model-status-panel--performance {
+    width: min(100%, 680px);
+  }
+
+  .model-status-side {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+
+  .model-status-panel--sources {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 980px) {
+  .model-status-panel--performance {
+    width: 100%;
+  }
+
+  .model-status-side {
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  }
+
+  .model-status-side .model-status-panel {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 640px) {
+  .model-status-panel--performance .model-performance-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .model-status-panel--performance .model-score-ring {
+    width: 102px;
+    margin: 0 auto;
+  }
+
+  .model-status-side {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* Compact the model status side cards so they stay inside the viewport. */
+.model-status-side {
+  gap: 9px;
+}
+
+.model-status-side .model-status-panel {
+  padding: 10px;
+  border-radius: 12px;
+}
+
+.model-status-side .model-panel-title {
+  margin-bottom: 8px;
+}
+
+.model-status-side .model-panel-title h2 {
+  font-size: 12px;
+}
+
+.model-status-side .model-panel-title h2 svg {
+  width: 14px;
+  height: 14px;
+}
+
+.model-status-side .model-panel-title span,
+.model-status-side .model-status-note,
+.model-status-side .model-selected-card span,
+.model-status-side .model-timeline small {
+  font-size: 9px;
+  line-height: 1.25;
+}
+
+.model-selected-card {
+  gap: 7px;
+}
+
+.model-selected-card > strong {
+  font-size: 14px;
+}
+
+.model-status-side .model-performance-row {
+  gap: 4px;
+}
+
+.model-status-side .model-performance-row em {
+  height: 4px;
+}
+
+.model-status-side .model-new-species {
+  min-height: 34px;
+  padding: 7px 8px;
+  border-radius: 9px;
+}
+
+.model-status-side .model-new-species strong {
+  font-size: 14px;
+}
+
+.model-status-side .model-status-stack,
+.model-status-side .model-timeline {
+  gap: 7px;
+}
+
+.model-status-side .model-timeline article {
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 7px;
+}
+
+.model-status-side .model-timeline > article > span {
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+}
+
+.model-status-side .model-timeline > article > span svg {
+  width: 12px;
+  height: 12px;
+}
+
+.model-status-panel--sources {
+  max-height: 142px;
+  overflow: auto;
+}
+
+.model-status-panel--sources code {
+  padding: 6px 7px;
+  font-size: 9px;
+}
+
+@media (max-width: 1280px) {
+  .model-status-panel--sources {
+    max-height: 180px;
+  }
+}
