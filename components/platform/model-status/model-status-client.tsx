@@ -1,22 +1,18 @@
 "use client";
 
-import { useMemo, useState, type CSSProperties, type ElementType } from "react";
+import { useEffect, useMemo, useState, type CSSProperties, type ElementType } from "react";
 import {
   Activity,
   BarChart3,
   CheckCircle2,
   ChevronDown,
-  Clock3,
   Database,
   Fish,
-  GitBranch,
   Image as ImageIcon,
   Layers3,
   PlusCircle,
-  ShieldCheck,
   Sparkles,
   Target,
-  TrendingUp,
 } from "lucide-react";
 import type { ModelTrainingStatus, SpeciesTrainingRow } from "../../../lib/server/model-training-status";
 
@@ -31,6 +27,7 @@ export default function ModelStatusClient({ status }: { status: ModelTrainingSta
   const [sortMode, setSortMode] = useState<SortMode>("images");
   const [compactRows, setCompactRows] = useState(false);
   const [selectedClass, setSelectedClass] = useState(status.speciesRows[0]?.className ?? "");
+  const [animatedScore, setAnimatedScore] = useState(0);
   const accuracyPercent = toPercent(status.accuracy);
   const top5Percent = toPercent(status.top5Accuracy);
   const yoloTop1 = toPercent(status.yoloTop1);
@@ -39,6 +36,30 @@ export default function ModelStatusClient({ status }: { status: ModelTrainingSta
   const readyCount = status.newSpeciesStatuses.find((item) => item.tone === "ready")?.count ?? 0;
   const warningCount = status.newSpeciesStatuses.find((item) => item.tone === "warning")?.count ?? 0;
   const scoreValue = status.accuracy === null ? 0 : Math.max(0, Math.min(100, status.accuracy * 100));
+  const animatedAccuracyPercent = status.accuracy === null ? "-" : "%" + percentFormatter.format(animatedScore);
+
+  useEffect(() => {
+    if (status.accuracy === null) {
+      setAnimatedScore(0);
+      return;
+    }
+
+    let frameId = 0;
+    const duration = 1100;
+    const startedAt = performance.now();
+    const target = Math.max(0, Math.min(100, status.accuracy * 100));
+
+    const tick = (now: number) => {
+      const progress = Math.min(1, (now - startedAt) / duration);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setAnimatedScore(target * eased);
+      if (progress < 1) frameId = requestAnimationFrame(tick);
+    };
+
+    setAnimatedScore(0);
+    frameId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frameId);
+  }, [status.accuracy]);
 
   const filteredRows = useMemo(() => {
     const rows = filter === "all" ? status.speciesRows : status.speciesRows.filter((row) => row.status === filter);
@@ -78,9 +99,11 @@ export default function ModelStatusClient({ status }: { status: ModelTrainingSta
           <section className="model-status-panel model-status-panel--performance">
             <PanelTitle icon={Activity} title="Eğitim Performansı" action={formatDate(status.lastTrainingDate)} />
             <div className="model-performance-layout">
-              <div className="model-score-ring" style={{ "--score": scoreValue + "%" } as CSSProperties}>
-                <strong>{accuracyPercent}</strong>
-                <span>Validation accuracy</span>
+              <div className="model-score-ring" style={{ "--score": animatedScore + "%", "--target-score": scoreValue + "%" } as CSSProperties}>
+                <div className="model-score-content">
+                  <strong>{animatedAccuracyPercent}</strong>
+                  <span>Validation accuracy</span>
+                </div>
               </div>
               <div className="model-performance-list">
                 <PerformanceRow label="Top-5 Accuracy" value={top5Percent} ratio={status.top5Accuracy ?? 0} />
@@ -157,16 +180,6 @@ export default function ModelStatusClient({ status }: { status: ModelTrainingSta
             <p className="model-status-note">{warningCount > 0 ? warningCount + " tür için ek lisanslı görsel kaynağı gerekli." : "Yeni tür adayları eğitim için yeterli görsel eşiğine yakın."}</p>
           </section>
 
-          <section className="model-status-panel">
-            <PanelTitle icon={ShieldCheck} title="Sürdürülebilirlik" action="Canlı" />
-            <div className="model-timeline">
-              <TimelineItem icon={Database} title="Veri seti" detail={numberFormatter.format(status.totalTrainingImages) + " görsel indekslendi"} />
-              <TimelineItem icon={TrendingUp} title="Son eğitim" detail={formatDate(status.lastTrainingDate)} />
-              <TimelineItem icon={GitBranch} title="Model versiyonu" detail={status.activeModelVersion} />
-              <TimelineItem icon={Clock3} title="Sonraki adım" detail="Yeni hazır türlerle yeniden eğitim planlanabilir" />
-            </div>
-          </section>
-
           <section className="model-status-panel model-status-panel--sources">
             <PanelTitle icon={Database} title="Kaynak Dosyalar" action="Workspace" />
             {status.sourceFiles.map((file) => <button type="button" key={file} onClick={() => void navigator.clipboard?.writeText(file)}><code>{file}</code></button>)}
@@ -236,15 +249,6 @@ function SelectedSpecies({ row }: { row: SpeciesTrainingRow }) {
       <PerformanceRow label="Validation oranı" value={toPercent(row.totalImages ? row.valImages / row.totalImages : 0)} ratio={row.totalImages ? row.valImages / row.totalImages : 0} />
       <StatusPill status={row.status} />
     </div>
-  );
-}
-
-function TimelineItem({ icon: Icon, title, detail }: { icon: ElementType; title: string; detail: string }) {
-  return (
-    <article>
-      <span><Icon size={16} /></span>
-      <div><strong>{title}</strong><small>{detail}</small></div>
-    </article>
   );
 }
 

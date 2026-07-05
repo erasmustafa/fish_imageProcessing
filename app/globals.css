@@ -41288,3 +41288,130 @@ textarea,
     max-height: 180px;
   }
 }
+
+
+/* Final model status viewport and animated score ring tuning. */
+.model-status-page {
+  min-height: calc(100dvh - 24px);
+  display: flex;
+  flex-direction: column;
+}
+
+.model-status-grid {
+  flex: 1 1 auto;
+  min-height: 0;
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 300px);
+}
+
+.model-status-main {
+  min-height: 0;
+}
+
+.model-status-main > .model-status-panel:nth-child(2) {
+  flex: 1 1 auto;
+}
+
+.model-status-side {
+  align-self: stretch;
+  grid-template-rows: auto auto minmax(120px, 1fr);
+}
+
+.model-status-panel--sources {
+  max-height: none;
+}
+
+.model-status-panel--sources button + button {
+  margin-top: 5px;
+}
+
+.model-status-panel--performance {
+  width: clamp(500px, 60%, 660px);
+}
+
+.model-score-ring {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: conic-gradient(#45e6ff var(--score), rgba(50, 76, 111, 0.42) 0);
+  box-shadow: 0 0 28px rgba(69, 230, 255, 0.12);
+  transition: background 120ms linear;
+}
+
+.model-score-ring::before {
+  background: radial-gradient(circle at 50% 42%, rgba(8, 26, 48, 0.98), #061426 74%);
+}
+
+.model-score-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  min-width: 0;
+  width: 74%;
+  height: 74%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  text-align: center;
+  transform: translateY(1px);
+}
+
+.model-score-ring .model-score-content strong {
+  display: block;
+  width: 100%;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.model-score-ring .model-score-content span {
+  display: block;
+  width: 100%;
+  max-width: 76px;
+  text-align: center;
+}
+
+.model-status-panel--performance .model-score-ring .model-score-content strong {
+  font-size: 20px;
+}
+
+.model-status-panel--performance .model-score-ring .model-score-content span {
+  font-size: 8px;
+}
+
+@media (max-width: 1280px) {
+  .model-status-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .model-status-side {
+    grid-template-rows: none;
+  }
+}
+
+@media (max-width: 980px) {
+  .model-status-page {
+    min-height: 100dvh;
+  }
+
+  .model-status-panel--performance {
+    width: 100%;
+  }
+}
+
+
+/* Let the model status body use the remaining viewport height. */
+.model-status-main {
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.model-status-main > .model-status-panel:nth-child(2) {
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  min-height: 0;
+}
+
+.model-status-main > .model-status-panel:nth-child(2) .model-species-table {
+  max-height: none;
+  min-height: 0;
+}
