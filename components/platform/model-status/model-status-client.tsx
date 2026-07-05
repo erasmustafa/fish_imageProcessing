@@ -96,7 +96,8 @@ export default function ModelStatusClient({ status }: { status: ModelTrainingSta
 
       <div className="model-status-grid">
         <main className="model-status-main">
-          <section className="model-status-panel model-status-panel--performance">
+          <div className="model-status-topline">
+            <section className="model-status-panel model-status-panel--performance">
             <PanelTitle icon={Activity} title="Eğitim Performansı" action={formatDate(status.lastTrainingDate)} />
             <div className="model-performance-layout">
               <div className="model-score-ring" style={{ "--score": animatedScore + "%", "--target-score": scoreValue + "%" } as CSSProperties}>
@@ -112,9 +113,15 @@ export default function ModelStatusClient({ status }: { status: ModelTrainingSta
                 <PerformanceRow label="YOLO Top-5" value={yoloTop5} ratio={status.yoloTop5 ?? 0} />
               </div>
             </div>
-          </section>
+            </section>
 
-          <section className="model-status-panel">
+            <section className="model-status-panel model-selected-species model-selected-species--inline">
+              <PanelTitle icon={CheckCircle2} title="Seçili Tür" action={selectedRow ? numberFormatter.format(selectedRow.totalImages) + " görsel" : "-"} />
+              {selectedRow ? <SelectedSpecies row={selectedRow} /> : <p className="model-status-note">Filtreye uygun tür bulunamadı.</p>}
+            </section>
+          </div>
+
+          <section className="model-status-panel model-species-panel">
             <PanelTitle icon={Layers3} title="Tür Başına Görsel Sayısı" action="Gerçek eğitim klasörleri" />
             <div className="model-control-bar" aria-label="Model listesi kontrolleri">
               <div className="model-filter-buttons" aria-label="Duruma göre filtrele">
@@ -162,11 +169,6 @@ export default function ModelStatusClient({ status }: { status: ModelTrainingSta
         </main>
 
         <aside className="model-status-side">
-          <section className="model-status-panel model-selected-species">
-            <PanelTitle icon={CheckCircle2} title="Seçili Tür" action={selectedRow ? numberFormatter.format(selectedRow.totalImages) + " görsel" : "-"} />
-            {selectedRow ? <SelectedSpecies row={selectedRow} /> : <p className="model-status-note">Filtreye uygun tür bulunamadı.</p>}
-          </section>
-
           <section className="model-status-panel">
             <PanelTitle icon={PlusCircle} title="Yeni Tür Ekleme" action={readyCount + " hazır"} />
             <div className="model-status-stack">

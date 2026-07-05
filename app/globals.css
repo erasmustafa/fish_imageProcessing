@@ -41415,3 +41415,106 @@ textarea,
   max-height: none;
   min-height: 0;
 }
+
+
+/* Model status top row, hidden species scroll, and stable hero header. */
+.model-status-hero {
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 340px);
+  align-items: center;
+  gap: 12px;
+  overflow: hidden;
+}
+
+.model-status-hero > div,
+.model-status-hero aside {
+  min-width: 0;
+}
+
+.model-status-hero h1,
+.model-status-hero p,
+.model-status-hero aside strong,
+.model-status-hero aside span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.model-status-hero h1,
+.model-status-hero aside strong,
+.model-status-hero aside span {
+  white-space: nowrap;
+}
+
+.model-status-hero aside {
+  width: 100%;
+  max-width: 340px;
+  justify-self: end;
+}
+
+.model-status-topline {
+  display: grid;
+  grid-template-columns: minmax(0, 0.6fr) minmax(240px, 0.4fr);
+  gap: 10px;
+  align-items: stretch;
+  min-width: 0;
+}
+
+.model-status-topline .model-status-panel--performance {
+  width: 100%;
+  min-width: 0;
+}
+
+.model-selected-species--inline {
+  min-width: 0;
+  align-self: stretch;
+}
+
+.model-selected-species--inline .model-selected-card {
+  height: calc(100% - 28px);
+  min-height: 0;
+  justify-content: center;
+}
+
+.model-status-side {
+  grid-template-rows: auto minmax(130px, 1fr);
+}
+
+.model-species-panel {
+  overflow: hidden;
+}
+
+.model-species-panel .model-species-table {
+  overflow: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overscroll-behavior: contain;
+  padding-right: 0;
+}
+
+.model-species-panel .model-species-table::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+@media (max-width: 1280px) {
+  .model-status-topline {
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 300px);
+  }
+}
+
+@media (max-width: 980px) {
+  .model-status-hero,
+  .model-status-topline {
+    grid-template-columns: 1fr;
+  }
+
+  .model-status-hero aside {
+    max-width: none;
+    justify-self: stretch;
+  }
+
+  .model-selected-species--inline .model-selected-card {
+    height: auto;
+    justify-content: start;
+  }
+}
