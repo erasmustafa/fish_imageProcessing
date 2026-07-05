@@ -821,13 +821,31 @@ export default function UserProfileWorkspace() {
             {activeSocialModal === "following" || activeSocialModal === "followers" ? (
               selectedMetricProfile ? (
                 <div className="profile-social-profile-card">
-                  <img src={selectedMetricProfile.avatarUrl ?? avatar} alt={selectedMetricProfile.name} />
+                  <div className="profile-social-profile-cover" aria-hidden="true" />
+                  <div className="profile-social-profile-avatar">
+                    <img src={selectedMetricProfile.avatarUrl ?? avatar} alt={selectedMetricProfile.name} />
+                    <span aria-label="Çevrimiçi" />
+                  </div>
                   <strong>{selectedMetricProfile.name}</strong>
-                  <span>{selectedMetricProfile.handle}</span>
-                  <p>{selectedMetricProfile.region ?? selectedMetricProfile.level ?? "AquaScope üyesi"}</p>
-                  <div>
+                  <span>{selectedMetricProfile.level ?? "AquaScope üyesi"}</span>
+                  <p>{selectedMetricProfile.region ?? selectedMetricProfile.handle}</p>
+                  <div className="profile-social-profile-stats">
+                    <article>
+                      <small>Profil</small>
+                      <b>{selectedMetricProfile.handle}</b>
+                    </article>
+                    <article>
+                      <small>Seviye</small>
+                      <b>{selectedMetricProfile.level ?? "Yeni üye"}</b>
+                    </article>
+                    <article>
+                      <small>Bölge</small>
+                      <b>{selectedMetricProfile.region ?? "Belirtilmedi"}</b>
+                    </article>
+                  </div>
+                  <div className="profile-social-profile-actions">
+                    <button type="button" className="is-primary" onClick={() => { window.location.href = `/platform/social?profile=${encodeURIComponent(selectedMetricProfile.id)}`; }}>Profili Aç</button>
                     <button type="button" onClick={() => setSelectedMetricProfile(null)}>Listeye Dön</button>
-                    <button type="button" onClick={() => { window.location.href = `/platform/social?profile=${encodeURIComponent(selectedMetricProfile.id)}`; }}>Sosyal Profili Aç</button>
                   </div>
                 </div>
               ) : (

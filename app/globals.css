@@ -42268,52 +42268,173 @@ textarea,
 .profile-social-profile-card {
   display: grid;
   justify-items: center;
-  gap: 10px;
-  padding: 22px;
+  position: relative;
+  overflow: hidden;
+  width: min(390px, calc(100vw - 56px));
+  margin: 16px auto 18px;
+  padding: 0 22px 24px;
+  border: 1px solid rgba(91, 174, 230, 0.28);
+  border-radius: 24px;
+  background:
+    linear-gradient(180deg, rgba(9, 32, 58, 0.96), rgba(4, 15, 31, 0.98)),
+    radial-gradient(circle at 50% 0%, rgba(69, 230, 255, 0.16), transparent 58%);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.05);
   text-align: center;
 }
 
-.profile-social-profile-card > img {
-  width: 96px;
-  height: 96px;
+.profile-social-profile-cover {
+  width: calc(100% + 44px);
+  height: 158px;
+  margin: 0 -22px;
+  border-bottom: 1px solid rgba(117, 188, 230, 0.18);
+  background:
+    radial-gradient(circle at 72% 0%, rgba(121, 221, 255, 0.34), transparent 38%),
+    linear-gradient(135deg, rgba(8, 99, 151, 0.92), rgba(39, 198, 230, 0.38) 52%, rgba(6, 23, 45, 0.9)),
+    url("https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=900&q=78") center / cover;
+  opacity: 0.95;
+}
+
+.profile-social-profile-cover::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, transparent 25%, rgba(4, 15, 31, 0.72));
+}
+
+.profile-social-profile-avatar {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 104px;
+  height: 104px;
+  margin-top: -58px;
+  border: 4px solid rgba(223, 245, 255, 0.86);
   border-radius: 999px;
-  border: 2px solid rgba(69, 230, 255, 0.48);
+  background: rgba(6, 20, 37, 0.92);
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.42);
+}
+
+.profile-social-profile-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
   object-fit: cover;
 }
 
+.profile-social-profile-avatar span {
+  position: absolute;
+  right: 4px;
+  bottom: 10px;
+  width: 15px;
+  height: 15px;
+  border: 3px solid rgba(6, 20, 37, 0.96);
+  border-radius: 999px;
+  background: #3ee67b;
+}
+
 .profile-social-profile-card > strong {
+  margin-top: 14px;
   color: #ffffff;
-  font-size: 1.12rem;
+  font-size: 1.32rem;
+  line-height: 1.1;
+  font-weight: 760;
 }
 
 .profile-social-profile-card > span,
 .profile-social-profile-card > p {
-  margin: 0;
-  color: #8ea7c8;
-  font-size: 0.86rem;
+  margin: 5px 0 0;
+  color: rgba(213, 228, 244, 0.74);
+  font-size: 0.9rem;
+  line-height: 1.25;
 }
 
-.profile-social-profile-card > div {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 6px;
+.profile-social-profile-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  width: 100%;
+  margin-top: 22px;
+  overflow: hidden;
+  border: 1px solid rgba(105, 165, 215, 0.16);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.035);
 }
 
-.profile-social-profile-card button {
-  min-height: 36px;
+.profile-social-profile-stats article {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  padding: 13px 10px;
+}
+
+.profile-social-profile-stats article:not(:last-child) {
+  border-right: 1px solid rgba(105, 165, 215, 0.14);
+}
+
+.profile-social-profile-stats small {
+  color: rgba(178, 203, 226, 0.78);
+  font-size: 0.74rem;
+}
+
+.profile-social-profile-stats b {
+  overflow: hidden;
+  color: #f6fbff;
+  font-size: 0.93rem;
+  line-height: 1.14;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-social-profile-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+  margin-top: 22px;
+}
+
+.profile-social-profile-actions button {
+  min-height: 46px;
   padding: 0 14px;
-  border: 1px solid rgba(69, 230, 255, 0.3);
-  border-radius: 10px;
-  color: #5bd6ff;
-  background: rgba(21, 129, 251, 0.12);
+  border: 1px solid rgba(98, 152, 202, 0.32);
+  border-radius: 12px;
+  color: #eff8ff;
+  background: rgba(8, 31, 58, 0.72);
   cursor: pointer;
+  font-weight: 730;
   transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
 }
 
-.profile-social-profile-card button:hover {
+.profile-social-profile-actions button.is-primary {
+  border-color: rgba(69, 230, 255, 0.46);
+  color: #031121;
+  background: linear-gradient(135deg, #46e7ff, #1581fb);
+  box-shadow: 0 12px 28px rgba(21, 129, 251, 0.28);
+}
+
+.profile-social-profile-actions button:hover {
   transform: translateY(-1px);
-  border-color: rgba(69, 230, 255, 0.5);
-  background: rgba(21, 129, 251, 0.2);
+  border-color: rgba(69, 230, 255, 0.58);
+  background: rgba(21, 129, 251, 0.18);
+}
+
+.profile-social-profile-actions button.is-primary:hover {
+  background: linear-gradient(135deg, #66efff, #2a8cff);
+}
+
+@media (max-width: 520px) {
+  .profile-social-profile-card {
+    width: min(100%, calc(100vw - 34px));
+    padding-inline: 16px;
+  }
+
+  .profile-social-profile-cover {
+    width: calc(100% + 32px);
+    margin-inline: -16px;
+  }
+
+  .profile-social-profile-actions {
+    grid-template-columns: 1fr;
+  }
 }
