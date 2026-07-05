@@ -42209,3 +42209,38 @@ textarea,
     grid-column: 1 / -1;
   }
 }
+
+
+/* Profile posts metric modal rows. */
+.profile-social-post-list .profile-social-post-item {
+  grid-template-columns: 72px minmax(0, 1fr) auto;
+}
+
+.profile-social-post-list .profile-social-post-item img {
+  width: 72px;
+  height: 52px;
+  border-radius: 10px;
+}
+
+.profile-social-post-list .profile-social-post-item strong {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-height: 1.25;
+}
+
+.profile-social-post-list .profile-social-post-item button:hover {
+  border-color: rgba(69, 230, 255, 0.5);
+  background: rgba(21, 129, 251, 0.2);
+}
+
+@media (max-width: 720px) {
+  .profile-social-post-list .profile-social-post-item {
+    grid-template-columns: 64px minmax(0, 1fr);
+  }
+
+  .profile-social-post-list .profile-social-post-item button {
+    grid-column: 1 / -1;
+  }
+}

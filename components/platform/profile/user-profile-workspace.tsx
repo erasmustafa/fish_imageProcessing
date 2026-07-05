@@ -268,7 +268,7 @@ const tabs = [
 ] as const;
 
 type ProfileTab = (typeof tabs)[number]["id"];
-type ProfileSocialModal = "followers" | "following" | null;
+type ProfileMetricModal = "followers" | "following" | "catches" | "posts" | null;
 
 export default function UserProfileWorkspace() {
   const { user, updateUser } = useCurrentUser();
@@ -293,7 +293,7 @@ export default function UserProfileWorkspace() {
   const [activePost, setActivePost] = useState<ProfileFeedPost | null>(null);
   const [postComments, setPostComments] = useState<Record<string, ProfilePostComment[]>>({});
   const [commentDraft, setCommentDraft] = useState("");
-  const [activeSocialModal, setActiveSocialModal] = useState<ProfileSocialModal>(null);
+  const [activeSocialModal, setActiveSocialModal] = useState<ProfileMetricModal>(null);
 
   useEffect(() => {
     if (!user) return;
@@ -387,8 +387,40 @@ export default function UserProfileWorkspace() {
   const xpValue = profileSummary?.stats.xp ?? 0;
   const xpTarget = profileSummary?.stats.xpTarget ?? 1800;
   const followingList = profileSummary?.following ?? [];
-  const socialModalTitle = activeSocialModal === "followers" ? "Takipçiler" : "Takip Edilenler";
-  const socialModalCount = activeSocialModal === "followers" ? followerCount : followingCount;
+  const catchesCount = user?.catches ?? 178;
+  const postsCount = profileSummary?.stats.posts ?? profilePosts.length;
+  const metricModalCopy = {
+    followers: {
+      title: "Takipçiler",
+      count: followerCount,
+      label: "sosyal bağlantı",
+      icon: UsersRound,
+      body: "Bu profili takip eden toplam kullanıcı sayısı. Kişi bazlı takipçi listesi API tarafından döndürüldüğünde bu modal otomatik olarak liste görünümüne genişletilebilir.",
+    },
+    following: {
+      title: "Takip Edilenler",
+      count: followingCount,
+      label: "sosyal bağlantı",
+      icon: UserRound,
+      body: "Bu profilin takip ettiği kullanıcılar sosyal ağ verisinden alınır.",
+    },
+    catches: {
+      title: "Yakalamalar",
+      count: catchesCount,
+      label: "doğrulanmış kayıt",
+      icon: Fish,
+      body: "Bu değer profile bağlı yakalama ve tür doğrulama kayıtlarının toplamını gösterir. Detaylı yakalama geçmişi veri servisi açıldığında bu modal liste görünümüne genişletilebilir.",
+    },
+    posts: {
+      title: "Gönderiler",
+      count: postsCount,
+      label: "profil gönderisi",
+      icon: Image,
+      body: "Bu profilden sosyal akışa eklenen gönderiler.",
+    },
+  } as const;
+  const activeMetricCopy = activeSocialModal ? metricModalCopy[activeSocialModal] : null;
+  const ActiveMetricIcon = activeMetricCopy?.icon;
 
   const profileAboutItems = useMemo(
     () => [
@@ -571,16 +603,16 @@ export default function UserProfileWorkspace() {
                 <strong>{followingCount}</strong>
                 <small>Following</small>
               </button>
-              <article>
+              <button type="button" className="profile-stat-button" onClick={() => setActiveSocialModal("catches")} aria-label="Yakalamalar bilgisini aç">
                 <span><Fish size={25} /></span>
-                <strong>{user?.catches ?? 178}</strong>
+                <strong>{catchesCount}</strong>
                 <small>Catches</small>
-              </article>
-              <article>
-                <span><MapPin size={25} /></span>
-                <strong>{profileSummary?.stats.posts ?? profilePosts.length}</strong>
+              </button>
+              <button type="button" className="profile-stat-button" onClick={() => setActiveSocialModal("posts")} aria-label="Gönderiler bilgisini aç">
+                <span><Image size={25} /></span>
+                <strong>{postsCount}</strong>
                 <small>Posts</small>
-              </article>
+              </button>
             </div>
           </section>
 
@@ -770,8 +802,8 @@ export default function UserProfileWorkspace() {
           <section className="profile-social-modal" onClick={(event) => event.stopPropagation()}>
             <header>
               <div>
-                <h2 id="profile-social-modal-title">{socialModalTitle}</h2>
-                <p>{profileNumberFormatter.format(socialModalCount)} sosyal bağlantı</p>
+                <h2 id="profile-social-modal-title">{activeMetricCopy?.title}</h2>
+                <p>{activeMetricCopy ? profileNumberFormatter.format(activeMetricCopy.count) + " " + activeMetricCopy.label : null}</p>
               </div>
               <button type="button" aria-label="Sosyal bilgi modalını kapat" onClick={() => setActiveSocialModal(null)}>
                 <X size={18} />
@@ -797,13 +829,33 @@ export default function UserProfileWorkspace() {
                   </div>
                 )}
               </div>
-            ) : (
-              <div className="profile-social-summary-card">
-                <span><UsersRound size={28} /></span>
-                <strong>{profileNumberFormatter.format(followerCount)}</strong>
-                <p>Bu profili takip eden toplam kullanıcı sayısı. Kişi bazlı takipçi listesi API tarafından döndürüldüğünde bu modal otomatik olarak liste görünümüne genişletilebilir.</p>
+            ) : activeSocialModal === "posts" ? (
+              <div className="profile-social-modal-list profile-social-post-list">
+                {profilePosts.length ? profilePosts.map((post) => (
+                  <article key={post.id} className="profile-social-post-item">
+                    <img src={post.mediaUrls?.[0] ?? post.avatar ?? post.authorProfile?.avatarUrl ?? avatarSrc} alt="" />
+                    <div>
+                      <strong>{post.body}</strong>
+                      <span>{formatProfilePostTime(post.createdAt)}</span>
+                      <small>{post.likes} beğeni / {post.comments} yorum</small>
+                    </div>
+                    <button type="button" onClick={() => { setActiveSocialModal(null); openPostModal(post); }}>Gönderiyi Aç</button>
+                  </article>
+                )) : (
+                  <div className="profile-social-empty">
+                    <Image size={24} />
+                    <strong>Henüz gönderi yok</strong>
+                    <p>Bu profil sosyal akışta paylaşım yaptığında gönderiler burada listelenecek.</p>
+                  </div>
+                )}
               </div>
-            )}
+            ) : activeMetricCopy ? (
+              <div className="profile-social-summary-card">
+                {ActiveMetricIcon ? <span><ActiveMetricIcon size={28} /></span> : null}
+                <strong>{profileNumberFormatter.format(activeMetricCopy.count)}</strong>
+                <p>{activeMetricCopy.body}</p>
+              </div>
+            ) : null}
           </section>
         </div>
       ) : null}
