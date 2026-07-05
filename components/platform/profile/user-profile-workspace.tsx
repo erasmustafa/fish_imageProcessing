@@ -2,6 +2,7 @@
 
 import type { CSSProperties, ChangeEvent, UIEvent } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { motion, useInView, type Variants } from "framer-motion";
 import {
   Bookmark,
@@ -43,7 +44,7 @@ const profileNumberFormatter = new Intl.NumberFormat("tr-TR");
 const profilePreviewCardVariants: Variants = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
-  hover: { scale: 1.03, transition: { duration: 0.3 } },
+  hover: { y: -2, transition: { duration: 0.2 } },
 };
 const profilePreviewContentVariants: Variants = {
   initial: {},
@@ -311,6 +312,11 @@ export default function UserProfileWorkspace() {
   const [commentDraft, setCommentDraft] = useState("");
   const [activeSocialModal, setActiveSocialModal] = useState<ProfileMetricModal>(null);
   const [selectedMetricProfile, setSelectedMetricProfile] = useState<ProfileConnection | null>(null);
+  const [isPortalReady, setIsPortalReady] = useState(false);
+
+  useEffect(() => {
+    setIsPortalReady(true);
+  }, []);
 
   useEffect(() => {
     if (!activeSocialModal) {
@@ -820,9 +826,9 @@ export default function UserProfileWorkspace() {
         </aside>
       </div>
 
-      {activeSocialModal ? (
+      {isPortalReady && activeSocialModal ? createPortal(
         <div className="profile-modal-layer profile-social-modal-layer" role="dialog" aria-modal="true" aria-labelledby="profile-social-modal-title" onClick={() => setActiveSocialModal(null)}>
-          <section className="profile-social-modal" onClick={(event) => event.stopPropagation()}>
+          <section className={selectedMetricProfile ? "profile-social-modal profile-social-modal--profile" : "profile-social-modal"} onClick={(event) => event.stopPropagation()}>
             <header>
               <div>
                 <h2 id="profile-social-modal-title">{activeMetricCopy?.title}</h2>
@@ -937,10 +943,11 @@ export default function UserProfileWorkspace() {
               </div>
             ) : null}
           </section>
-        </div>
+        </div>,
+        document.body
       ) : null}
 
-      {activePost ? (
+      {isPortalReady && activePost ? createPortal(
         <div className="profile-modal-layer profile-post-modal-layer" role="dialog" aria-modal="true" aria-labelledby="profile-post-modal-title" onClick={() => setActivePost(null)}>
           <section className="profile-post-modal" onClick={(event) => event.stopPropagation()}>
             <button type="button" className="profile-post-modal-close" aria-label="Gonderi modalini kapat" onClick={() => setActivePost(null)}>
@@ -988,7 +995,8 @@ export default function UserProfileWorkspace() {
               </label>
             </div>
           </section>
-        </div>
+        </div>,
+        document.body
       ) : null}
       {isAvatarEditorOpen ? (
         <ProfileImagePickerModal
