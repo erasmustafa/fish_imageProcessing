@@ -41952,3 +41952,29 @@ textarea,
     max-height: none;
   }
 }
+
+
+/* Grow model status top cards downward. */
+.model-status-main,
+.model-status-side {
+  grid-template-rows: var(--model-status-tall-top-row, 202px) minmax(0, 1fr);
+}
+
+.model-status-topline,
+.model-status-topline > .model-status-panel,
+.model-status-side > .model-status-panel:first-child {
+  height: var(--model-status-tall-top-row, 202px);
+}
+
+@media (max-width: 980px) {
+  .model-status-main,
+  .model-status-side {
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .model-status-topline,
+  .model-status-topline > .model-status-panel,
+  .model-status-side > .model-status-panel:first-child {
+    height: auto;
+  }
+}
